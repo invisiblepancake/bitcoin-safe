@@ -29,14 +29,12 @@
 
 import logging
 from dataclasses import dataclass
-
-from packaging import version
-
-logger = logging.getLogger(__name__)
-
-from typing import Any, Dict
+from typing import Any, Dict, Literal
+from urllib.parse import urlparse
 
 import bdkpython as bdk
+import socks
+from packaging import version
 
 from bitcoin_safe.pythonbdk_types import BlockchainType, CBFServerType
 from bitcoin_safe.storage import BaseSaveableClass, filtered_for_init
@@ -44,8 +42,45 @@ from bitcoin_safe.storage import BaseSaveableClass, filtered_for_init
 from .html_utils import link
 from .i18n import translate
 
+logger = logging.getLogger(__name__)
+
 MIN_RELAY_FEE = 1
 FEE_RATIO_HIGH_WARNING = 0.05  # warn user if fee/amount for on-chain tx is higher than this
+
+
+@dataclass
+class ProxyInfo:
+    host: str | None
+    port: int | None
+    scheme: str = "socks5h"
+
+    def get_socks_scheme(self) -> Literal[1] | Literal[2]:
+        if self.scheme == "socks4":
+            return socks.SOCKS4
+        return socks.SOCKS5
+
+    def get_url(self):
+        return f"{self.scheme}://{self.host}:{self.port}"
+
+    def get_url_no_h(self):
+        return f"{self.scheme[:-1] if self.scheme.endswith('h') else self.scheme}://{self.host}:{self.port}"
+
+    def get_requests_proxy_dict(self):
+        return {"http": self.get_url(), "https": self.get_url()}
+
+    @classmethod
+    def parse(cls, proxy_url: str):
+        # Prepend "socks5h://" if the proxy string does not contain a scheme
+        if "://" not in proxy_url:
+            proxy_url = f"{cls.scheme}://{proxy_url}"  # Default to SOCKS5 with remote DNS
+        parsed_proxy = urlparse(proxy_url)
+        return cls(host=parsed_proxy.hostname, port=parsed_proxy.port, scheme=parsed_proxy.scheme)
+
+
+def clean_electrum_url(url: str, electrum_use_ssl: bool) -> str:
+    if electrum_use_ssl and not url.startswith("ssl://"):
+        url = "ssl://" + url
+    return url
 
 
 def get_mempool_url(network: bdk.Network) -> Dict[str, str]:
@@ -55,7 +90,8 @@ def get_mempool_url(network: bdk.Network) -> Dict[str, str]:
             "umbrel": "http://umbrel.local:3006",
         },
         bdk.Network.REGTEST: {
-            "default": "http://localhost:8080/"
+            "default": "http://localhost:8080/",
+            "nigiri": "http://localhost:5000/",
         },  # you can use https://github.com/ngutech21/nigiri-mempool/
         bdk.Network.TESTNET: {
             "default": "https://mempool.space/testnet4",
@@ -114,6 +150,14 @@ def get_default_electrum_use_ssl(network: bdk.Network) -> bool:
         bdk.Network.SIGNET: False,
     }
     return d[network]
+
+
+def get_default_rpc_hosts(network: bdk.Network) -> Dict[str, str]:
+    return {"default": "127.0.0.1", "umbrel": "umbrel.local"}
+
+
+def get_default_cbf_hosts(network: bdk.Network) -> Dict[str, str]:
+    return {"default": "127.0.0.1", "umbrel": "umbrel.local"}
 
 
 def get_default_port(network: bdk.Network, server_type: BlockchainType) -> int:
@@ -287,12 +331,12 @@ class NetworkConfig(BaseSaveableClass):
         self.network = network
         self.server_type: BlockchainType = BlockchainType.Electrum
         self.cbf_server_type: CBFServerType = CBFServerType.Automatic
-        self.compactblockfilters_ip: str = "127.0.0.1"
+        self.compactblockfilters_ip: str = get_default_cbf_hosts(network=network)["default"]
         self.compactblockfilters_port: int = get_default_port(network, BlockchainType.CompactBlockFilter)
         electrum_config = get_electrum_configs(network)["default"]
         self.electrum_url: str = electrum_config.url
         self.electrum_use_ssl: bool = electrum_config.use_ssl
-        self.rpc_ip: str = "127.0.0.1"
+        self.rpc_ip: str = get_default_rpc_hosts(network=network)["default"]
         self.rpc_port: int = get_default_port(network, BlockchainType.RPC)
         self.rpc_username: str = ""
         self.rpc_password: str = ""
@@ -300,6 +344,25 @@ class NetworkConfig(BaseSaveableClass):
         self.esplora_url: str = get_esplora_urls(network)["default"]
 
         self.mempool_url: str = get_mempool_url(network)["default"]
+        self.proxy_url: str | None = None
+
+    def description_short(self):
+        server_name = ""
+        if self.server_type == BlockchainType.Electrum:
+            server_name = f"{self.electrum_url}"
+        elif self.server_type == BlockchainType.Esplora:
+            server_name = f"{self.esplora_url}"
+        elif self.server_type == BlockchainType.CompactBlockFilter:
+            server_name = f"{self.server_type.name}"
+        elif self.server_type == BlockchainType.RPC:
+            server_name = f"{self.server_type.name}"
+
+        if self.proxy_url:
+            return translate("network_config", "{server_name} via the proxy {proxy}").format(
+                server_name=server_name, proxy=self.proxy_url
+            )
+        else:
+            return translate("network_config", "{server_name}").format(server_name=server_name)
 
     def dump(self) -> Dict[str, Any]:
         d = super().dump()

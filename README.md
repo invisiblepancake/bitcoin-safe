@@ -5,12 +5,12 @@
 - **Easy** Multisig-Wallet Setup
   - Step-by-Step instructions for a secure MultiSig setup with PDF backup sheets
   - Test transactions ensure that all hardware signers are ready
-  - Full support for [Coldcard](https://store.coinkite.com/promo/8BFF877000C34A86F410), [Coldcard Q](https://store.coinkite.com/promo/8BFF877000C34A86F410), [Bitbox02](https://shiftcrypto.ch/bitbox02/?ref=MOB4dk7gpm), [Blockstream Jade](https://store.blockstream.com/?code=XEocg5boS77D), [Trezor](https://trezor.io), [Foundation Passport](https://foundation.xyz/passport), [Keystone](https://keyst.one), [Ledger](https://shop.ledger.com/pages/ledger-nano-s-plus), [Specter DIY](https://specter.solutions/hardware), using  *QR*, *USB*, and *SD-card* 
+  - Full support for [Coldcard](https://store.coinkite.com/promo/8BFF877000C34A86F410), [Coldcard Q](https://store.coinkite.com/promo/8BFF877000C34A86F410), [Bitbox02](https://shop.bitbox.swiss/?ref=MOB4dk7gpm), [Blockstream Jade](https://store.blockstream.com/?code=XEocg5boS77D), [Trezor](https://trezor.io), [Foundation Passport](https://foundation.xyz/passport), [Keystone](https://keyst.one), [Ledger](https://shop.ledger.com/pages/ledger-nano-s-plus), [Specter DIY](https://clavastack.com/?coupon=bitcoin-safe), using  *QR*, *USB*, and *SD-card* 
 - **Secure**: Hardware signers only
   - All wallets require hardware signers/wallets for safe seed storage 
   - Powered by **[BDK](https://github.com/bitcoindevkit/bdk)**
 - **Multi-Language**:
-  - 🇺🇸 English, 🇨🇳 Chinese - 简体中文, 🇪🇸 Spanish - español de España, 🇯🇵 Japanese - 日本語, 🇷🇺 Russian - русский, 🇵🇹 Portuguese - português europeu, 🇮🇳 Hindi - हिन्दी, Arabic - العربية, 🇮🇹 Italian - italiano, 🇫🇷 French - Français, 🇩🇪 German - Deutsch, (more upon request)
+  - 🇺🇸 English, 🇨🇳 Chinese - 简体中文, 🇪🇸 Spanish - español de España, 🇯🇵 Japanese - 日本語, 🇷🇺 Russian - русский, 🇵🇹 Portuguese - português europeu, 🇮🇳 Hindi - हिन्दी, Arabic - العربية, 🇮🇹 Italian - italiano, 🇫🇷 French - Français, 🇩🇪 German - Deutsch, 🇲🇲 Burmese - မြန်မာ, 🇰🇷 Korean - 한국어, 🇹🇭 Thai - ภาษาไทย (more upon request)
 - **Simpler** address labels by using categories (e.g. "KYC", "Non-KYC", "Work", "Friends", ...)
   - Automatic coin selection within categories
   - Transaction flow diagrams, visualizing inputs and outputs, click on inputs and output to trace the money flow
@@ -37,6 +37,8 @@
 | ![](docs/explorer.gif) |  ![](docs/global-search.gif) |
 |   **Automatic Label Synchronization**      | **Multiparty Multisig collaboration**                  |
 | ![](docs/label-sync.gif)  |   ![](docs/psbt-share.gif) |
+|   **Coin Categories**      |                 |
+| ![](docs/category-drag-and-drop.gif)  |   |
 
 
 
@@ -64,6 +66,7 @@
   - Bump fee on transactions (via Replace-by-Fee)
   - Encrypted wallet storage
   - Backup PDF with Descriptor (Text and QR code)
+  - Message signing via USB and QR
 
 - **Hardware Signer Connectivity**
   
@@ -79,7 +82,7 @@
 
 - **Languages**
   
-  - 🇺🇸 English, 🇨🇳 Chinese - 简体中文, 🇪🇸 Spanish - español de España, 🇯🇵 Japanese - 日本語, 🇷🇺 Russian - русский, 🇵🇹 Portuguese - português europeu, 🇮🇳 Hindi - हिन्दी, Arabic - العربية, 🇮🇹 Italian - italiano, 🇫🇷 French - Français, 🇩🇪 German - Deutsch, (more upon request)
+  - 🇺🇸 English, 🇨🇳 Chinese - 简体中文, 🇪🇸 Spanish - español de España, 🇯🇵 Japanese - 日本語, 🇷🇺 Russian - русский, 🇵🇹 Portuguese - português europeu, 🇮🇳 Hindi - हिन्दी, Arabic - العربية, 🇮🇹 Italian - italiano, 🇫🇷 French - Français, 🇩🇪 German - Deutsch, 🇲🇲 Burmese - မြန်မာ, 🇰🇷 Korean - 한국어, 🇹🇭 Thai - ภาษาไทย (more upon request)
 
 - **Transaction / PSBT Creation**
   
@@ -112,12 +115,12 @@
 ## Installation from Git repository
 
 
-### Ubuntu, Debian, Windows
+### Ubuntu, Debian
 
-Install dependencies: 
+- Install dependencies: 
 
   ```sh
-  sudo apt install  qt6-tools-dev-tools libqt6*
+  sudo apt-get install qt6-tools-dev-tools libxcb-cursor0 '^libsecp256k1-.*$' '^libqt6.*$'
   ```
 
 - Install `poetry` and run `bitcoin_safe`
@@ -138,13 +141,18 @@ Install dependencies:
   python3 -m pip install poetry && python3 -m poetry install && python3 -m poetry run python3 -m bitcoin_safe
   ```
 
+- `libsecp256k1`
+  ```sh
+  /bin/bash ./tools/make_libsecp256k1.sh
+  ```
+
 - *Optional*: dependency `zbar`
   
   ```sh
   xcode-select --install
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   brew install zbar 
-  ```
+  ``` 
 
 ## Development
 
@@ -205,7 +213,7 @@ nigiri rpc generatetoaddress 1 bcrt1qgsnt3d4sny4w4zd5zl9x6jufc5rankqmgphyms9vz0d
 nigiri faucet bcrt1qgsnt3d4sny4w4zd5zl9x6jufc5rankqmgphyms9vz0ds73q4xfms655y4c 0.01
 ```
 
-* ## Installation from PyPi
+<!-- * ## Installation from PyPi
 
 ### Ubuntu, Debian, Windows
 
@@ -223,7 +231,7 @@ nigiri faucet bcrt1qgsnt3d4sny4w4zd5zl9x6jufc5rankqmgphyms9vz0ds73q4xfms655y4c 0
   ```sh
   python3 -m pip install bitcoin-safe
   python3 -m bitcoin_safe
-  ```
+  ``` -->
 
 
 

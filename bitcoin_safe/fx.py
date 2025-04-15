@@ -30,25 +30,25 @@
 import logging
 from typing import Dict
 
-from bitcoin_safe.threading_manager import ThreadingManager
-
-logger = logging.getLogger(__name__)
-
 from PyQt6.QtCore import QLocale, QObject, pyqtSignal
+
+from bitcoin_safe.threading_manager import ThreadingManager
 
 from .mempool import threaded_fetch
 from .signals import TypedPyQtSignalNo
+
+logger = logging.getLogger(__name__)
 
 
 class FX(QObject, ThreadingManager):
     signal_data_updated: TypedPyQtSignalNo = pyqtSignal()  # type: ignore
 
-    def __init__(self, threading_parent: ThreadingManager | None = None) -> None:
+    def __init__(self, proxies: Dict | None, threading_parent: ThreadingManager | None = None) -> None:
         super().__init__(threading_parent=threading_parent)  # type: ignore
-
+        self.proxies = proxies
         self.rates: Dict[str, Dict] = {}
         self.update()
-        logger.debug(f"initialized {self}")
+        logger.debug(f"initialized {self.__class__.__name__}")
 
     def update_if_needed(self) -> None:
         if self.rates:
@@ -89,7 +89,6 @@ class FX(QObject, ThreadingManager):
 
         self.append_thread(
             threaded_fetch(
-                "https://api.coingecko.com/api/v3/exchange_rates",
-                on_success,
+                "https://api.coingecko.com/api/v3/exchange_rates", on_success, proxies=self.proxies
             )
         )

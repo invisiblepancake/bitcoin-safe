@@ -29,6 +29,9 @@
 
 import logging
 from dataclasses import dataclass
+from typing import List, Union
+
+from bitcoin_qr_tools.unified_encoder import QrExportType, QrExportTypes
 
 from bitcoin_safe.gui.qt.util import (
     generated_hardware_signer_path,
@@ -36,10 +39,6 @@ from bitcoin_safe.gui.qt.util import (
 )
 
 logger = logging.getLogger(__name__)
-
-from typing import List, Union
-
-from bitcoin_qr_tools.unified_encoder import QrExportType, QrExportTypes
 
 
 @dataclass
@@ -69,6 +68,17 @@ class DescriptorQrExportTypes:
     passport = QrExportType("passport_descriptor_export", "Foundation")
     keystone = QrExportType("keystone_descriptor_export", "Keystone")
     specterdiy = QrExportType("specterdiy_descriptor_export", "Specter")
+    text = QrExportTypes.text
+
+    @classmethod
+    def as_list(cls) -> List[QrExportType]:
+        return [
+            export_type for name, export_type in cls.__dict__.items() if isinstance(export_type, QrExportType)
+        ]
+
+
+class SignMessageRequestQrExportTypes:
+    bbqr = QrExportTypes.bbqr
     text = QrExportTypes.text
 
     @classmethod
@@ -141,7 +151,7 @@ class HardwareSigners:
         "jade",
         "Jade",
         usb_preferred=True,
-        qr_types=[],
+        qr_types=[QrExportTypes.ur, DescriptorQrExportTypes.passport],
         descriptor_export_types=[],
     )
     passport = HardwareSigner(

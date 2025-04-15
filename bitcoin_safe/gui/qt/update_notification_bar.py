@@ -33,7 +33,7 @@ import platform
 import shutil
 import tempfile
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 from packaging import version
 from PyQt6.QtCore import pyqtSignal
@@ -63,8 +63,13 @@ class UpdateNotificationBar(NotificationBar, ThreadingManager):
     key = KnownGPGKeys.andreasgriffin
 
     def __init__(
-        self, signals_min: SignalsMin, parent=None, threading_parent: ThreadingManager | None = None
+        self,
+        signals_min: SignalsMin,
+        proxies: Dict | None,
+        parent=None,
+        threading_parent: ThreadingManager | None = None,
     ) -> None:
+        self.proxies = proxies
         self.download_container = QWidget()
         self.download_container_layout = QHBoxLayout(self.download_container)
         current_margins = self.download_container_layout.contentsMargins()
@@ -76,7 +81,7 @@ class UpdateNotificationBar(NotificationBar, ThreadingManager):
         super().__init__(
             text="",
             optional_button_text="",
-            callback_optional_button=lambda: self.check(),
+            callback_optional_button=self.check,
             additional_widget=self.download_container,
             has_close_button=True,
             parent=parent,
@@ -86,7 +91,7 @@ class UpdateNotificationBar(NotificationBar, ThreadingManager):
         refresh_icon = (self.style() or QStyle()).standardIcon(QStyle.StandardPixmap.SP_BrowserReload)
         self.optionalButton.setIcon(refresh_icon)
 
-        self.verifyer = SignatureVerifyer(list_of_known_keys=[self.key])
+        self.verifyer = SignatureVerifyer(list_of_known_keys=[self.key], proxies=self.proxies)
         self.assets: List[Asset] = []
         self.setVisible(False)
 
@@ -114,7 +119,7 @@ class UpdateNotificationBar(NotificationBar, ThreadingManager):
             if (layout_item := self.download_container_layout.takeAt(0)) and (
                 _widget := layout_item.widget()
             ):
-                _widget.deleteLater()
+                _widget.close()
 
         self.download_container.setVisible(bool(self.assets))
         if self.assets:
@@ -126,7 +131,9 @@ class UpdateNotificationBar(NotificationBar, ThreadingManager):
                 self.setVisible(True)
 
                 for asset in self.assets:
-                    downloader = Downloader(url=asset.url, destination_dir=tempfile.gettempdir())
+                    downloader = Downloader(
+                        url=asset.url, destination_dir=tempfile.gettempdir(), proxies=self.proxies
+                    )
                     downloader.finished.connect(self.on_download_finished)
                     self.download_container_layout.addWidget(downloader)
             else:
@@ -206,7 +213,7 @@ class UpdateNotificationBar(NotificationBar, ThreadingManager):
 
     def check(self) -> None:
         def do() -> Any:
-            return GitHubAssetDownloader(self.key.repository).get_assets_latest()
+            return GitHubAssetDownloader(self.key.repository, proxies=self.proxies).get_assets_latest()
 
         def on_done(result) -> None:
             pass

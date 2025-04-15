@@ -13,8 +13,10 @@ set -e
 pushd "$WINEPREFIX/drive_c/$NAME_ROOT"
 
 VERSION=$(git describe --tags --dirty --always)
+list_dirty_files
 info "Last commit: $VERSION"
 
+export TZ=UTC
 find -exec touch -h -d '2000-11-11T11:11:11+00:00' {} +
 popd
 
@@ -67,10 +69,6 @@ $WINE_PYTHON -m pip uninstall -y poetry pip
 move_and_overwrite $PROJECT_ROOT/.venv_org $PROJECT_ROOT/.venv
 
 
-cp "$PROJECT_ROOT/bitcoin_safe/"libsecp256k1-*.dll "$WINE_ROOT_PACKAGE"
-
-
-
 rm -rf dist/
 
 # build standalone and portable versions
@@ -79,6 +77,7 @@ bitcoin_safe_CMDLINE_NAME="$NAME_ROOT-$VERSION" wine "$WINE_PYHOME/scripts/pyins
 
 # set timestamps in dist, in order to make the installer reproducible
 pushd dist
+export TZ=UTC
 find -exec touch -h -d '2000-11-11T11:11:11+00:00' {} +
 popd
 

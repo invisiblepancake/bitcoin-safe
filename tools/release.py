@@ -35,10 +35,17 @@ import json
 import os
 import subprocess
 import sys
+from functools import partial
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 import requests
+
+from bitcoin_safe.execute_config import ENABLE_THREADING, ENABLE_TIMERS, IS_PRODUCTION
+
+assert IS_PRODUCTION
+assert ENABLE_THREADING
+assert ENABLE_TIMERS
 
 
 def get_default_description(latest_tag: str):
@@ -55,7 +62,7 @@ def get_default_description(latest_tag: str):
 ### 🔋Batteries included🔋
 Lots of existing features were not mentioned above, so please check out:
 
-- [Why choose Bitcoin Safe?](https://bitcoin-safe.org/en/page/usps/)
+- [Why choose Bitcoin Safe?](https://bitcoin-safe.org/en/features/usps/)
 - www.bitcoin-safe.org
 - [Readme](https://github.com/andreasgriffin/bitcoin-safe?tab=readme-ov-file#bitcoin-safe) and [Comprehensive Feature List](https://github.com/andreasgriffin/bitcoin-safe?tab=readme-ov-file#comprehensive-feature-list)
 - Follow me on [nostr](https://primal.net/p/npub1q67f4d7qdja237us384ryeekxsz88lz5kaawrcynwe4hqsnufr6s27up0e)
@@ -69,13 +76,16 @@ gpg --import 2759AA7148568ECCB03B76301D82124B440F612D.asc
 gpg --verify Bitcoin-Safe-{latest_tag}-x86_64.AppImage.asc
 ```
 
-#### Install and run on Mac, Linux, or Windows
-using the [python package ](https://pypi.org/project/bitcoin-safe/)  
-```bash
-python3 -m pip install bitcoin-safe
-python3 -m bitcoin_safe
-```
 """
+
+
+# the following is taken out from the release notes, since the pip package still requires installing system libraries
+# #### Install and run on Mac, Linux, or Windows
+# using the [python package ](https://pypi.org/project/bitcoin-safe/)
+# ```bash
+# python3 -m pip install bitcoin-safe
+# python3 -m bitcoin_safe
+# ```
 
 
 def run_pytest() -> None:
@@ -164,7 +174,7 @@ def create_pypi_wheel(dist_dir="dist") -> Tuple[str, str]:
         # Calculate the SHA-256 hash of the file
         sha256_hash = hashlib.sha256()
         with open(file_path, "rb") as f:
-            for byte_block in iter(lambda: f.read(4096), b""):
+            for byte_block in iter(partial(f.read, 4096), b""):
                 sha256_hash.update(byte_block)
         return sha256_hash.hexdigest()
 

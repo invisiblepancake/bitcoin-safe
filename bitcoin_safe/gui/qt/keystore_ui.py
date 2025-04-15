@@ -28,45 +28,16 @@
 
 
 import logging
-from typing import Iterable, Optional, Tuple, Union
-
-from bitcoin_safe.gui.qt.analyzer_indicator import AnalyzerIndicator
-from bitcoin_safe.gui.qt.analyzers import (
-    FingerprintAnalyzer,
-    KeyOriginAnalyzer,
-    SeedAnalyzer,
-    XpubAnalyzer,
-)
-from bitcoin_safe.gui.qt.data_tab_widget import DataTabWidget
-from bitcoin_safe.gui.qt.spinning_button import SpinningButton
-from bitcoin_safe.gui.qt.wrappers import Menu
-from bitcoin_safe.i18n import translate
-from bitcoin_safe.typestubs import TypedPyQtSignal, TypedPyQtSignalNo
-
-from ...dynamic_lib_load import setup_libsecp256k1
-
-setup_libsecp256k1()
-
-from bitcoin_usb.address_types import SimplePubKeyProvider
-
-from bitcoin_safe.gui.qt.buttonedit import ButtonEdit
-from bitcoin_safe.gui.qt.custom_edits import AnalyzerTextEdit, QCompleterLineEdit
-from bitcoin_safe.gui.qt.tutorial_screenshots import ScreenshotsExportXpub
-
-from .dialog_import import ImportDialog
-
-logger = logging.getLogger(__name__)
-
-from typing import Callable, List
+from functools import partial
+from typing import Callable, Iterable, List, Optional, Tuple, Union
 
 import bdkpython as bdk
 from bitcoin_qr_tools.data import ConverterXpub, Data, DataType, SignerInfo
-from bitcoin_usb.address_types import AddressType
-from bitcoin_usb.seed_tools import get_network_index
+from bitcoin_usb.address_types import AddressType, SimplePubKeyProvider
 from bitcoin_usb.software_signer import SoftwareSigner
 from bitcoin_usb.usb_gui import USBGui
 from PyQt6.QtCore import QObject, QSize, Qt, pyqtSignal
-from PyQt6.QtGui import QIcon
+from PyQt6.QtGui import QCloseEvent, QIcon
 from PyQt6.QtWidgets import (
     QDialogButtonBox,
     QFormLayout,
@@ -82,10 +53,32 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
+from bitcoin_safe.gui.qt.analyzer_indicator import AnalyzerIndicator
+from bitcoin_safe.gui.qt.analyzers import (
+    FingerprintAnalyzer,
+    KeyOriginAnalyzer,
+    SeedAnalyzer,
+    XpubAnalyzer,
+)
+from bitcoin_safe.gui.qt.buttonedit import ButtonEdit
+from bitcoin_safe.gui.qt.custom_edits import (
+    AnalyzerState,
+    AnalyzerTextEdit,
+    QCompleterLineEdit,
+)
+from bitcoin_safe.gui.qt.data_tab_widget import DataTabWidget
+from bitcoin_safe.gui.qt.dialogs import question_dialog
+from bitcoin_safe.gui.qt.spinning_button import SpinningButton
+from bitcoin_safe.gui.qt.tutorial_screenshots import ScreenshotsExportXpub
+from bitcoin_safe.gui.qt.wrappers import Menu
+from bitcoin_safe.i18n import translate
+from bitcoin_safe.typestubs import TypedPyQtSignal, TypedPyQtSignalNo
+
 from ...keystore import KeyStore, KeyStoreImporterTypes
 from ...signals import SignalsMin
 from ...signer import AbstractSignatureImporter, SignatureImporterUSB
 from .block_change_signals import BlockChangesSignals
+from .dialog_import import ImportDialog
 from .util import (
     Message,
     MessageType,
@@ -96,6 +89,8 @@ from .util import (
     read_QIcon,
 )
 
+logger = logging.getLogger(__name__)
+
 
 def icon_for_label(label: str) -> QIcon:
     return (
@@ -104,6 +99,8 @@ def icon_for_label(label: str) -> QIcon:
 
 
 class BaseHardwareSignerInteractionWidget(QWidget):
+    aboutToClose: TypedPyQtSignal[QWidget] = pyqtSignal(QWidget)  # type: ignore
+
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self.setWindowIcon(read_QIcon("logo.svg"))
@@ -135,6 +132,10 @@ class BaseHardwareSignerInteractionWidget(QWidget):
     def updateUi(self) -> None:
         if self.help_button:
             self.help_button.setText(self.tr("Help"))
+
+    def closeEvent(self, event: QCloseEvent | None):
+        self.aboutToClose.emit(self)  # Emit the signal when the window is about to close
+        super().closeEvent(event)
 
 
 class HardwareSignerInteractionWidget(BaseHardwareSignerInteractionWidget):
@@ -214,6 +215,7 @@ class KeyStoreUI(QObject):
         signals_min: SignalsMin,
         label: str = "",
         hardware_signer_label="",
+        slow_hwi_listing=False,
     ) -> None:
         super().__init__()
         self.signals_min = signals_min
@@ -223,6 +225,7 @@ class KeyStoreUI(QObject):
         self.tabs = tabs
         self.network = network
         self.get_address_type = get_address_type
+        self.slow_hwi_listing = slow_hwi_listing
 
         self.tab = QWidget()
         self.tab_layout = QHBoxLayout(self.tab)
@@ -260,7 +263,9 @@ class KeyStoreUI(QObject):
         )
         self.edit_key_origin.signal_data.connect(self._on_handle_input)
         self.edit_key_origin_input.setAnalyzer(
-            KeyOriginAnalyzer(get_expected_key_origin=self.get_expected_key_origin, parent=self)
+            KeyOriginAnalyzer(
+                get_expected_key_origin=self.get_expected_key_origin, network=self.network, parent=self
+            )
         )
 
         # xpub
@@ -274,6 +279,7 @@ class KeyStoreUI(QObject):
         self.edit_xpub.add_qr_input_from_camera_button(
             network=self.network,
         )
+        self.edit_xpub.add_usb_buttton(on_click=self.on_xpub_usb_click)
         self.edit_xpub.signal_data.connect(self._on_handle_input)
 
         self.edit_xpub.input_field.setAnalyzer(XpubAnalyzer(self.network, parent=self))
@@ -300,35 +306,20 @@ class KeyStoreUI(QObject):
         # tab_import
 
         self.hardware_signer_interaction = HardwareSignerInteractionWidget()
-        button_file = self.hardware_signer_interaction.add_import_file_button()
         button_qr = self.hardware_signer_interaction.add_qr_import_buttonn()
         self.hardware_signer_interaction.add_help_button(ScreenshotsExportXpub())
 
-        button_qr.clicked.connect(lambda: self.edit_xpub.button_container.buttons[0].click())
+        button_qr.clicked.connect(self.edit_xpub.button_container.buttons[0].click)
 
         self.usb_gui = USBGui(self.network, initalization_label=self.hardware_signer_label)
         signal_end_hwi_blocker: TypedPyQtSignalNo = self.usb_gui.signal_end_hwi_blocker  # type: ignore
         button_hwi = self.hardware_signer_interaction.add_hwi_button(
             signal_end_hwi_blocker=signal_end_hwi_blocker
         )
-        button_hwi.clicked.connect(lambda: self.on_hwi_click())
+        button_hwi.clicked.connect(self.on_hwi_click)
 
-        def process_input(s: str) -> None:
-            res = Data.from_str(s, network=self.network)
-            self._on_handle_input(res)
-
-        def import_dialog():
-            ImportDialog(
-                self.network,
-                on_open=process_input,
-                window_title=self.tr("Import fingerprint and xpub"),
-                text_button_ok=self.tr("OK"),
-                text_instruction_label=self.tr("Please paste the exported file (like sparrow-export.json):"),
-                text_placeholder=self.tr("Please paste the exported file (like sparrow-export.json)"),
-                close_all_video_widgets=self.signals_min.close_all_video_widgets,
-            ).exec()
-
-        button_file.clicked.connect(import_dialog)
+        button_file = self.hardware_signer_interaction.add_import_file_button()
+        button_file.clicked.connect(self._import_dialog)
 
         # self.tab_import_layout.addItem(QSpacerItem(1, 1, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
         self.tab_import_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -369,10 +360,26 @@ class KeyStoreUI(QObject):
         self.edit_key_origin_input.textChanged.connect(self.format_all_fields)
         self.signals_min.language_switch.connect(self.updateUi)
 
+    def _process_input(self, s: str) -> None:
+        res = Data.from_str(s, network=self.network)
+        self._on_handle_input(res)
+
+    def _import_dialog(self):
+        ImportDialog(
+            self.network,
+            on_open=self._process_input,
+            window_title=self.tr("Import fingerprint and xpub"),
+            text_button_ok=self.tr("OK"),
+            text_instruction_label=self.tr("Please paste the exported file (like sparrow-export.json):"),
+            text_placeholder=self.tr("Please paste the exported file (like sparrow-export.json)"),
+            close_all_video_widgets=self.signals_min.close_all_video_widgets,
+        ).exec()
+
     def on_edit_seed_changed(self, text: str):
         try:
             keystore = self.get_ui_values_as_keystore()
         except Exception as e:
+            logger.debug(f"{self.__class__.__name__}: {e}")
             Message(str(e), type=MessageType.Error)
             return
         self.edit_fingerprint.setText(keystore.fingerprint)
@@ -393,7 +400,8 @@ class KeyStoreUI(QObject):
     def key_origin(self) -> str:
         try:
             standardized = SimplePubKeyProvider.format_key_origin(self.edit_key_origin.text().strip())
-        except:
+        except Exception as e:
+            logger.debug(f"{self.__class__.__name__}: {e}")
             return ""
 
         return standardized
@@ -408,9 +416,12 @@ class KeyStoreUI(QObject):
         expected_key_origin = self.get_expected_key_origin()
         if expected_key_origin != self.key_origin:
             self.edit_key_origin.format_as_error(True)
+            analyzer = self.edit_key_origin_input.analyzer()
+            analyzer_message = analyzer.analyze(self.key_origin).msg + "\n" if analyzer else ""
             self.edit_key_origin.setToolTip(
-                self.tr(
-                    "Standart for the selected address type {type} is {expected_key_origin}.  Please correct if you are not sure."
+                analyzer_message
+                + self.tr(
+                    "Standard for the selected address type {type} is {expected_key_origin}.  Please correct if you are not sure."
                 ).format(expected_key_origin=expected_key_origin, type=self.get_address_type().name)
             )
             self.edit_xpub.format_as_error(True)
@@ -433,39 +444,22 @@ class KeyStoreUI(QObject):
         return self.get_address_type().key_origin(self.network)
 
     def set_using_signer_info(self, signer_info: SignerInfo) -> None:
-        def check_key_origin(signer_info: SignerInfo) -> bool:
-            expected_key_origin = self.get_expected_key_origin()
-            if signer_info.key_origin != expected_key_origin:
-                if get_network_index(signer_info.key_origin) != get_network_index(expected_key_origin):
-                    Message(
-                        self.tr(
-                            "The provided information is for {key_origin_network}. Please provide xPub for network {network}"
-                        ).format(
-                            key_origin_network=(
-                                bdk.Network.BITCOIN
-                                if get_network_index(signer_info.key_origin) == 1
-                                else bdk.Network.REGTEST
-                            ),
-                            network=self.network,
-                        ),
-                        type=MessageType.Error,
-                    )
-                else:
-                    Message(
-                        self.tr(
-                            "The xPub Origin {key_origin} is not the expected {expected_key_origin} for {address_type}"
-                        ).format(
-                            key_origin=signer_info.key_origin,
-                            expected_key_origin=expected_key_origin,
-                            address_type=self.get_address_type().name,
-                        ),
-                        type=MessageType.Error,
-                    )
-                return False
-            return True
 
-        if not check_key_origin(signer_info):
+        key_origin_input_analyzer = self.edit_key_origin_input.analyzer()
+        assert key_origin_input_analyzer
+        analyzer_message = key_origin_input_analyzer.analyze(signer_info.key_origin)
+        if analyzer_message.state == AnalyzerState.Invalid:
+            Message(
+                analyzer_message.msg,
+                type=MessageType.Error,
+            )
             return
+        elif analyzer_message.state == AnalyzerState.Warning:
+            if not question_dialog(
+                self.tr("{msg}\nDo you want to proceed anyway?").format(msg=analyzer_message.msg),
+            ):
+                return
+
         self.edit_xpub.setText(signer_info.xpub)
         self.key_origin = signer_info.key_origin
         self.edit_fingerprint.setText(signer_info.fingerprint)
@@ -474,6 +468,9 @@ class KeyStoreUI(QObject):
 
         if data.data_type == DataType.SignerInfo:
             self.set_using_signer_info(data.data)
+        elif data.data_type == DataType.SignerInfos and len(data.data) == 1:
+            # this case is relevant if a single SignerInfo is contains an account>0
+            self.set_using_signer_info(data.data[0])
         elif data.data_type == DataType.SignerInfos:
             expected_key_origin = self.get_expected_key_origin()
 
@@ -524,7 +521,8 @@ class KeyStoreUI(QObject):
             )
             try:
                 self.edit_xpub.setText(ConverterXpub.convert_slip132_to_bip32(xpub))
-            except:
+            except Exception as e:
+                logger.debug(f"{self.__class__.__name__}: {e}")
                 return False
 
         return KeyStore.is_xpub_valid(self.edit_xpub.text(), network=self.network)
@@ -559,12 +557,13 @@ class KeyStoreUI(QObject):
         self.analyzer_indicator.updateUi()
         self.hardware_signer_interaction.updateUi()
 
-    def on_hwi_click(self) -> None:
-        address_type = self.get_address_type()
-        key_origin = address_type.key_origin(self.network)
+    def _on_hwi_click(self, key_origin: str) -> None:
         try:
-            result = self.usb_gui.get_fingerprint_and_xpub(key_origin=key_origin)
+            result = self.usb_gui.get_fingerprint_and_xpub(
+                key_origin=key_origin, slow_hwi_listing=self.slow_hwi_listing
+            )
         except Exception as e:
+            logger.debug(f"{self.__class__.__name__}: {e}")
             Message(
                 str(e)
                 + "\n\n"
@@ -579,6 +578,18 @@ class KeyStoreUI(QObject):
         self.set_using_signer_info(SignerInfo(fingerprint=fingerprint, key_origin=key_origin, xpub=xpub))
         if not self.textEdit_description.text():
             self.textEdit_description.setText(f"{device.get('type', '')} - {device.get('model', '')}")
+
+    def on_hwi_click(self) -> None:
+        address_type = self.get_address_type()
+        key_origin = address_type.key_origin(self.network)
+        self._on_hwi_click(key_origin=key_origin)
+
+    def on_xpub_usb_click(self) -> None:
+        key_origin = self.key_origin
+        if not key_origin:
+            Message(self.tr("Please enter a valid key origin."))
+            return
+        self._on_hwi_click(key_origin=key_origin)
 
     def get_ui_values_as_keystore(self) -> KeyStore:
         seed_str = self.edit_seed.text().strip()
@@ -669,6 +680,7 @@ class SignerUI(QWidget):
         signature_importers: Iterable[AbstractSignatureImporter],
         psbt: bdk.PartiallySignedTransaction,
         network: bdk.Network,
+        button_prefix: str = "",
     ) -> None:
         super().__init__()
         self.signature_importers = signature_importers
@@ -677,30 +689,25 @@ class SignerUI(QWidget):
 
         self.layout_keystore_buttons = QVBoxLayout(self)
 
-        def callback_generator(signer: AbstractSignatureImporter) -> Callable:
-            def f() -> None:
-                signer.sign(self.psbt)
-
-            return f
-
         self.buttons: List[QPushButton] = []
         for signer in self.signature_importers:
             button: QPushButton
             if isinstance(signer, SignatureImporterUSB):
                 signal_end_hwi_blocker: TypedPyQtSignalNo = signer.usb_gui.signal_end_hwi_blocker  # type: ignore
                 button = SpinningButton(
-                    text=signer.label,
+                    text=button_prefix + signer.label,
                     enable_signal=signal_end_hwi_blocker,
                     enabled_icon=read_QIcon(KeyStoreImporterTypes.hwi.icon_filename),
                     timeout=60,
                     parent=self,
                 )
             else:
-                button = QPushButton(signer.label)
+                button = QPushButton(button_prefix + signer.label)
                 button.setIcon(QIcon(icon_path(signer.keystore_type.icon_filename)))
             self.buttons.append(button)
             button.setMinimumHeight(30)
-            button.clicked.connect(callback_generator(signer))
+            callback = partial(signer.sign, self.psbt)
+            button.clicked.connect(callback)
             self.layout_keystore_buttons.addWidget(button)
 
             # forward the signal_signature_added from each signer to self.signal_signature_added
@@ -727,16 +734,11 @@ class SignerUIHorizontal(QWidget):
 
         for signer in self.signature_importers:
 
-            def callback_generator(signer: AbstractSignatureImporter) -> Callable:
-                def f() -> None:
-                    signer.sign(self.psbt)
-
-                return f
-
             button = QPushButton(signer.label)
             button.setMinimumHeight(30)
             button.setIcon(QIcon(icon_path(signer.keystore_type.icon_filename)))
-            button.clicked.connect(callback_generator(signer))
+            action = partial(signer.sign, self.psbt)
+            button.clicked.connect(action)
             self.layout_keystore_buttons.addWidget(button)
 
             # forward the signal_signature_added from each signer to self.signal_signature_added

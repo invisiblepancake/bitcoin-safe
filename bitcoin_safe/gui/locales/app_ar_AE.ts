@@ -2,6 +2,21 @@
 <!DOCTYPE TS>
 <TS>
 <context>
+    <name>AbstractSignatureImporter</name>
+    <message>
+        <source>The txid of the signed psbt doesnt match the original txid</source>
+        <translation>لا يتطابق txid الخاص بـ psbt المُوقع مع txid الأصلي</translation>
+    </message>
+    <message>
+        <source>No additional signatures were added</source>
+        <translation>لم يتم إضافة توقيعات إضافية  </translation>
+    </message>
+    <message>
+        <source>bitcoin_tx libary error. The txid should not be changed during finalizing</source>
+        <translation>خطأ في مكتبة bitcoin_tx. لا ينبغي تغيير txid أثناء الإنهاء</translation>
+    </message>
+</context>
+<context>
     <name>AddressAnalyzer</name>
     <message>
         <source>Missing Address</source>
@@ -18,10 +33,6 @@
 </context>
 <context>
     <name>AddressDetailsAdvanced</name>
-    <message>
-        <source>Script Pubkey</source>
-        <translation>سكريبت ببلكي</translation>
-    </message>
     <message>
         <source>Address descriptor</source>
         <translation>وصف العنوان</translation>
@@ -82,6 +93,10 @@
     <message>
         <source>Copy as csv</source>
         <translation>نسخ كملف csv</translation>
+    </message>
+    <message>
+        <source>Set category</source>
+        <translation>تعيين الفئة</translation>
     </message>
     <message>
         <source>Tx</source>
@@ -202,6 +217,21 @@
     </message>
 </context>
 <context>
+    <name>BaseDeviceItem</name>
+    <message>
+        <source>Rename</source>
+        <translation>إعادة تسمية  </translation>
+    </message>
+    <message>
+        <source>Enter a name of device with {npub}</source>
+        <translation>أدخل اسم جهاز مع {npub}  </translation>
+    </message>
+    <message>
+        <source>Device name</source>
+        <translation>اسم الجهاز  </translation>
+    </message>
+</context>
+<context>
     <name>BaseHardwareSignerInteractionWidget</name>
     <message>
         <source>Help</source>
@@ -222,17 +252,16 @@
         <source>To complete the connection, accept my {id} request on the other device {other}.</source>
         <translation>لإكمال الاتصال، قبل طلب {id} الخاص بي على الجهاز الآخر {other}.  </translation>
     </message>
+    <message>
+        <source>Enter a name of device with {npub}</source>
+        <translation>أدخل اسم جهاز مع {npub}  </translation>
+    </message>
 </context>
 <context>
-    <name>BitBox02PairingDialog</name>
+    <name>BitcoinDmChatGui</name>
     <message>
-        <source>Dialog</source>
-        <translation>حوار  </translation>
-    </message>
-    <message>
-        <source>Please verify the pairing code matches what is
-shown on your BitBox02.</source>
-        <translation>يرجى التحقق من تطابق رمز الاقتران مع ما يظهر على BitBox02 الخاص بك.  </translation>
+        <source>Me</source>
+        <translation>أنا</translation>
     </message>
 </context>
 <context>
@@ -259,13 +288,13 @@ shown on your BitBox02.</source>
 <context>
     <name>BuyHardware</name>
     <message>
-        <source>Buy {number} hardware signers.                            
+        <source>Buy {number} hardware signers                         
                         &lt;ul&gt;
-                            &lt;li&gt;Most secure is to buy from different reputable vendors&lt;/li&gt; 
-                            &lt;li&gt;Great choices are:&lt;/li&gt; 
+                            {different_hint} 
+                            &lt;li&gt;Bitcoin Safe supports all major hardware signers: &lt;a href=&quot;{url}&quot;&gt;See full list&lt;/a&gt;&lt;/li&gt;                             
                         &lt;/ul&gt;
                            </source>
-        <translation>اشترِ {number} موقعين للأجهزة. من الأفضل شراء من بائعين موثوقين مختلفين. الاختيارات الرائعة هي:  </translation>
+        <translation>شراء {number} من الموقعين على الأجهزة                                                  &lt;ul&gt;                             {different_hint}                              &lt;li&gt;Bitcoin Safe يدعم جميع الموقعين الرئيسيين على الأجهزة: &lt;a href=&quot;{url}&quot;&gt;اعرض القائمة الكاملة&lt;/a&gt;&lt;/li&gt;                                                      &lt;/ul&gt;                            </translation>
     </message>
     <message>
         <source>Buy a {name}</source>
@@ -280,16 +309,15 @@ shown on your BitBox02.</source>
         <translation>اشترِ Coldcard Q  </translation>
     </message>
     <message>
-        <source>Buy a Blockstream Jade
-10% off</source>
-        <translation>اشترِ Blockstream Jade بخصم 10٪  </translation>
+        <source>Buy a Blockstream Jade</source>
+        <translation>شراء Blockstream Jade  </translation>
     </message>
 </context>
 <context>
     <name>CategoryEditor</name>
     <message>
         <source>KYC Exchange</source>
-        <translation>تبادل KYC  </translation>
+        <translation>تبادل KYC</translation>
     </message>
     <message>
         <source>Private</source>
@@ -329,10 +357,6 @@ shown on your BitBox02.</source>
         <source>All Files (*);;PSBT (*.psbt);;Transation (*.tx)</source>
         <translation>جميع الملفات (*);;PSBT (*.psbt);;صفقة (*.tx)</translation>
     </message>
-    <message>
-        <source>Me: {text}</source>
-        <translation>أنا: {text}  </translation>
-    </message>
 </context>
 <context>
     <name>CloseButton</name>
@@ -346,29 +370,6 @@ shown on your BitBox02.</source>
     <message>
         <source>Block {n}</source>
         <translation>البلوك {n}</translation>
-    </message>
-</context>
-<context>
-    <name>CopyToolButton</name>
-    <message>
-        <source>Not available</source>
-        <translation>غير متوفر</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>نسخ إلى الحافظة</translation>
-    </message>
-    <message>
-        <source>Copy {name}</source>
-        <translation>نسخ {name}</translation>
-    </message>
-    <message>
-        <source>Copy TxId</source>
-        <translation>نسخ معرف المعاملة</translation>
-    </message>
-    <message>
-        <source>Copy JSON</source>
-        <translation>نسخ JSON</translation>
     </message>
 </context>
 <context>
@@ -427,6 +428,10 @@ Please back up this descriptor to be able to recover the funds!</source>
         <translation>يحتوي &quot;الوصف&quot; هذا على جميع المعلومات لإعادة بناء المحفظة. يرجى عمل نسخة احتياطية من هذا الوصف لتكون قادرًا على استعادة الأموال!</translation>
     </message>
     <message>
+        <source>Descriptor unchanged</source>
+        <translation>الوصف غير متغير  </translation>
+    </message>
+    <message>
         <source>New descriptor entered</source>
         <translation>تم إدخال وصف جديد  </translation>
     </message>
@@ -439,34 +444,14 @@ Please back up this descriptor to be able to recover the funds!</source>
     </message>
 </context>
 <context>
-    <name>DisplayAddressDialog</name>
+    <name>DeviceManager</name>
     <message>
-        <source>Dialog</source>
-        <translation>حوار  </translation>
+        <source>Trusted</source>
+        <translation>موثوق  </translation>
     </message>
     <message>
-        <source>P2SH-P2WPKH</source>
-        <translation>P2SH-P2WPKH  </translation>
-    </message>
-    <message>
-        <source>P2WPKH</source>
-        <translation>P2WPKH  </translation>
-    </message>
-    <message>
-        <source>P2PKH</source>
-        <translation>P2PKH  </translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation>عنوان</translation>
-    </message>
-    <message>
-        <source>Go</source>
-        <translation>اذهب  </translation>
-    </message>
-    <message>
-        <source>Derivation Path</source>
-        <translation>مسار الاشتقاق  </translation>
+        <source>Untrusted</source>
+        <translation>غير موثوق  </translation>
     </message>
 </context>
 <context>
@@ -603,12 +588,28 @@ the sending value {sent}</source>
 <context>
     <name>FileToolButton</name>
     <message>
-        <source>Export file</source>
-        <translation>تصدير ملف</translation>
+        <source>Export</source>
+        <translation>تصدير  </translation>
+    </message>
+    <message>
+        <source>Copy {name}</source>
+        <translation>نسخ {name}</translation>
+    </message>
+    <message>
+        <source>Copy TxId</source>
+        <translation>نسخ معرف المعاملة</translation>
+    </message>
+    <message>
+        <source>Copy JSON</source>
+        <translation>نسخ JSON</translation>
     </message>
     <message>
         <source>Export to file</source>
         <translation>تصدير إلى ملف  </translation>
+    </message>
+    <message>
+        <source>Not available</source>
+        <translation>غير متوفر</translation>
     </message>
 </context>
 <context>
@@ -633,8 +634,8 @@ the sending value {sent}</source>
         <translation>إنشاء معاملة</translation>
     </message>
     <message>
-        <source>Prefill Transaction again</source>
-        <translation>املأ حقول المعاملة مسبقًا مرة أخرى  </translation>
+        <source>Retry</source>
+        <translation>إعادة المحاولة  </translation>
     </message>
     <message>
         <source>Yes, I see the transaction in the history</source>
@@ -666,72 +667,6 @@ the sending value {sent}</source>
     <message>
         <source>Success! Please complete this step with all hardware signers and then click Next.</source>
         <translation>نجاح! الرجاء إكمال هذه الخطوة مع جميع الموقعين الأجهزة ثم انقر التالي.  </translation>
-    </message>
-</context>
-<context>
-    <name>GetKeypoolOptionsDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>حوار  </translation>
-    </message>
-    <message>
-        <source>Path</source>
-        <translation>مسار  </translation>
-    </message>
-    <message>
-        <source>m/0&apos;/0&apos;/*</source>
-        <translation>m/0&apos;/0&apos;/*  </translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation>ابدأ  </translation>
-    </message>
-    <message>
-        <source>End</source>
-        <translation>انتهاء  </translation>
-    </message>
-    <message>
-        <source>Internal</source>
-        <translation>داخلي  </translation>
-    </message>
-    <message>
-        <source>keypool</source>
-        <translation>keypool  </translation>
-    </message>
-    <message>
-        <source>P2SH-P2WPKH</source>
-        <translation>P2SH-P2WPKH  </translation>
-    </message>
-    <message>
-        <source>P2WPKH</source>
-        <translation>P2WPKH  </translation>
-    </message>
-    <message>
-        <source>P2PKH</source>
-        <translation>P2PKH  </translation>
-    </message>
-    <message>
-        <source>Account</source>
-        <translation>الحساب  </translation>
-    </message>
-</context>
-<context>
-    <name>GetXpubDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>حوار  </translation>
-    </message>
-    <message>
-        <source>Derivation Path</source>
-        <translation>مسار الاشتقاق  </translation>
-    </message>
-    <message>
-        <source>Get xpub</source>
-        <translation>احصل على xpub  </translation>
-    </message>
-    <message>
-        <source>xpub</source>
-        <translation>xpub  </translation>
     </message>
 </context>
 <context>
@@ -793,6 +728,41 @@ the sending value {sent}</source>
     </message>
 </context>
 <context>
+    <name>HorizontalImportExportClipboard</name>
+    <message>
+        <source>Share</source>
+        <translation>مشاركة  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportFile</name>
+    <message>
+        <source>File</source>
+        <translation>ملف  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportQR</name>
+    <message>
+        <source>QR</source>
+        <translation>QR  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportUSB</name>
+    <message>
+        <source>USB</source>
+        <translation>يو إس بي  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportWallet</name>
+    <message>
+        <source>Seed</source>
+        <translation>بذرة</translation>
+    </message>
+</context>
+<context>
     <name>ImportXpubs</name>
     <message>
         <source>2. Import wallet information into Bitcoin Safe</source>
@@ -826,6 +796,14 @@ the sending value {sent}</source>
         <translation>أصل المفتاح مفقود  </translation>
     </message>
     <message>
+        <source>The provided information is for {key_origin_network}. Please provide xPub for network {network}</source>
+        <translation>المعلومات المقدمة هي لـ {key_origin_network}. الرجاء تقديم xPub للشبكة {network}  </translation>
+    </message>
+    <message>
+        <source>The provided account {provided_account} differs from the default account {default_account}.</source>
+        <translation>الحساب المقدم {provided_account} يختلف عن الحساب الافتراضي {default_account}.  </translation>
+    </message>
+    <message>
         <source>Unexpected key origin</source>
         <translation>أصل المفتاح غير المتوقع  </translation>
     </message>
@@ -835,10 +813,6 @@ the sending value {sent}</source>
     <message>
         <source>Import fingerprint and xpub</source>
         <translation>استيراد بصمة الإصبع و xpub</translation>
-    </message>
-    <message>
-        <source>Please paste descriptors into the descriptor field in the top right.</source>
-        <translation>يرجى لصق الوصفات في حقل الوصفات في الزاوية اليمنى العلوية.</translation>
     </message>
     <message>
         <source>{data_type} cannot be used here.</source>
@@ -877,17 +851,21 @@ the sending value {sent}</source>
         <translation>بذرة</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>موافق</translation>
-    </message>
-    <message>
         <source>Name of signing device: ......
 Location of signing device: .....</source>
         <translation>اسم الجهاز الموقع: ...... موقع جهاز التوقيع: .....</translation>
     </message>
     <message>
+        <source>OK</source>
+        <translation>موافق</translation>
+    </message>
+    <message>
         <source>Please ensure that there are no other programs accessing the Hardware signer</source>
         <translation>يرجى التأكد من عدم وجود برامج أخرى تستخدم الموقع الإلكتروني للتوقيع الأجهزة</translation>
+    </message>
+    <message>
+        <source>Please enter a valid key origin.</source>
+        <translation>يرجى إدخال أصل مفتاح صالح.  </translation>
     </message>
     <message>
         <source>{xpub} is not a valid public xpub</source>
@@ -906,24 +884,25 @@ Location of signing device: .....</source>
         <translation>الرجاء لصق الملف المُصدر (مثل sparrow-export.json)  </translation>
     </message>
     <message>
-        <source>Standart for the selected address type {type} is {expected_key_origin}.  Please correct if you are not sure.</source>
-        <translation>المعيار لنوع العنوان المحدد {type} هو {expected_key_origin}. يرجى تصحيحه إذا كنت غير متأكد.</translation>
+        <source>Standard for the selected address type {type} is {expected_key_origin}.  Please correct if you are not sure.</source>
+        <translation>المعيار لنوع العنوان المختار {type} هو {expected_key_origin}. الرجاء التصحيح إذا لم تكن متأكدًا.  </translation>
     </message>
     <message>
         <source>The xPub origin {key_origin} and the xPub belong together. Please choose the correct xPub origin pair.</source>
         <translation>أصل xPub {key_origin} و xPub ينتميان معًا. يرجى اختيار زوج أصل xPub الصحيح.</translation>
     </message>
     <message>
-        <source>The provided information is for {key_origin_network}. Please provide xPub for network {network}</source>
-        <translation>المعلومات المقدمة هي لـ {key_origin_network}. الرجاء تقديم xPub للشبكة {network}  </translation>
-    </message>
-    <message>
-        <source>The xPub Origin {key_origin} is not the expected {expected_key_origin} for {address_type}</source>
-        <translation>أصل xPub {key_origin} ليس {expected_key_origin} المتوقع لـ {address_type}</translation>
+        <source>{msg}
+Do you want to proceed anyway?</source>
+        <translation>{msg} هل ترغب في المتابعة على أي حال؟  </translation>
     </message>
     <message>
         <source>No signer data for the expected key_origin {expected_key_origin} found.</source>
         <translation>لا توجد بيانات موقع للموقع المتوقع {expected_key_origin}.</translation>
+    </message>
+    <message>
+        <source>Please paste descriptors into the descriptor field in the top right.</source>
+        <translation>يرجى لصق الوصفات في حقل الوصفات في الزاوية اليمنى العلوية.</translation>
     </message>
 </context>
 <context>
@@ -1147,24 +1126,32 @@ Location of signing device: .....</source>
         <translation>جميع الملفات (*);;PSBT (*.psbt);;صفقة (*.tx)</translation>
     </message>
     <message>
-        <source>Selected file: {file_path}</source>
-        <translation>الملف المحدد: {مسار_الملف}</translation>
+        <source>No file selected</source>
+        <translation>لم يتم اختيار ملف  </translation>
     </message>
     <message>
         <source>&amp;New Wallet</source>
         <translation>&amp;محفظة جديدة</translation>
     </message>
     <message>
-        <source>No wallet open. Please open the sender wallet to edit this thransaction.</source>
-        <translation>لا توجد محفظة مفتوحة. يرجى فتح محفظة الإرسال لتعديل هذه الصفقة.</translation>
+        <source>Selected file: {file_path}</source>
+        <translation>الملف المحدد: {مسار_الملف}</translation>
     </message>
     <message>
-        <source> Please open the sender wallet to edit this thransaction.</source>
-        <translation> يرجى فتح محفظة الإرسال لتعديل هذه الصفقة.</translation>
+        <source>No wallet open. Please open the sender wallet to edit this transaction.</source>
+        <translation>لا توجد محفظة مفتوحة. من فضلك افتح محفظة المرسل لتحرير هذه العملية.  </translation>
+    </message>
+    <message>
+        <source> Please open the sender wallet to edit this transaction.</source>
+        <translation>من فضلك افتح محفظة المرسل لتحرير هذه العملية.  </translation>
     </message>
     <message>
         <source>Could not decode this string</source>
         <translation>لا يمكن فك تشفير هذه السلسلة  </translation>
+    </message>
+    <message>
+        <source>Signed Message</source>
+        <translation>رسالة موقعة  </translation>
     </message>
     <message>
         <source>Open Transaction or PSBT</source>
@@ -1187,16 +1174,16 @@ Location of signing device: .....</source>
         <translation>معاملة {txid}</translation>
     </message>
     <message>
+        <source>&amp;Open Wallet</source>
+        <translation>&amp;فتح المحفظة</translation>
+    </message>
+    <message>
         <source>PSBT {txid}</source>
         <translation>PSBT {txid}</translation>
     </message>
     <message>
         <source>Open Wallet</source>
         <translation>فتح المحفظة</translation>
-    </message>
-    <message>
-        <source>&amp;Open Wallet</source>
-        <translation>&amp;فتح المحفظة</translation>
     </message>
     <message>
         <source>Wallet Files (*.wallet);;All Files (*)</source>
@@ -1231,16 +1218,16 @@ Location of signing device: .....</source>
         <translation>جديد</translation>
     </message>
     <message>
+        <source>Open &amp;Recent</source>
+        <translation>فتح &amp;الأخيرة</translation>
+    </message>
+    <message>
         <source>A wallet with id {name} is already open.  </source>
         <translation>هناك محفظة برقم {اسم} مفتوحة بالفعل.  </translation>
     </message>
     <message>
         <source>Please complete the wallet setup.</source>
         <translation>يرجى استكمال إعداد المحفظة.</translation>
-    </message>
-    <message>
-        <source>Open &amp;Recent</source>
-        <translation>فتح &amp;الأخيرة</translation>
     </message>
     <message>
         <source>Close wallet {id}?</source>
@@ -1267,72 +1254,12 @@ Location of signing device: .....</source>
         <translation>جارٍ إغلاق التبويب {name}</translation>
     </message>
     <message>
-        <source>MainWindow</source>
-        <translation>النافذة الرئيسية  </translation>
-    </message>
-    <message>
-        <source>Connected devices</source>
-        <translation>الأجهزة المتصلة  </translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <translation>تحديث  </translation>
-    </message>
-    <message>
-        <source>Set Passphrase</source>
-        <translation>تعيين عبارة المرور  </translation>
-    </message>
-    <message>
         <source>&amp;Save Current Wallet</source>
         <translation>&amp;حفظ المحفظة الحالية</translation>
     </message>
     <message>
-        <source>Get an xpub</source>
-        <translation>احصل على xpub  </translation>
-    </message>
-    <message>
-        <source>Sign Message</source>
-        <translation>وقع الرسالة  </translation>
-    </message>
-    <message>
-        <source>Sign PSBT</source>
-        <translation>وقع PSBT  </translation>
-    </message>
-    <message>
-        <source>Change the options used for getkeypool</source>
-        <translation>تغيير الخيارات المستخدمة لـ getkeypool  </translation>
-    </message>
-    <message>
-        <source>Change getkeypool options</source>
-        <translation>تغيير خيارات getkeypool  </translation>
-    </message>
-    <message>
-        <source>Send Pin</source>
-        <translation>إرسال الرقم السري  </translation>
-    </message>
-    <message>
-        <source>Toggle Passphrase</source>
-        <translation>تبديل عبارة المرور  </translation>
-    </message>
-    <message>
-        <source>Display Address</source>
-        <translation>عرض العنوان  </translation>
-    </message>
-    <message>
-        <source>Actions</source>
-        <translation>الإجراءات  </translation>
-    </message>
-    <message>
-        <source>Keypool</source>
-        <translation>Keypool  </translation>
-    </message>
-    <message>
         <source>&amp;Search</source>
         <translation>&amp;بحث  </translation>
-    </message>
-    <message>
-        <source>Descriptors</source>
-        <translation>الموصوفات  </translation>
     </message>
     <message>
         <source>&amp;Change</source>
@@ -1362,13 +1289,6 @@ Location of signing device: .....</source>
     </message>
 </context>
 <context>
-    <name>MultiLineListView</name>
-    <message>
-        <source>Delete all messages</source>
-        <translation>احذف جميع الرسائل  </translation>
-    </message>
-</context>
-<context>
     <name>MyTreeView</name>
     <message>
         <source>Copy as csv</source>
@@ -1386,12 +1306,20 @@ Location of signing device: .....</source>
         <source>All Files (*);;Text Files (*.csv)</source>
         <translation>كل الملفات (*);;ملفات نصية (*.csv)  </translation>
     </message>
+    <message>
+        <source>No file selected</source>
+        <translation>لم يتم اختيار ملف  </translation>
+    </message>
 </context>
 <context>
     <name>NetworkSettingsUI</name>
     <message>
         <source>Advanced</source>
         <translation>متقدم</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>المنفذ:</translation>
     </message>
     <message>
         <source>Mode:</source>
@@ -1414,6 +1342,14 @@ Location of signing device: .....</source>
         <translation>عنوان Mempool Instance</translation>
     </message>
     <message>
+        <source>The proxy does not apply to the Sync&amp;Chat feature!</source>
+        <translation>الوكيل لا ينطبق على ميزة المزامنة والدردشة!  </translation>
+    </message>
+    <message>
+        <source>Proxy:</source>
+        <translation>بروكسي:  </translation>
+    </message>
+    <message>
         <source>Apply &amp;&amp; Shutdown</source>
         <translation>تطبيق &amp;&amp; إيقاف  </translation>
     </message>
@@ -1424,6 +1360,26 @@ Location of signing device: .....</source>
         <translation>الردود: {name}: {status}     Mempool Instance: {server}</translation>
     </message>
     <message>
+        <source>Automatic</source>
+        <translation>تلقائي</translation>
+    </message>
+    <message>
+        <source>Please remove the &apos;{scheme}&apos; from the electrum url</source>
+        <translation>الرجاء إزالة &apos;{scheme}&apos; من عنوان URL الخاص بـ electrum  </translation>
+    </message>
+    <message>
+        <source>Are you sure &apos;{scheme}&apos; is correct in the esplora url?</source>
+        <translation>هل أنت متأكد من صحة &apos;{scheme}&apos; في عنوان URL الخاص بـ esplora؟  </translation>
+    </message>
+    <message>
+        <source>The format for tor addresses should be &apos;{scheme}&apos;</source>
+        <translation>يجب أن يكون تنسيق عناوين tor &apos;{scheme}&apos;  </translation>
+    </message>
+    <message>
+        <source>Please try &apos;{scheme}&apos; at the beginning of the mempool url</source>
+        <translation>الرجاء تجربة &apos;{scheme}&apos; في بداية عنوان URL الخاص بـ mempool  </translation>
+    </message>
+    <message>
         <source>Error in server connection.
 {responses}
 
@@ -1432,10 +1388,6 @@ Location of signing device: .....</source>
 {responses}
 
 هل تريد المتابعة على أي حال؟ </translation>
-    </message>
-    <message>
-        <source>Automatic</source>
-        <translation>تلقائي</translation>
     </message>
     <message>
         <source>Test Connection</source>
@@ -1450,20 +1402,20 @@ Location of signing device: .....</source>
         <translation>مصدر بيانات البلوكتشين</translation>
     </message>
     <message>
-        <source>Enable SSL</source>
-        <translation>تمكين SSL</translation>
-    </message>
-    <message>
         <source>URL:</source>
         <translation>الرابط:</translation>
     </message>
     <message>
-        <source>SSL:</source>
-        <translation>SSL:</translation>
+        <source>Press ⬇ arrow key for suggestions</source>
+        <translation>اضغط على مفتاح السهم ⬇ للاقتراحات  </translation>
     </message>
     <message>
-        <source>Port:</source>
-        <translation>المنفذ:</translation>
+        <source>Enable SSL</source>
+        <translation>تمكين SSL</translation>
+    </message>
+    <message>
+        <source>SSL:</source>
+        <translation>SSL:</translation>
     </message>
 </context>
 <context>
@@ -1505,8 +1457,8 @@ Location of signing device: .....</source>
         <translation>اختر متعدد التوقيعات</translation>
     </message>
     <message>
-        <source>Custom or restore existing Wallet</source>
-        <translation>محفظة مخصصة أو استعادة محفظة موجودة</translation>
+        <source>Custom or import existing Wallet</source>
+        <translation>تخصيص أو استيراد محفظة موجودة</translation>
     </message>
     <message>
         <source>Customize the wallet to your needs</source>
@@ -1637,6 +1589,13 @@ Location of signing device: .....</source>
     </message>
 </context>
 <context>
+    <name>PoisoningWarningBar</name>
+    <message>
+        <source>Warning! This transaction involves deceptively similar addresses. It may be an address poisoning attack. Similar addresses are  &lt;br&gt;{addresses}.&lt;br&gt; Double-check all transaction details carefully!</source>
+        <translation>تحذير! تتضمن هذه المعاملة عناوين مشابهة بشكل مضلل. قد تكون هجوم تسميم العنوان. العناوين المشابهة هي &lt;br&gt;{addresses}.&lt;br&gt; تحقق بعناية من جميع تفاصيل المعاملة!</translation>
+    </message>
+</context>
+<context>
     <name>QTProtoWallet</name>
     <message>
         <source>Setup wallet</source>
@@ -1670,6 +1629,10 @@ Location of signing device: .....</source>
         <translation>حذف المحفظة  </translation>
     </message>
     <message>
+        <source>No file selected</source>
+        <translation>لم يتم اختيار ملف  </translation>
+    </message>
+    <message>
         <source>Password incorrect</source>
         <translation>كلمة المرور غير صحيحة</translation>
     </message>
@@ -1686,12 +1649,12 @@ Location of signing device: .....</source>
         <translation>تم حفظ المحفظة</translation>
     </message>
     <message>
-        <source>  {amount} in {shortid}</source>
-        <translation>  {amount} في {shortid}</translation>
-    </message>
-    <message>
         <source>Descriptor</source>
         <translation>وصف</translation>
+    </message>
+    <message>
+        <source>  {amount} in {shortid}</source>
+        <translation>  {amount} في {shortid}</translation>
     </message>
     <message>
         <source>The transactions 
@@ -1722,8 +1685,36 @@ Location of signing device: .....</source>
         <translation>اختر اسمًا جديدًا، أو اسمًا موجودًا للدمج:</translation>
     </message>
     <message>
+        <source>Syncing with {server}</source>
+        <translation>مزامنة مع {server}  </translation>
+    </message>
+    <message>
+        <source>Connected to {server}</source>
+        <translation>متصل بـ {server}  </translation>
+    </message>
+    <message>
+        <source>Disconnected from {server}</source>
+        <translation>منفصل عن {server}  </translation>
+    </message>
+    <message>
+        <source>Sync &amp;&amp; Chat</source>
+        <translation>المزامنة &amp;&amp; الدردشة  </translation>
+    </message>
+    <message>
         <source>Click for new address</source>
         <translation>انقر للحصول على عنوان جديد</translation>
+    </message>
+    <message>
+        <source>{num_inputs} Inputs: {inputs}</source>
+        <translation>{num_inputs} المدخلات: {inputs}</translation>
+    </message>
+    <message>
+        <source>start updating lists</source>
+        <translation>بدء تحديث القوائم  </translation>
+    </message>
+    <message>
+        <source>finished updating lists</source>
+        <translation>انتهاء تحديث القوائم  </translation>
     </message>
     <message>
         <source>Export labels</source>
@@ -1738,10 +1729,6 @@ Location of signing device: .....</source>
         <translation>استيراد التسميات</translation>
     </message>
     <message>
-        <source>Sync &amp;&amp; Chat</source>
-        <translation>المزامنة &amp;&amp; الدردشة  </translation>
-    </message>
-    <message>
         <source>All Files (*);;JSONL Files (*.jsonl);;JSON Files (*.json)</source>
         <translation>جميع الملفات (*);;ملفات JSONL (*.jsonl);;ملفات JSON (*.json)</translation>
     </message>
@@ -1754,12 +1741,12 @@ Location of signing device: .....</source>
         <translation>استيراد تسميات محفظة إلكتروم</translation>
     </message>
     <message>
-        <source>All Files (*);;JSON Files (*.json)</source>
-        <translation>جميع الملفات (*);;ملفات JSON (*.json)</translation>
-    </message>
-    <message>
         <source>History</source>
         <translation>التاريخ</translation>
+    </message>
+    <message>
+        <source>All Files (*);;JSON Files (*.json)</source>
+        <translation>جميع الملفات (*);;ملفات JSON (*.json)</translation>
     </message>
     <message>
         <source>Receive</source>
@@ -1808,9 +1795,9 @@ Location of signing device: .....</source>
                     So before you send a substantial amount of Bitcoin into the wallet, it is &lt;b&gt;crucial&lt;/b&gt; to spend from the wallet and test all signers.     
                     &lt;br&gt;
                     &lt;br&gt;
-                    &lt;b&gt;Do NOT send in large funds into the wallet before you didn&apos;t complete all send tests!&lt;/b&gt;   
+                    &lt;b&gt;Do NOT send large funds into the wallet, yet. Please complete all send tests first!&lt;/b&gt;   
                     </source>
-        <translation>استلم مبلغًا &lt;b&gt;صغيرًا&lt;/b&gt; (أقل من {test_amount}) إلى عنوان واحد من هذه المحفظة.&lt;br&gt;&lt;br&gt;&lt;b&gt;لماذا؟&lt;/b&gt;&lt;br&gt;لمعرفة ما إذا كنت تتحكم في الأموال، عليك اختبار الإنفاق من المحفظة.&lt;br&gt;لذلك قبل أن ترسل مبلغًا كبيرًا من البيتكوين إلى المحفظة، من &lt;b&gt;الضروري&lt;/b&gt; أن تنفق من المحفظة وتختبر جميع الموقعين.&lt;br&gt;&lt;br&gt;&lt;b&gt;لا ترسل مبالغ كبيرة إلى المحفظة قبل أن تكمل جميع اختبارات الإرسال!&lt;/b&gt;</translation>
+        <translation>استلم مبلغًا &lt;b&gt;صغيرًا&lt;/b&gt; (أقل من {test_amount}) إلى عنوان واحد في هذه المحفظة.                     &lt;br&gt;&lt;br&gt;                     &lt;b&gt;لماذا؟&lt;/b&gt; &lt;br&gt;                     لمعرفة ما إذا كنت تتحكم في الأموال، يجب عليك اختبار الإنفاق من المحفظة.                      &lt;br&gt;                     لذا قبل أن ترسل كمية كبيرة من البيتكوين إلى المحفظة، من ال&lt;b&gt;ضروري&lt;/b&gt; أن تنفق من المحفظة وتختبر جميع الموقعين.                          &lt;br&gt;                     &lt;br&gt;                     &lt;b&gt;لا ترسل أموالًا كبيرة إلى المحفظة بعد. الرجاء إكمال جميع اختبارات الإرسال أولاً!&lt;/b&gt;  </translation>
     </message>
     <message>
         <source>Next step</source>
@@ -1869,6 +1856,10 @@ Location of signing device: .....</source>
         <translation>عنوان</translation>
     </message>
     <message>
+        <source>No rows recognized</source>
+        <translation>لم يتم التعرف على أي صفوف  </translation>
+    </message>
+    <message>
         <source>{address} is not a valid address!</source>
         <translation>{address} ليس عنوانًا صالحًا!  </translation>
     </message>
@@ -1917,6 +1908,10 @@ Location of signing device: .....</source>
         <translation>كل الملفات (*);;ملفات المحفظة (*.csv)  </translation>
     </message>
     <message>
+        <source>No file selected</source>
+        <translation>لم يتم اختيار ملف  </translation>
+    </message>
+    <message>
         <source>Open CSV</source>
         <translation>فتح CSV  </translation>
     </message>
@@ -1927,10 +1922,6 @@ Location of signing device: .....</source>
     <message>
         <source>Please use the CSV template and include the header row.</source>
         <translation>يرجى استخدام نموذج CSV وتضمين صف العنوان.  </translation>
-    </message>
-    <message>
-        <source>No rows recognized</source>
-        <translation>لم يتم التعرف على أي صفوف  </translation>
     </message>
 </context>
 <context>
@@ -1995,6 +1986,10 @@ Location of signing device: .....</source>
         <source>All Files (*);;Text Files (*.svg)</source>
         <translation>جميع الملفات (*);;ملفات نصية (*.svg)  </translation>
     </message>
+    <message>
+        <source>No file selected</source>
+        <translation>لم يتم اختيار ملف  </translation>
+    </message>
 </context>
 <context>
     <name>ScreenshotsExportXpub</name>
@@ -2056,17 +2051,6 @@ If you make a mistake here, your money is lost!</source>
     </message>
 </context>
 <context>
-    <name>SendPinDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>حوار  </translation>
-    </message>
-    <message>
-        <source>?</source>
-        <translation>؟  </translation>
-    </message>
-</context>
-<context>
     <name>SendTest</name>
     <message>
         <source>You made {n} outgoing transactions already. Would you like to skip this spend test?</source>
@@ -2082,60 +2066,26 @@ If you make a mistake here, your money is lost!</source>
     </message>
 </context>
 <context>
-    <name>SetPassphraseDialog</name>
+    <name>SignMessage</name>
     <message>
-        <source>Dialog</source>
-        <translation>حوار  </translation>
-    </message>
-</context>
-<context>
-    <name>SignMessageDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>حوار  </translation>
+        <source>Enter message to be signed at {bip32_path}</source>
+        <translation>أدخل الرسالة للتوقيع عند {bip32_path}  </translation>
     </message>
     <message>
-        <source>Signature</source>
+        <source>Sign message</source>
+        <translation>توقيع الرسالة  </translation>
+    </message>
+    <message>
+        <source>Sign</source>
         <translation>توقيع  </translation>
     </message>
     <message>
-        <source>Message</source>
-        <translation>رسالة  </translation>
+        <source>Signed Message</source>
+        <translation>رسالة موقعة  </translation>
     </message>
     <message>
-        <source>Sign Message</source>
-        <translation>توقيع رسالة  </translation>
-    </message>
-    <message>
-        <source>Derivation Path</source>
-        <translation>مسار الاشتقاق  </translation>
-    </message>
-</context>
-<context>
-    <name>SignPSBTDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>حوار  </translation>
-    </message>
-    <message>
-        <source>PSBT To Sign</source>
-        <translation>PSBT للتوقيع  </translation>
-    </message>
-    <message>
-        <source>Import PSBT</source>
-        <translation>استيراد PSBT  </translation>
-    </message>
-    <message>
-        <source>PSBT Result</source>
-        <translation>نتيجة PSBT  </translation>
-    </message>
-    <message>
-        <source>Export PSBT</source>
-        <translation>تصدير PSBT  </translation>
-    </message>
-    <message>
-        <source>Sign PSBT</source>
-        <translation>توقيع PSBT  </translation>
+        <source>Message too short.</source>
+        <translation>الرسالة قصيرة جداً.  </translation>
     </message>
 </context>
 <context>
@@ -2182,18 +2132,6 @@ If you make a mistake here, your money is lost!</source>
         <source>Scan QR code</source>
         <translation>مسح رمز الاستجابة السريعة</translation>
     </message>
-    <message>
-        <source>The txid of the signed psbt doesnt match the original txid</source>
-        <translation>لا يتطابق txid الخاص بـ psbt المُوقع مع txid الأصلي</translation>
-    </message>
-    <message>
-        <source>No additional signatures were added</source>
-        <translation>لم يتم إضافة توقيعات إضافية  </translation>
-    </message>
-    <message>
-        <source>bitcoin_tx libary error. The txid should not be changed during finalizing</source>
-        <translation>خطأ في مكتبة bitcoin_tx. لا ينبغي تغيير txid أثناء الإنهاء</translation>
-    </message>
 </context>
 <context>
     <name>SignatureImporterUSB</name>
@@ -2213,8 +2151,8 @@ If you make a mistake here, your money is lost!</source>
         <translation>لا يتطابق txid الخاص بـ psbt المُوقع مع txid الأصلي. الإجهاض</translation>
     </message>
     <message>
-        <source>Sign with mnemonic seed</source>
-        <translation>التوقيع ببذور المنون  </translation>
+        <source>Sign with seed</source>
+        <translation>التوقيع بالبذور  </translation>
     </message>
 </context>
 <context>
@@ -2273,8 +2211,8 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
         <translation>فتح {name} من {author}</translation>
     </message>
     <message>
-        <source>Received message &apos;{description}&apos; from {author}</source>
-        <translation>تم استلام الرسالة &quot;{description}&quot; من {author}</translation>
+        <source>{author}: {description}</source>
+        <translation>{author}: {description}  </translation>
     </message>
 </context>
 <context>
@@ -2282,6 +2220,14 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
     <message>
         <source>USB Signer Tools</source>
         <translation>أدوات موقع USB  </translation>
+    </message>
+    <message>
+        <source>Address index</source>
+        <translation>مؤشر العنوان  </translation>
+    </message>
+    <message>
+        <source>Sign Message</source>
+        <translation>توقيع رسالة  </translation>
     </message>
     <message>
         <source>Paste your descriptor to be signed</source>
@@ -2298,6 +2244,14 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
     <message>
         <source>Show Seed</source>
         <translation>عرض البذور  </translation>
+    </message>
+    <message>
+        <source>Unlock Devices</source>
+        <translation>فتح الأجهزة  </translation>
+    </message>
+    <message>
+        <source>Unlock</source>
+        <translation>فك القفل  </translation>
     </message>
     <message>
         <source>Get xpubs</source>
@@ -2323,28 +2277,12 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
         <source>Paste your text to be signed</source>
         <translation>الصق نصك للتوقيع  </translation>
     </message>
-    <message>
-        <source>Address index</source>
-        <translation>مؤشر العنوان  </translation>
-    </message>
-    <message>
-        <source>Sign Message</source>
-        <translation>توقيع رسالة  </translation>
-    </message>
 </context>
 <context>
-    <name>TrustedDevice</name>
+    <name>TrustedDeviceItem</name>
     <message>
-        <source>Connected to {id}</source>
-        <translation>متصل ب{id}  </translation>
-    </message>
-    <message>
-        <source>Syncing Address labels</source>
-        <translation>مزامنة تسميات العناوين  </translation>
-    </message>
-    <message>
-        <source>Can share Transactions</source>
-        <translation>يمكن مشاركة المعاملات  </translation>
+        <source>Untrust device</source>
+        <translation>جهاز غير موثوق  </translation>
     </message>
 </context>
 <context>
@@ -2357,16 +2295,8 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
 <context>
     <name>TxSigningSteps</name>
     <message>
-        <source>Export transaction to any hardware signer</source>
-        <translation>تصدير المعاملة إلى أي موقع على الأجهزة</translation>
-    </message>
-    <message>
-        <source>Sign with a different hardware signer</source>
-        <translation>قم بالتوقيع مع موقّع أجهزة مختلف</translation>
-    </message>
-    <message>
-        <source>Import signature</source>
-        <translation>استيراد التوقيع</translation>
+        <source>Create and collect {n}. signature</source>
+        <translation>إنشاء وجمع التوقيع {n}.  </translation>
     </message>
     <message>
         <source>Transaction signed with the private key belonging to {label}</source>
@@ -2404,14 +2334,6 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
         <translation>تعيين قائمة تتابع مخصصة  </translation>
     </message>
     <message>
-        <source>Trusted</source>
-        <translation>موثوق  </translation>
-    </message>
-    <message>
-        <source>UnTrusted</source>
-        <translation>غير موثوق  </translation>
-    </message>
-    <message>
         <source>My Device: {id}</source>
         <translation>جهازي: {id}  </translation>
     </message>
@@ -2421,10 +2343,6 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
     <message>
         <source>Select a category that fits the recipient best</source>
         <translation>حدد الفئة التي تناسب المستلم بشكل أفضل</translation>
-    </message>
-    <message>
-        <source>{num_inputs} Inputs: {inputs}</source>
-        <translation>{num_inputs} المدخلات: {inputs}</translation>
     </message>
     <message>
         <source>Adding outpoints {outpoints}</source>
@@ -2499,6 +2417,10 @@ below {rate}</source>
     <message>
         <source>Invalid Signatures</source>
         <translation>التوقيعات غير صالحة</translation>
+    </message>
+    <message>
+        <source>Failed to broadcast {txid}. Consider broadcasting via {url}</source>
+        <translation>فشل في بث {txid}. يرجى محاولة البث عبر {url}.</translation>
     </message>
     <message>
         <source>Import file</source>
@@ -2625,14 +2547,14 @@ below {rate}</source>
     </message>
 </context>
 <context>
-    <name>UnTrustedDevice</name>
+    <name>UntrustedDeviceItem</name>
     <message>
-        <source>Trust {id}</source>
-        <translation>ثق {id}  </translation>
+        <source>Trust</source>
+        <translation>ثقة  </translation>
     </message>
     <message>
-        <source>Accept trust request from {other}</source>
-        <translation>قبول طلب الثقة من {other}  </translation>
+        <source>Trust this device</source>
+        <translation>ثق بهذا الجهاز  </translation>
     </message>
 </context>
 <context>
@@ -2712,6 +2634,10 @@ below {rate}</source>
     <message>
         <source>The wallet {filename} exists already.</source>
         <translation>المحفظة {filename} موجودة بالفعل.  </translation>
+    </message>
+    <message>
+        <source>Please choose a wallet name</source>
+        <translation>يرجى اختيار اسم محفظة  </translation>
     </message>
 </context>
 <context>
@@ -2879,6 +2805,38 @@ below {rate}</source>
         <translation>لم يتم العثور على نوع عنوان HWI لـ {name}  </translation>
     </message>
     <message>
+        <source>USB errors can appear due to missing udev files. Do you want to install udev files now?</source>
+        <translation>قد تظهر أخطاء USB بسبب عدم وجود ملفات udev. هل ترغب في تثبيت ملفات udev الآن؟  </translation>
+    </message>
+    <message>
+        <source>Install udev files</source>
+        <translation>تثبيت ملفات udev  </translation>
+    </message>
+    <message>
+        <source>Please restart your computer for the changes to take effect.</source>
+        <translation>يرجى إعادة تشغيل الكمبيوتر لتفعيل التغييرات.  </translation>
+    </message>
+    <message>
+        <source>Restart computer</source>
+        <translation>إعادة تشغيل الكمبيوتر  </translation>
+    </message>
+    <message>
+        <source>Executing the script</source>
+        <translation>تنفيذ البرنامج النصي  </translation>
+    </message>
+    <message>
+        <source>No suitable terminal emulator found.</source>
+        <translation>لم يتم العثور على محاكي طرفية مناسب.  </translation>
+    </message>
+    <message>
+        <source>derivation_path {value} must start with a /</source>
+        <translation>يجب أن يبدأ مسار التحويل {value} بـ /  </translation>
+    </message>
+    <message>
+        <source>{value} is not a valid fingerprint</source>
+        <translation>{value} ليس بصمة صالحة  </translation>
+    </message>
+    <message>
         <source>The network part {network_str} of the key origin {key_origin} must be hardened with a h</source>
         <translation>يجب أن يكون جزء الشبكة {network_str} من أصل المفتاح {key_origin} مُعزّزًا بـ h  </translation>
     </message>
@@ -2901,62 +2859,6 @@ below {rate}</source>
     <message>
         <source>Error</source>
         <translation>خطأ</translation>
-    </message>
-    <message>
-        <source>USB errors can appear due to missing udev files. Do you want to install udev files now?</source>
-        <translation>قد تظهر أخطاء USB بسبب عدم وجود ملفات udev. هل ترغب في تثبيت ملفات udev الآن؟  </translation>
-    </message>
-    <message>
-        <source>Install udev files</source>
-        <translation>تثبيت ملفات udev  </translation>
-    </message>
-    <message>
-        <source>Please restart your computer for the changes to take effect.</source>
-        <translation>يرجى إعادة تشغيل الكمبيوتر لتفعيل التغييرات.  </translation>
-    </message>
-    <message>
-        <source>Restart computer</source>
-        <translation>إعادة تشغيل الكمبيوتر  </translation>
-    </message>
-    <message>
-        <source>derivation_path {value} must start with a /</source>
-        <translation>يجب أن يبدأ مسار التحويل {value} بـ /  </translation>
-    </message>
-    <message>
-        <source>Executing the script</source>
-        <translation>تنفيذ البرنامج النصي  </translation>
-    </message>
-    <message>
-        <source>No suitable terminal emulator found.</source>
-        <translation>لم يتم العثور على محاكي طرفية مناسب.  </translation>
-    </message>
-    <message>
-        <source>h cannot appear twice in a index</source>
-        <translation>لا يمكن أن يظهر h مرتين في فهرس  </translation>
-    </message>
-    <message>
-        <source>{value} must start with m/</source>
-        <translation>يجب أن يبدأ {value} بـ m/  </translation>
-    </message>
-    <message>
-        <source>{value} cannot contain //</source>
-        <translation>لا يمكن أن يحتوي {value} على //  </translation>
-    </message>
-    <message>
-        <source>{value} cannot contain /h</source>
-        <translation>لا يمكن أن يحتوي {value} على /h  </translation>
-    </message>
-    <message>
-        <source>{value} cannot contain hh</source>
-        <translation>لا يمكن أن يحتوي {value} على hh  </translation>
-    </message>
-    <message>
-        <source>{value} cannot end with /</source>
-        <translation>لا يمكن أن ينتهي {value} بـ /  </translation>
-    </message>
-    <message>
-        <source>{value} is not a valid fingerprint</source>
-        <translation>{value} ليس بصمة صالحة  </translation>
     </message>
 </context>
 <context>
@@ -2991,6 +2893,10 @@ below {rate}</source>
     <message>
         <source>Read QR code from camera</source>
         <translation>قراءة رمز الاستجابة السريعة من الكاميرا</translation>
+    </message>
+    <message>
+        <source>Connect to USB signer</source>
+        <translation>الاتصال بموقِّع USB</translation>
     </message>
     <message>
         <source>Recovery</source>
@@ -3165,14 +3071,6 @@ below {rate}</source>
     </message>
 </context>
 <context>
-    <name>lib_load</name>
-    <message>
-        <source>You are missing the {link}
-Please install it.</source>
-        <translation>أنت تفتقد {link} الرجاء تثبيته.</translation>
-    </message>
-</context>
-<context>
     <name>menu</name>
     <message>
         <source>Import Labels</source>
@@ -3213,6 +3111,10 @@ Please install it.</source>
         <translation>هذه طريقة خاصة وسريعة للاتصال بشبكة البيتكوين.</translation>
     </message>
     <message>
+        <source>Run your bitcoind with &quot;bitcoind -chain=test&quot;</source>
+        <translation>قم بتشغيل bitcoind الخاص بك باستخدام &quot;bitcoind -chain=test&quot;</translation>
+    </message>
+    <message>
         <source>Run your bitcoind with &quot;bitcoind -chain=signet&quot;  This however is a different signet than mutinynet.com.</source>
         <translation>قم بتشغيل bitcoind الخاص بك باستخدام &quot;bitcoind -chain=signet&quot; ومع ذلك، فإن هذا التوقيع مختلف عن mutinynet.com.</translation>
     </message>
@@ -3222,20 +3124,24 @@ It is best to use your own server, such as {link}.</source>
         <translation>يمكن للخادم ربط عنوان IP الخاص بك بعناوين المحفظة. من الأفضل استخدام خادمك الخاص، مثل {link}.</translation>
     </message>
     <message>
-        <source>You can setup {link} with an electrum server on {server} and a block explorer on {explorer}</source>
-        <translation>يمكنك إعداد {link} مع خادم إليكتروم على {server} ومستكشف الكتل على {explorer}</translation>
+        <source>You can setup {electrum} with an electrum server on {server} and a block explorer on {explorer}</source>
+        <translation>يمكنك إعداد {electrum} بخادم إلكتروم على {server} ومستكشف البلوك على {explorer}  </translation>
     </message>
     <message>
-        <source>A good option is {link} and a block explorer on {explorer}.</source>
-        <translation>الخيار الجيد هو {link} ومستكشف الكتل على {explorer}.</translation>
+        <source>A good option is  {electrum_testnet4} and as block explorer {explorer_testnet4}</source>
+        <translation>خيار جيد هو {electrum_testnet4} وكمستكشف بلوك {explorer_testnet4}  </translation>
+    </message>
+    <message>
+        <source>Signet choose {electrum} and a block explorer on {mempool_url}.</source>
+        <translation>اختر Signet {electrum} ومستكشف بلوك على {mempool_url}.  </translation>
     </message>
     <message>
         <source>You can setup {setup} with an esplora server on {server} and a block explorer on {explorer}</source>
         <translation>يمكنك إعداد {setup} باستخدام خادم esplora على {server} ومستكشف الكتل على {explorer}</translation>
     </message>
     <message>
-        <source>A good option is {link} and a block explorer on {explorer}. There is a {faucet}.</source>
-        <translation>الخيار الجيد هو {link} ومستكشف الكتل على {explorer}. هناك {faucet}.</translation>
+        <source>A (somtimes working) server is {link} and a block explorer on {explorer}. There is a {faucet}.</source>
+        <translation>خادم (يعمل أحياناً) هو {link} ومستكشف بلوك على {explorer}. هناك {faucet}.  </translation>
     </message>
     <message>
         <source>You can connect your own Bitcoin node, such as {link}.</source>
@@ -3245,20 +3151,27 @@ It is best to use your own server, such as {link}.</source>
         <source>Run your bitcoind with &quot;bitcoind -chain=regtest&quot;</source>
         <translation>قم بتشغيل bitcoind الخاص بك باستخدام &quot;bitcoind -chain=regtest&quot;</translation>
     </message>
+</context>
+<context>
+    <name>network_config</name>
     <message>
-        <source>Run your bitcoind with &quot;bitcoind -chain=test&quot;</source>
-        <translation>قم بتشغيل bitcoind الخاص بك باستخدام &quot;bitcoind -chain=test&quot;</translation>
+        <source>{server_name} via the proxy {proxy}</source>
+        <translation>{server_name} عبر البروكسي {proxy}  </translation>
+    </message>
+    <message>
+        <source>{server_name}</source>
+        <translation>{server_name}  </translation>
     </message>
 </context>
 <context>
     <name>open_file</name>
     <message>
-        <source>All Files (*);;PSBT (*.psbt);;Transation (*.tx)</source>
-        <translation>جميع الملفات (*);;PSBT (*.psbt);;صفقة (*.tx)</translation>
-    </message>
-    <message>
         <source>Open Transaction/PSBT</source>
         <translation>فتح المعاملة/PSBT</translation>
+    </message>
+    <message>
+        <source>All Files (*);;PSBT (*.psbt);;Transation (*.tx)</source>
+        <translation>جميع الملفات (*);;PSBT (*.psbt);;صفقة (*.tx)</translation>
     </message>
 </context>
 <context>
@@ -3270,6 +3183,10 @@ It is best to use your own server, such as {link}.</source>
     <message>
         <source>{keystore_label}: Fingerprint: {keystore_fingerprint}, Key origin: {keystore_key_origin}, {keystore_xpub}</source>
         <translation>{keystore_label}: بصمة: {keystore_fingerprint}, أصل المفتاح: {keystore_key_origin}, {keystore_xpub}</translation>
+    </message>
+    <message>
+        <source>File not found!</source>
+        <translation>لم يتم العثور على الملف!  </translation>
     </message>
     <message>
         <source>{i}. Seed backup of a {threshold} of {m} Multi-Sig Wallet: &quot;{id}&quot;</source>
@@ -3304,16 +3221,16 @@ It is best to use your own server, such as {link}.</source>
         <translation>عند إعادة فحص هذه المحفظة، افحص على الأقل حتى مؤشر العنوان {max_tip} لاكتشاف جميع العناوين الممولة.  </translation>
     </message>
     <message>
-        <source>Label syncronization backup key: {label_sync_nsec}</source>
-        <translation>مفتاح النسخ الاحتياطي لمزامنة العلامات: {label_sync_nsec}  </translation>
-    </message>
-    <message>
-        <source>1. Glue or tape the &apos;Recovery sheet&apos; ({number} words) over the table below&lt;br/&gt;
+        <source>1. Attach the &apos;Recovery sheet&apos; ({number} words) to this paper or duplicate the 12/24 words onto this paper.&lt;br/&gt;
                 2. Fold this  paper at the line below &lt;br/&gt;
                 3. Put this paper in a secure location, where only you have access&lt;br/&gt;
                 4. You can put the hardware signer either a) together with the paper seed backup, or b)   in another secure  location (if available)   
                 </source>
-        <translation>1. الصق أو ثبّت &apos;ورقة الاسترداد&apos; ({number} كلمات) فوق الجدول أدناه&lt;br/&gt;2. طوِّ هذه الورقة عند الخط أدناه&lt;br/&gt;3. ضع هذه الورقة في مكان آمن حيث يمكنك الوصول إليها فقط&lt;br/&gt;4. يمكنك وضع الموقع الجهاز إما أ) مع النسخة الاحتياطية لبذور الورق، أو ب) في موقع آمن آخر (إذا كان متوفرًا)</translation>
+        <translation>1. ضع ورقة &apos;الاسترداد&apos; ({number} كلمات) على هذه الورقة أو قم بتكرار 12/24 كلمة على هذه الورقة.&lt;br/&gt;                 2. طي هذه الورقة عند الخط أدناه &lt;br/&gt;                 3. ضع هذه الورقة في مكان آمن، حيث يمكنك الوصول فقط&lt;br/&gt;                 4. يمكنك وضع الموقع الصلب إما a) مع النسخة الاحتياطية للبذور الورقية، أو b) في مكان آمن آخر (إذا كان متاحًا)  </translation>
+    </message>
+    <message>
+        <source>Label syncronization backup key: {label_sync_nsec}</source>
+        <translation>مفتاح النسخ الاحتياطي لمزامنة العلامات: {label_sync_nsec}  </translation>
     </message>
     <message>
         <source>Balance Statement of {id}</source>
@@ -3324,12 +3241,12 @@ It is best to use your own server, such as {link}.</source>
         <translation>كشف حساب الرصيد لـ&quot;{id}&quot;  </translation>
     </message>
     <message>
-        <source>1. Glue or tape the &apos;Recovery sheet&apos; ({number} words) over the table below&lt;br/&gt;
+        <source>1. Attach the &apos;Recovery sheet&apos; ({number} words) to this paper or duplicate the 12/24 words onto this paper.&lt;br/&gt;
                 2. Fold this  paper at the line below &lt;br/&gt;
                 3. Put each paper in a different secure location, where only you have access&lt;br/&gt;
                 4. You can put the hardware signers either a) together with the corresponding paper seed backup, or b)   each  in yet another secure  location (if available)   
                 </source>
-        <translation>1. قم بلصق أو تثبيت &quot;ورقة الاستعادة&quot; ({number} كلمة) فوق الجدول أدناه&lt;br/&gt;2. اطوِ هذه الورقة عند الخط أدناه&lt;br/&gt;3. ضع كل ورقة في مكان آمن مختلف، حيث يمكنك الوصول إليه فقط&lt;br/&gt;4. يمكنك وضع الموقعين الماديين إما a) مع النسخة الاحتياطية الورقية للبذرة المقابلة، أو b) كل واحد في موقع آمن آخر (إذا كان متاحًا)</translation>
+        <translation>1. ضع ورقة &apos;الاسترداد&apos; ({number} كلمات) على هذه الورقة أو قم بتكرار 12/24 كلمة على هذه الورقة.&lt;br/&gt;                 2. طي هذه الورقة عند الخط أدناه &lt;br/&gt;                 3. ضع كل ورقة في مكان آمن مختلف، حيث يمكنك الوصول فقط&lt;br/&gt;                 4. يمكنك وضع الموقعين الصلبين إما a) مع النسخة الاحتياطية المقابلة للبذور الورقية، أو b) كل في مكان آمن آخر (إذا كان متاحًا)</translation>
     </message>
     <message>
         <source>Secret seed words for a hardware signer: Never type into a computer. Never make a picture.</source>

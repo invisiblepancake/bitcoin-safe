@@ -28,6 +28,7 @@
 
 
 import logging
+import os
 import platform
 import sys
 from ctypes.util import find_library
@@ -35,14 +36,11 @@ from pathlib import Path
 
 import bitcoin_usb
 import bitcointx
+from PyQt6.QtWidgets import QApplication, QMessageBox
 
-from .html_utils import link
 from .i18n import translate
 
 logger = logging.getLogger(__name__)
-
-
-from PyQt6.QtWidgets import QApplication, QMessageBox
 
 
 # Function to show the warning dialog before starting the QApplication
@@ -120,7 +118,7 @@ def setup_libsecp256k1() -> None:
         bitcoin_usb.set_custom_secp256k1_path(lib_path)
         bitcointx.set_custom_secp256k1_path(lib_path)
     elif get_libsecp256k1_os_path():
-        logger.info(f"libsecp256k1 was found in the OS")
+        logger.info(translate("setup_libsecp256k1", f"libsecp256k1 was found in the OS"))
     else:
         msg = translate(
             "dynamic_lib_load", "libsecp256k1 could not be found. Please install libsecp256k1 in your OS."
@@ -131,27 +129,58 @@ def setup_libsecp256k1() -> None:
 
 
 def ensure_pyzbar_works() -> None:
-    "Ensure Visual C++ Redistributable Packages for Visual Studio 2013"
     # Get the platform-specific path to the binary library
     logger.info(f"Platform: {platform.system()}")
     if platform.system() == "Windows":
-        logger.info("Trying to import pyzbar to see if Visual C++ Redistributable is installed. ")
+
+        # Determine the base path:
+        if hasattr(sys, "_MEIPASS"):
+            # Running as a PyInstaller bundle; _MEIPASS is the temporary folder
+            base_path = sys._MEIPASS
+        else:
+            # Otherwise, use the directory of this script
+            base_path = os.path.dirname(os.path.abspath(__file__))
+
+        # Construct the path to the libzbar-0.dll in the base_path=_internal subfolder
+        libzbar_dll_path = os.path.join(base_path, "libzbar-64.dll")
+
+        # Set the PYZBAR_LIBRARY environment variable for pyzbar to load the DLL
+        os.environ["PYZBAR_LIBRARY"] = os.path.abspath(libzbar_dll_path)
+        logger.debug(f'set PYZBAR_LIBRARY={os.environ["PYZBAR_LIBRARY"]}')
+
         try:
             from pyzbar import pyzbar
 
             pyzbar.__name__
             logger.info(f"pyzbar successfully loaded ")
-        except:  #  Do not restrict it to FileNotFoundError, because it can cause other exceptions
-            logger.info(f"pyzbar not loaded ")
-            show_warning_before_failiure(
-                translate("lib_load", """You are missing the {link}\nPlease install it.""").format(
-                    link=link(
-                        "https://www.microsoft.com/en-US/download/details.aspx?id=40784",
-                        "Visual C++ Redistributable Packages for Visual Studio 2013",
-                    )
-                ),
-            )
-            sys.exit()
-    else:
-        # On Linux this shoudn't be a problem, because I include libzar in the package
+        except (
+            Exception
+        ) as e:  #  Do not restrict it to FileNotFoundError, because it can cause other exceptions
+            logger.debug(str(e))
+            logger.warning(f"pyzbar could not be loaded ")
+    elif platform.system() == "Darwin":
+        # Compute the absolute path of the current file
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+
+        # Construct the path to libzbar.dylib relative to the current file.
+        # This goes one directory up (to Contents) and then into Frameworks.
+        libzbar_path = os.path.join(current_dir, "..", "Frameworks", "libzbar.dylib")
+
+        # Set the environment variable
+        os.environ["PYZBAR_LIBRARY"] = os.path.abspath(libzbar_path)
+
+        logger.debug(f'set PYZBAR_LIBRARY={os.environ["PYZBAR_LIBRARY"]}')
+
+    elif platform.system() == "Linux":
+        # On Linux it seems to find the lib
         pass
+    else:
+        logger.warning(f"Unknown OS")
+
+    # check pyzbar no matter what
+    try:
+        from pyzbar import pyzbar
+
+        logger.info(f"pyzbar could be loaded successfully")
+    except:
+        logger.warning(f"failed to load pyzbar")

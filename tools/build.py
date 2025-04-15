@@ -35,11 +35,13 @@ import platform
 import shutil
 import subprocess
 from pathlib import Path
-from typing import Dict, List, Literal
+from typing import Callable, Dict, List, Literal
 
+from appimage_to_deb_converter import Appimage2debConverter
 from translation_handler import TranslationHandler, run_local
 
 from bitcoin_safe import __version__
+from bitcoin_safe.execute_config import ENABLE_THREADING, ENABLE_TIMERS, IS_PRODUCTION
 from bitcoin_safe.signature_manager import (
     KnownGPGKeys,
     SignatureSigner,
@@ -50,6 +52,10 @@ from tools.release import get_git_tag
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
+
+assert IS_PRODUCTION
+assert ENABLE_THREADING
+assert ENABLE_TIMERS
 
 TARGET_LITERAL = Literal["windows", "mac", "appimage", "deb", "flatpak"]
 
@@ -106,54 +112,43 @@ class Builder:
             return "universal2"  # Defaulting to universal for other cases (as a fallback)
 
     @staticmethod
-    def app_name_formatter(module_name: str) -> str:
+    def app_name_formatter(module_name: str, join_character="-") -> str:
         parts = [s.capitalize() for s in module_name.split("_")]
 
-        return "-".join(parts)
+        return join_character.join(parts)
 
-    # def update_briefcase_requires(
-    #     self,
-    #     pyproject_path="pyproject.toml",
-    #     poetry_lock_path="poetry.lock",
-    #     additional_requires=[],
-    # ):
+    @staticmethod
+    def list_files(directory: str, extension: str) -> List[Path]:
+        """
+        List all files in the given directory with the specified extension.
 
-    #     # Load pyproject.toml
-    #     with open(pyproject_path, "r") as file:
-    #         pyproject_data = tomlkit.load(file)
+        Args:
+            directory (str): The directory to search.
+            extension (str): The file extension to filter by (e.g., '.txt', '.py').
 
-    #     # Load and parse poetry lock file
-    #     with open(poetry_lock_path, "r") as file:
-    #         poetry_lock_data = tomlkit.load(file)
+        Returns:
+            List[Path]: A list of Path objects for files matching the extension.
+        """
+        dir_path = Path(directory)
+        if not dir_path.is_dir():
+            raise ValueError(f"{directory} is not a valid directory.")
+        return list(dir_path.glob(f"*{extension}"))
 
-    #     briefcase_requires = []
-    #     # Extract packages from the lock file
-    #     for package in poetry_lock_data["package"]:
-    #         name = package["name"]
-    #         if name in ["xattr", "poetry"]:
-    #             continue
-    #         version = package["version"]
-    #         if package.get("source"):
-    #             briefcase_requires.append(package.get("source", {}).get("url"))
-    #         else:
-    #             briefcase_requires.append(f"{name}=={version}")
-
-    #     # Append any additional requires
-    #     briefcase_requires.extend(additional_requires)
-
-    #     # Ensure the structure exists before updating it
-    #     pyproject_data.setdefault("tool", {}).setdefault("briefcase", {}).setdefault("app", {}).setdefault(
-    #         "bitcoin-safe", {}
-    #     )["requires"] = briefcase_requires
-
-    #     # update version
-    #     pyproject_data.setdefault("tool", {}).setdefault("briefcase", {})["version"] = self.version
-    #     # update version
-    #     pyproject_data.setdefault("tool", {}).setdefault("poetry", {})["version"] = self.version
-
-    #     # Write updated pyproject.toml
-    #     with open(pyproject_path, "w") as file:
-    #         tomlkit.dump(pyproject_data, file)
+    def appimage2deb(self, **kwargs):
+        for filename in self.list_files(f"dist/", extension=".AppImage"):
+            converter = Appimage2debConverter(
+                appimage=filename,
+                output_deb=filename.with_suffix(".deb"),
+                package_name=self.app_name_formatter(self.module_name).lower(),
+                version=self.version,
+                maintainer="Andreas Griffin <andreasgriffin@proton.me>",
+                description="A bitcoin savings wallet for the entire family.",
+                homepage="https://www.bitcoin-safe.org",
+                desktop_name=self.app_name_formatter(self.module_name, join_character=" "),
+                desktop_icon_name=self.app_name_formatter(self.module_name).lower() + ".svg",
+                desktop_categories="Utility",
+            )
+            converter.convert()
 
     def build_appimage_docker(
         self, no_cache=False, build_commit: None | str | Literal["current_commit"] = "current_commit"
@@ -227,21 +222,21 @@ class Builder:
         run_local(f'docker build {DOCKER_BUILD_FLAGS} -t {docker_image} "{path_build}"')
 
         # Possibly do a fresh clone
-        FRESH_CLONE = False
+        cloned_path: Path | None = None
         if build_commit:
             logger.info(f"BITCOINSAFE_BUILD_COMMIT={build_commit}. Doing fresh clone and git checkout.")
-            FRESH_CLONE = Path(f"/tmp/{docker_image.replace(' ','')}/fresh_clone/bitcoin_safe")
+            cloned_path = Path(f"/tmp/{docker_image.replace(' ','')}/fresh_clone/bitcoin_safe")
             try:
-                run_local(f'rm -rf "{FRESH_CLONE}"')
+                run_local(f'rm -rf "{cloned_path}"')
             except subprocess.CalledProcessError:
                 logger.info("We need sudo to remove previous FRESH_CLONE.")
-                run_local(f'sudo rm -rf "{FRESH_CLONE}"')
+                run_local(f'sudo rm -rf "{cloned_path}"')
             os.umask(0o022)
-            run_local(f'git clone "{PROJECT_ROOT}" "{FRESH_CLONE}"')
-            os.chdir(str(FRESH_CLONE))
+            run_local(f'git clone "{PROJECT_ROOT}" "{cloned_path}"')
+            os.chdir(str(cloned_path))
             run_local(f'git checkout "{build_commit}"')
             os.chdir(original_dir)
-            PROJECT_ROOT_OR_FRESHCLONE_ROOT = FRESH_CLONE
+            PROJECT_ROOT_OR_FRESHCLONE_ROOT = cloned_path
         else:
             logger.info("Not doing fresh clone.")
 
@@ -290,20 +285,20 @@ class Builder:
             logger.info(f"Building within current project")
 
         # Possibly do a fresh clone
-        FRESH_CLONE = False
+        cloned_path: Path | None = None
         if build_commit:
             logger.info(f"BITCOINSAFE_BUILD_COMMIT={build_commit}. Doing fresh clone and git checkout.")
-            FRESH_CLONE = Path(f"/tmp/{build_commit.replace(' ','')}/fresh_clone/bitcoin_safe")
+            cloned_path = Path(f"/tmp/{build_commit.replace(' ','')}/fresh_clone/bitcoin_safe")
             try:
-                run_local(f'rm -rf "{FRESH_CLONE}"')
+                run_local(f'rm -rf "{cloned_path}"')
             except subprocess.CalledProcessError:
                 logger.info("We need sudo to remove previous FRESH_CLONE.")
-                run_local(f'sudo rm -rf "{FRESH_CLONE}"')
+                run_local(f'sudo rm -rf "{cloned_path}"')
             os.umask(0o022)
-            run_local(f'git clone "{PROJECT_ROOT}" "{FRESH_CLONE}"')
-            os.chdir(str(FRESH_CLONE))
+            run_local(f'git clone "{PROJECT_ROOT}" "{cloned_path}"')
+            os.chdir(str(cloned_path))
             run_local(f'git checkout "{build_commit}"')
-            PROJECT_ROOT_OR_FRESHCLONE_ROOT = FRESH_CLONE
+            PROJECT_ROOT_OR_FRESHCLONE_ROOT = cloned_path
         else:
             logger.info("Not doing fresh clone.")
 
@@ -326,40 +321,17 @@ class Builder:
                 # Perform the move
                 shutil.move(str(file), str(DISTDIR / new_name))
 
-    # def briefcase_appimage(self, **kwargs):
-    #     # briefcase appimage building works on some systems, but not on others... unknown why.
-    #     # so we build using the bitcoin_safe docker by default
-    #     run_local("poetry run briefcase -u  package    linux  appimage")
-
-    # def briefcase_windows(self, **kwargs):
-    #     run_local("poetry run briefcase -u  package    windows")
-
-    # def briefcase_mac(self, **kwargs):
-    #     run_local("python3 -m poetry run   briefcase -u  package    macOS  app --no-notarize")
-
-    # def briefcase_deb(self, **kwargs):
-    #     # _run_local(" briefcase -u  package --target ubuntu:23.10") # no bdkpython for python3.11
-    #     # _run_local(" briefcase -u  package --target ubuntu:23.04") # no bdkpython for python3.11
-    #     run_local("poetry run briefcase -u  package --target ubuntu:22.04 -p deb")
-
-    # def briefcase_flatpak(self, **kwargs):
-    #     run_local("poetry run briefcase   package linux flatpak")
-
-    #     shutil.rmtree("build")
-
     def package_application(
         self,
         targets: List[TARGET_LITERAL],
         build_commit: None | str | Literal["current_commit"] = None,
     ):
-        # self.update_briefcase_requires()
 
-        f_map = {
+        f_map: Dict[str, Callable[..., None]] = {
             "appimage": self.build_appimage_docker,
             "windows": self.build_windows_exe_and_installer_docker,
             "mac": self.build_dmg,
-            # "deb": self.briefcase_deb,
-            # "flatpak": self.briefcase_flatpak,
+            "deb": self.appimage2deb,
             "snap": self.build_snap,
         }
 
@@ -371,16 +343,6 @@ class Builder:
         print(f"Resulting hashes:")
         for file, hash in hashes.items():
             print(f"{file.name}: {hash}")
-
-        # if "linux" in targets:
-        #     self.create_briefcase_binaries_in_docker(target_platform="linux")
-        # if "windows" in targets:
-        #     self.create_pyinstaller_binaries_in_docker(target_platform="windows")
-        # # if "macos" in targets:
-        # #     self.create_pyinstaller_binaries_in_docker(target_platform="macos")
-
-        # if "appimage" in targets:
-        #     self.create_appimage_with_appimage_tool()
 
         print(f"Packaging completed for version {self.version}.")
 
@@ -398,9 +360,7 @@ class Builder:
         run_local("poetry lock --no-cache --no-update")
 
     def verify(self, signed_files: List[Path]):
-        manager = SignatureVerifyer(
-            list_of_known_keys=[KnownGPGKeys.andreasgriffin],
-        )
+        manager = SignatureVerifyer(list_of_known_keys=[KnownGPGKeys.andreasgriffin], proxies=None)
 
         assert signed_files
         for filepath in signed_files:
@@ -525,7 +485,7 @@ def get_default_targets() -> List[TARGET_LITERAL]:
         return [
             "appimage",
             # "flatpak",
-            # "deb",
+            "deb",
         ]
     elif platform.system() == "Darwin":
         return ["mac"]
@@ -553,6 +513,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "--update_translations", action="store_true", help="Updates the translation locales files"
     )
+    parser.add_argument(
+        "--insert_chatgpt_translations",
+        action="store_true",
+        help="Pastes the chatgpt translations into the csv files",
+    )
     parser.add_argument("--csv_to_ts", action="store_true", help="Overwrites the ts files with csv as source")
     parser.add_argument(
         "--lock",
@@ -576,7 +541,7 @@ if __name__ == "__main__":
             targets = get_default_targets()
         else:
             print(f"--targets was given with the values: {args.targets}")
-            targets = [t.replace(",", "") for t in targets]
+            targets = [t.replace(",", "") for t in targets]  # type: ignore
 
         builder = Builder(module_name="bitcoin_safe", clean_all=args.clean)
         builder.package_application(targets=targets, build_commit=args.commit)
@@ -587,6 +552,9 @@ if __name__ == "__main__":
     if args.csv_to_ts:
         translation_handler = TranslationHandler(module_name="bitcoin_safe")
         translation_handler.csv_to_ts()
+    if args.insert_chatgpt_translations:
+        translation_handler = TranslationHandler(module_name="bitcoin_safe")
+        translation_handler.insert_chatgpt_translations()
 
     if args.sign:
         builder = Builder(module_name="bitcoin_safe", clean_all=args.clean)

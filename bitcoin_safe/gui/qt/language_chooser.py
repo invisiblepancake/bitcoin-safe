@@ -28,14 +28,8 @@
 
 
 import logging
-
-from bitcoin_safe.gui.qt.util import read_QIcon
-from bitcoin_safe.gui.qt.wrappers import Menu
-from bitcoin_safe.typestubs import TypedPyQtSignalNo
-
-logger = logging.getLogger(__name__)
-
 import os
+from functools import partial
 from typing import Dict, List, Optional
 
 from PyQt6.QtCore import QLibraryInfo, QLocale, QObject, Qt, QTranslator
@@ -50,6 +44,12 @@ from PyQt6.QtWidgets import (
 )
 
 from bitcoin_safe.config import UserConfig
+from bitcoin_safe.execute_config import DEFAULT_LANG_CODE
+from bitcoin_safe.gui.qt.util import read_QIcon
+from bitcoin_safe.gui.qt.wrappers import Menu
+from bitcoin_safe.typestubs import TypedPyQtSignalNo
+
+logger = logging.getLogger(__name__)
 
 FLAGS = {
     "en_US": "🇺🇸",
@@ -107,6 +107,9 @@ FLAGS = {
     "kn_IN": "🇮🇳",
     "mr_IN": "🇮🇳",
     "pa_IN": "🇮🇳",
+    "my_MM": "🇲🇲",
+    "lo_LA": "🇱🇦",
+    "ca_ES": "🇪🇸",
 }
 
 
@@ -160,11 +163,11 @@ class LanguageChooser(QObject):
         self.config = config
         self.signals_language_switch = signals_language_switch
         self.installed_translators: List[QTranslator] = []
-        self.current_language_code: str = "en_US"
+        self.current_language_code: str = DEFAULT_LANG_CODE
 
         # Start with default language (English) in the list
         self.availableLanguages = {"en_US": QLocale("en_US").nativeLanguageName()}
-        logger.debug(f"initialized {self}")
+        logger.debug(f"initialized {self.__class__.__name__}")
 
     @staticmethod
     def create_flag_icon(unicode_flag: str, size: int = 32) -> QIcon:
@@ -191,7 +194,7 @@ class LanguageChooser(QObject):
     def default_lang(self) -> str:
         return list(self.availableLanguages.keys())[0]
 
-    def dialog_choose_language(self, parent) -> str:
+    def dialog_choose_language(self, parent: QWidget) -> str:
         logger.debug(f"dialog_choose_language")
         dialog = LanguageDialog(self.get_languages(), parent)
         lang = dialog.choose_language()
@@ -207,16 +210,10 @@ class LanguageChooser(QObject):
     def populate_language_menu(self, language_menu: Menu) -> None:
         language_menu.clear()
 
-        # Menu Bar for language selection
-        def factory(lang):
-            def f(lang=lang):
-                self.switchLanguage(langCode=lang)
-
-            return f
-
         for lang, name in self.get_languages().items():
             icon = self.create_flag_icon(FLAGS[lang]) if lang in FLAGS else QIcon()
-            language_menu.add_action(text=name, slot=factory(lang), icon=icon)
+            action = partial(self.switchLanguage, lang)
+            language_menu.add_action(text=name, slot=action, icon=icon)
 
     def scanForLanguages(self) -> Dict[str, str]:
         languages: Dict[str, str] = {}
@@ -245,8 +242,15 @@ class LanguageChooser(QObject):
             instance.installTranslator(translator_qt)
             self.installed_translators.append(translator_qt)
 
+    def get_os_language_code(self) -> str:
+        # Retrieve the system locale
+        locale = QLocale.system()
+        # get the locale code (e.g., "en_US")
+        locale_code = locale.name()
+        return locale_code
+
     def set_language(self, langCode: Optional[str]) -> None:
-        langCode = langCode if langCode else "en_US"
+        langCode = langCode if langCode else DEFAULT_LANG_CODE
         # remove all installed translators
         instance = QApplication.instance()
         while self.installed_translators and instance:

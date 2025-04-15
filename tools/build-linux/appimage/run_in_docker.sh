@@ -26,6 +26,7 @@ PY_VER_MAJOR="3.10"  # as it appears in fs paths
 PKG2APPIMAGE_COMMIT="a9c85b7e61a3a883f4a35c41c5decb5af88b6b5d"
 
 VERSION=$(git describe --tags --dirty --always)
+list_dirty_files
 APPIMAGE="$DISTDIR/bitcoin_safe-$VERSION-x86_64.AppImage"
 
 rm -rf "$BUILDDIR"
@@ -134,6 +135,7 @@ mv "$PROJECT_ROOT/.original.venv" "$PROJECT_ROOT/.venv" # moving the .venv back
 info "copying zbar"
 mkdir -p "$APPDIR/usr/lib/"
 cp /usr/lib/x86_64-linux-gnu/libzbar* "$APPDIR/usr/lib/"
+cp /usr/lib/x86_64-linux-gnu/libzbar.so.0 "$APPDIR/usr/lib/libzbar.so"  # otherwise it is not detected
 
 info "copying libsecp256k1"
 cp -f /usr/lib/x86_64-linux-gnu/libsecp256k1.so* "$APPDIR/usr/lib/" || fail "Could not copy libsecp to its destination"
@@ -233,6 +235,7 @@ rm -rf "$PYDIR"/site-packages/*.dist-info/
 rm -rf "$PYDIR"/site-packages/*.egg-info/
 
 
+export TZ=UTC
 find -exec touch -h -d '2000-11-11T11:11:11+00:00' {} +
 
 

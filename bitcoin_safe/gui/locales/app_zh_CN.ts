@@ -2,6 +2,21 @@
 <!DOCTYPE TS>
 <TS>
 <context>
+    <name>AbstractSignatureImporter</name>
+    <message>
+        <source>The txid of the signed psbt doesnt match the original txid</source>
+        <translation>已签名的psbt的交易标识符与原始交易标识符不匹配</translation>
+    </message>
+    <message>
+        <source>No additional signatures were added</source>
+        <translation>没有添加额外的签名  </translation>
+    </message>
+    <message>
+        <source>bitcoin_tx libary error. The txid should not be changed during finalizing</source>
+        <translation>bitcoin_tx库错误。在完成过程中不应更改txid</translation>
+    </message>
+</context>
+<context>
     <name>AddressAnalyzer</name>
     <message>
         <source>Missing Address</source>
@@ -18,10 +33,6 @@
 </context>
 <context>
     <name>AddressDetailsAdvanced</name>
-    <message>
-        <source>Script Pubkey</source>
-        <translation>脚本公钥</translation>
-    </message>
     <message>
         <source>Address descriptor</source>
         <translation>地址描述</translation>
@@ -82,6 +93,10 @@
     <message>
         <source>Copy as csv</source>
         <translation>复制为csv</translation>
+    </message>
+    <message>
+        <source>Set category</source>
+        <translation>设置类别</translation>
     </message>
     <message>
         <source>Tx</source>
@@ -202,6 +217,21 @@
     </message>
 </context>
 <context>
+    <name>BaseDeviceItem</name>
+    <message>
+        <source>Rename</source>
+        <translation>重命名</translation>
+    </message>
+    <message>
+        <source>Enter a name of device with {npub}</source>
+        <translation>输入设备的名称，带有 {npub}</translation>
+    </message>
+    <message>
+        <source>Device name</source>
+        <translation>设备名称</translation>
+    </message>
+</context>
+<context>
     <name>BaseHardwareSignerInteractionWidget</name>
     <message>
         <source>Help</source>
@@ -222,17 +252,16 @@
         <source>To complete the connection, accept my {id} request on the other device {other}.</source>
         <translation>为了完成连接，请在另一设备{other}上接受我的{id}请求。  </translation>
     </message>
+    <message>
+        <source>Enter a name of device with {npub}</source>
+        <translation>输入设备的名称，带有 {npub}</translation>
+    </message>
 </context>
 <context>
-    <name>BitBox02PairingDialog</name>
+    <name>BitcoinDmChatGui</name>
     <message>
-        <source>Dialog</source>
-        <translation>对话  </translation>
-    </message>
-    <message>
-        <source>Please verify the pairing code matches what is
-shown on your BitBox02.</source>
-        <translation>请验证配对代码与您的BitBox02上显示的是否匹配。  </translation>
+        <source>Me</source>
+        <translation>我</translation>
     </message>
 </context>
 <context>
@@ -259,13 +288,13 @@ shown on your BitBox02.</source>
 <context>
     <name>BuyHardware</name>
     <message>
-        <source>Buy {number} hardware signers.                            
+        <source>Buy {number} hardware signers                         
                         &lt;ul&gt;
-                            &lt;li&gt;Most secure is to buy from different reputable vendors&lt;/li&gt; 
-                            &lt;li&gt;Great choices are:&lt;/li&gt; 
+                            {different_hint} 
+                            &lt;li&gt;Bitcoin Safe supports all major hardware signers: &lt;a href=&quot;{url}&quot;&gt;See full list&lt;/a&gt;&lt;/li&gt;                             
                         &lt;/ul&gt;
                            </source>
-        <translation>购买{number}硬件签名器。最安全的购买方式是从不同的信誉供应商购买，好的选择包括：  </translation>
+        <translation>购买 {number} 硬件签名器                                                  &lt;ul&gt;                             {different_hint}                              &lt;li&gt;Bitcoin Safe 支持所有主要硬件签名器：&lt;a href=&quot;{url}&quot;&gt;查看完整列表&lt;/a&gt;&lt;/li&gt;                                                      &lt;/ul&gt;                            </translation>
     </message>
     <message>
         <source>Buy a {name}</source>
@@ -280,9 +309,8 @@ shown on your BitBox02.</source>
         <translation>购买Coldcard Q  </translation>
     </message>
     <message>
-        <source>Buy a Blockstream Jade
-10% off</source>
-        <translation>购买Blockstream Jade，享受10%的折扣  </translation>
+        <source>Buy a Blockstream Jade</source>
+        <translation>购买 Blockstream Jade  </translation>
     </message>
 </context>
 <context>
@@ -329,10 +357,6 @@ shown on your BitBox02.</source>
         <source>All Files (*);;PSBT (*.psbt);;Transation (*.tx)</source>
         <translation>所有文件 (*);;PSBT (*.psbt);;交易 (*.tx)</translation>
     </message>
-    <message>
-        <source>Me: {text}</source>
-        <translation>我：{text}  </translation>
-    </message>
 </context>
 <context>
     <name>CloseButton</name>
@@ -346,29 +370,6 @@ shown on your BitBox02.</source>
     <message>
         <source>Block {n}</source>
         <translation>区块 {n}</translation>
-    </message>
-</context>
-<context>
-    <name>CopyToolButton</name>
-    <message>
-        <source>Not available</source>
-        <translation>不可用</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>复制到剪贴板</translation>
-    </message>
-    <message>
-        <source>Copy {name}</source>
-        <translation>复制{name}</translation>
-    </message>
-    <message>
-        <source>Copy TxId</source>
-        <translation>复制交易标识符</translation>
-    </message>
-    <message>
-        <source>Copy JSON</source>
-        <translation>复制JSON</translation>
     </message>
 </context>
 <context>
@@ -427,6 +428,10 @@ Please back up this descriptor to be able to recover the funds!</source>
         <translation>这个“描述”包含重建钱包所需的所有信息。请备份此描述以便能够恢复资金！</translation>
     </message>
     <message>
+        <source>Descriptor unchanged</source>
+        <translation>描述符未更改  </translation>
+    </message>
+    <message>
         <source>New descriptor entered</source>
         <translation>输入了新的描述符  </translation>
     </message>
@@ -439,34 +444,14 @@ Please back up this descriptor to be able to recover the funds!</source>
     </message>
 </context>
 <context>
-    <name>DisplayAddressDialog</name>
+    <name>DeviceManager</name>
     <message>
-        <source>Dialog</source>
-        <translation>对话  </translation>
+        <source>Trusted</source>
+        <translation>信任  </translation>
     </message>
     <message>
-        <source>P2SH-P2WPKH</source>
-        <translation>P2SH-P2WPKH（一种比特币地址类型）</translation>
-    </message>
-    <message>
-        <source>P2WPKH</source>
-        <translation>P2WPKH  </translation>
-    </message>
-    <message>
-        <source>P2PKH</source>
-        <translation>P2PKH(一种比特币地址类型)</translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation>地址</translation>
-    </message>
-    <message>
-        <source>Go</source>
-        <translation>前往  </translation>
-    </message>
-    <message>
-        <source>Derivation Path</source>
-        <translation>推导路径  </translation>
+        <source>Untrusted</source>
+        <translation>不受信任  </translation>
     </message>
 </context>
 <context>
@@ -603,12 +588,28 @@ the sending value {sent}</source>
 <context>
     <name>FileToolButton</name>
     <message>
-        <source>Export file</source>
-        <translation>导出文件</translation>
+        <source>Export</source>
+        <translation>导出  </translation>
+    </message>
+    <message>
+        <source>Copy {name}</source>
+        <translation>复制{name}</translation>
+    </message>
+    <message>
+        <source>Copy TxId</source>
+        <translation>复制交易标识符</translation>
+    </message>
+    <message>
+        <source>Copy JSON</source>
+        <translation>复制JSON</translation>
     </message>
     <message>
         <source>Export to file</source>
         <translation>导出到文件  </translation>
+    </message>
+    <message>
+        <source>Not available</source>
+        <translation>不可用</translation>
     </message>
 </context>
 <context>
@@ -633,8 +634,8 @@ the sending value {sent}</source>
         <translation>创建交易</translation>
     </message>
     <message>
-        <source>Prefill Transaction again</source>
-        <translation>再次预填交易  </translation>
+        <source>Retry</source>
+        <translation>重试  </translation>
     </message>
     <message>
         <source>Yes, I see the transaction in the history</source>
@@ -666,72 +667,6 @@ the sending value {sent}</source>
     <message>
         <source>Success! Please complete this step with all hardware signers and then click Next.</source>
         <translation>成功！请用所有硬件签名者完成此步骤，然后点击下一步。  </translation>
-    </message>
-</context>
-<context>
-    <name>GetKeypoolOptionsDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>对话  </translation>
-    </message>
-    <message>
-        <source>Path</source>
-        <translation>路径  </translation>
-    </message>
-    <message>
-        <source>m/0&apos;/0&apos;/*</source>
-        <translation>m/0&apos;/0&apos;/*  </translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation>开始  </translation>
-    </message>
-    <message>
-        <source>End</source>
-        <translation>结束  </translation>
-    </message>
-    <message>
-        <source>Internal</source>
-        <translation>内部  </translation>
-    </message>
-    <message>
-        <source>keypool</source>
-        <translation>keypool  </translation>
-    </message>
-    <message>
-        <source>P2SH-P2WPKH</source>
-        <translation>P2SH-P2WPKH（一种比特币地址类型）</translation>
-    </message>
-    <message>
-        <source>P2WPKH</source>
-        <translation>P2WPKH  </translation>
-    </message>
-    <message>
-        <source>P2PKH</source>
-        <translation>P2PKH(一种比特币地址类型)</translation>
-    </message>
-    <message>
-        <source>Account</source>
-        <translation>账户  </translation>
-    </message>
-</context>
-<context>
-    <name>GetXpubDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>对话  </translation>
-    </message>
-    <message>
-        <source>Derivation Path</source>
-        <translation>推导路径  </translation>
-    </message>
-    <message>
-        <source>Get xpub</source>
-        <translation>获取xpub  </translation>
-    </message>
-    <message>
-        <source>xpub</source>
-        <translation>xpub  </translation>
     </message>
 </context>
 <context>
@@ -793,6 +728,41 @@ the sending value {sent}</source>
     </message>
 </context>
 <context>
+    <name>HorizontalImportExportClipboard</name>
+    <message>
+        <source>Share</source>
+        <translation>分享  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportFile</name>
+    <message>
+        <source>File</source>
+        <translation>文件  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportQR</name>
+    <message>
+        <source>QR</source>
+        <translation>QR  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportUSB</name>
+    <message>
+        <source>USB</source>
+        <translation>USB  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportWallet</name>
+    <message>
+        <source>Seed</source>
+        <translation>助记词种子</translation>
+    </message>
+</context>
+<context>
     <name>ImportXpubs</name>
     <message>
         <source>2. Import wallet information into Bitcoin Safe</source>
@@ -826,6 +796,14 @@ the sending value {sent}</source>
         <translation>缺失关键来源  </translation>
     </message>
     <message>
+        <source>The provided information is for {key_origin_network}. Please provide xPub for network {network}</source>
+        <translation>提供的信息是针对 {key_origin_network} 的。请提供 {network} 网络的 xPub  </translation>
+    </message>
+    <message>
+        <source>The provided account {provided_account} differs from the default account {default_account}.</source>
+        <translation>提供的账户 {provided_account} 与默认账户 {default_account} 不同。  </translation>
+    </message>
+    <message>
         <source>Unexpected key origin</source>
         <translation>意外的关键来源  </translation>
     </message>
@@ -835,10 +813,6 @@ the sending value {sent}</source>
     <message>
         <source>Import fingerprint and xpub</source>
         <translation>导入指纹和xpub</translation>
-    </message>
-    <message>
-        <source>Please paste descriptors into the descriptor field in the top right.</source>
-        <translation>请将描述粘贴到右上角的描述字段中。</translation>
     </message>
     <message>
         <source>{data_type} cannot be used here.</source>
@@ -877,18 +851,22 @@ the sending value {sent}</source>
         <translation>助记词种子</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>确定</translation>
-    </message>
-    <message>
         <source>Name of signing device: ......
 Location of signing device: .....</source>
         <translation>签名设备名称：...... 
 签名设备位置：......</translation>
     </message>
     <message>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
+    <message>
         <source>Please ensure that there are no other programs accessing the Hardware signer</source>
         <translation>请确保没有其他程序访问硬件签名器</translation>
+    </message>
+    <message>
+        <source>Please enter a valid key origin.</source>
+        <translation>请输入有效的密钥来源。  </translation>
     </message>
     <message>
         <source>{xpub} is not a valid public xpub</source>
@@ -907,24 +885,25 @@ Location of signing device: .....</source>
         <translation>请粘贴导出的文件（如sparrow-export.json）  </translation>
     </message>
     <message>
-        <source>Standart for the selected address type {type} is {expected_key_origin}.  Please correct if you are not sure.</source>
-        <translation>选定地址类型 {type} 的标准是 {expected_key_origin}。如果您不确定，请进行更正。</translation>
+        <source>Standard for the selected address type {type} is {expected_key_origin}.  Please correct if you are not sure.</source>
+        <translation>选定的地址类型 {type} 的标准是 {expected_key_origin}。如果不确定，请更正。  </translation>
     </message>
     <message>
         <source>The xPub origin {key_origin} and the xPub belong together. Please choose the correct xPub origin pair.</source>
         <translation>xPub来源 {key_origin} 与xPub属于一对，请选择正确的xPub来源配对。</translation>
     </message>
     <message>
-        <source>The provided information is for {key_origin_network}. Please provide xPub for network {network}</source>
-        <translation>提供的信息是针对 {key_origin_network} 的。请提供 {network} 网络的 xPub  </translation>
-    </message>
-    <message>
-        <source>The xPub Origin {key_origin} is not the expected {expected_key_origin} for {address_type}</source>
-        <translation>xPub起源{key_origin}不是{address_type}的预期{expected_key_origin}</translation>
+        <source>{msg}
+Do you want to proceed anyway?</source>
+        <translation>{msg} 无论如何您还想继续吗？  </translation>
     </message>
     <message>
         <source>No signer data for the expected key_origin {expected_key_origin} found.</source>
         <translation>没有找到期望的关键来源 {expected_key_origin} 的签名数据。</translation>
+    </message>
+    <message>
+        <source>Please paste descriptors into the descriptor field in the top right.</source>
+        <translation>请将描述粘贴到右上角的描述字段中。</translation>
     </message>
 </context>
 <context>
@@ -1148,24 +1127,32 @@ Location of signing device: .....</source>
         <translation>所有文件 (*);;PSBT (*.psbt);;交易 (*.tx)</translation>
     </message>
     <message>
-        <source>Selected file: {file_path}</source>
-        <translation>选中的文件：{file_path}</translation>
+        <source>No file selected</source>
+        <translation>未选择文件  </translation>
     </message>
     <message>
         <source>&amp;New Wallet</source>
         <translation>&amp;新建钱包</translation>
     </message>
     <message>
-        <source>No wallet open. Please open the sender wallet to edit this thransaction.</source>
-        <translation>没有打开钱包。请打开发送者钱包以编辑此交易。</translation>
+        <source>Selected file: {file_path}</source>
+        <translation>选中的文件：{file_path}</translation>
     </message>
     <message>
-        <source> Please open the sender wallet to edit this thransaction.</source>
-        <translation>请打开发送者钱包以编辑此交易。</translation>
+        <source>No wallet open. Please open the sender wallet to edit this transaction.</source>
+        <translation>没有打开钱包。请打开发件人钱包以编辑此交易。  </translation>
+    </message>
+    <message>
+        <source> Please open the sender wallet to edit this transaction.</source>
+        <translation>请打开发件人钱包以编辑此交易。  </translation>
     </message>
     <message>
         <source>Could not decode this string</source>
         <translation>无法解码此字符串  </translation>
+    </message>
+    <message>
+        <source>Signed Message</source>
+        <translation>已签名消息  </translation>
     </message>
     <message>
         <source>Open Transaction or PSBT</source>
@@ -1188,16 +1175,16 @@ Location of signing device: .....</source>
         <translation>交易 {txid}</translation>
     </message>
     <message>
+        <source>&amp;Open Wallet</source>
+        <translation>&amp;打开钱包</translation>
+    </message>
+    <message>
         <source>PSBT {txid}</source>
         <translation>PSBT {txid}</translation>
     </message>
     <message>
         <source>Open Wallet</source>
         <translation>打开钱包</translation>
-    </message>
-    <message>
-        <source>&amp;Open Wallet</source>
-        <translation>&amp;打开钱包</translation>
     </message>
     <message>
         <source>Wallet Files (*.wallet);;All Files (*)</source>
@@ -1232,16 +1219,16 @@ Location of signing device: .....</source>
         <translation>新的</translation>
     </message>
     <message>
+        <source>Open &amp;Recent</source>
+        <translation>打开&amp;最近</translation>
+    </message>
+    <message>
         <source>A wallet with id {name} is already open.  </source>
         <translation>一个ID为 {name} 的钱包已经打开。</translation>
     </message>
     <message>
         <source>Please complete the wallet setup.</source>
         <translation>请完成钱包设置。</translation>
-    </message>
-    <message>
-        <source>Open &amp;Recent</source>
-        <translation>打开&amp;最近</translation>
     </message>
     <message>
         <source>Close wallet {id}?</source>
@@ -1268,72 +1255,12 @@ Location of signing device: .....</source>
         <translation>正在关闭标签页 {name}</translation>
     </message>
     <message>
-        <source>MainWindow</source>
-        <translation>主窗口  </translation>
-    </message>
-    <message>
-        <source>Connected devices</source>
-        <translation>已连接设备  </translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <translation>刷新  </translation>
-    </message>
-    <message>
-        <source>Set Passphrase</source>
-        <translation>设置密码短语  </translation>
-    </message>
-    <message>
         <source>&amp;Save Current Wallet</source>
         <translation>&amp;保存当前钱包</translation>
     </message>
     <message>
-        <source>Get an xpub</source>
-        <translation>获取一个xpub  </translation>
-    </message>
-    <message>
-        <source>Sign Message</source>
-        <translation>签名消息  </translation>
-    </message>
-    <message>
-        <source>Sign PSBT</source>
-        <translation>签署PSBT  </translation>
-    </message>
-    <message>
-        <source>Change the options used for getkeypool</source>
-        <translation>更改用于getkeypool的选项  </translation>
-    </message>
-    <message>
-        <source>Change getkeypool options</source>
-        <translation>更改getkeypool选项  </translation>
-    </message>
-    <message>
-        <source>Send Pin</source>
-        <translation>发送Pin  </translation>
-    </message>
-    <message>
-        <source>Toggle Passphrase</source>
-        <translation>切换密码短语  </translation>
-    </message>
-    <message>
-        <source>Display Address</source>
-        <translation>显示地址  </translation>
-    </message>
-    <message>
-        <source>Actions</source>
-        <translation>操作  </translation>
-    </message>
-    <message>
-        <source>Keypool</source>
-        <translation>密钥池 </translation>
-    </message>
-    <message>
         <source>&amp;Search</source>
         <translation>&amp;搜索  </translation>
-    </message>
-    <message>
-        <source>Descriptors</source>
-        <translation>描述符  </translation>
     </message>
     <message>
         <source>&amp;Change</source>
@@ -1363,13 +1290,6 @@ Location of signing device: .....</source>
     </message>
 </context>
 <context>
-    <name>MultiLineListView</name>
-    <message>
-        <source>Delete all messages</source>
-        <translation>删除所有消息  </translation>
-    </message>
-</context>
-<context>
     <name>MyTreeView</name>
     <message>
         <source>Copy as csv</source>
@@ -1387,12 +1307,20 @@ Location of signing device: .....</source>
         <source>All Files (*);;Text Files (*.csv)</source>
         <translation>所有文件 (*);;文本文件 (*.csv)  </translation>
     </message>
+    <message>
+        <source>No file selected</source>
+        <translation>未选择文件  </translation>
+    </message>
 </context>
 <context>
     <name>NetworkSettingsUI</name>
     <message>
         <source>Advanced</source>
         <translation>高级</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>端口：</translation>
     </message>
     <message>
         <source>Mode:</source>
@@ -1415,6 +1343,14 @@ Location of signing device: .....</source>
         <translation>Mempool实例URL</translation>
     </message>
     <message>
+        <source>The proxy does not apply to the Sync&amp;Chat feature!</source>
+        <translation>代理不适用于同步和聊天功能！  </translation>
+    </message>
+    <message>
+        <source>Proxy:</source>
+        <translation>代理：  </translation>
+    </message>
+    <message>
         <source>Apply &amp;&amp; Shutdown</source>
         <translation>应用&amp;&amp;关闭  </translation>
     </message>
@@ -1427,6 +1363,26 @@ Location of signing device: .....</source>
     Mempool实例：{server}</translation>
     </message>
     <message>
+        <source>Automatic</source>
+        <translation>自动</translation>
+    </message>
+    <message>
+        <source>Please remove the &apos;{scheme}&apos; from the electrum url</source>
+        <translation>请从 electrum 网址中移除 &apos;{scheme}&apos;</translation>
+    </message>
+    <message>
+        <source>Are you sure &apos;{scheme}&apos; is correct in the esplora url?</source>
+        <translation>您确定 &apos;{scheme}&apos; 在 esplora 网址中是正确的吗？</translation>
+    </message>
+    <message>
+        <source>The format for tor addresses should be &apos;{scheme}&apos;</source>
+        <translation>tor 地址的格式应该是 &apos;{scheme}&apos;</translation>
+    </message>
+    <message>
+        <source>Please try &apos;{scheme}&apos; at the beginning of the mempool url</source>
+        <translation>请在 mempool 网址的开头尝试 &apos;{scheme}&apos;</translation>
+    </message>
+    <message>
         <source>Error in server connection.
 {responses}
 
@@ -1435,10 +1391,6 @@ Location of signing device: .....</source>
 {responses}
 
 您还要继续吗？</translation>
-    </message>
-    <message>
-        <source>Automatic</source>
-        <translation>自动</translation>
     </message>
     <message>
         <source>Test Connection</source>
@@ -1453,20 +1405,20 @@ Location of signing device: .....</source>
         <translation>区块链数据源</translation>
     </message>
     <message>
-        <source>Enable SSL</source>
-        <translation>启用SSL</translation>
-    </message>
-    <message>
         <source>URL:</source>
         <translation>URL：</translation>
     </message>
     <message>
-        <source>SSL:</source>
-        <translation>SSL：</translation>
+        <source>Press ⬇ arrow key for suggestions</source>
+        <translation>按 ⬇ 键获取建议  </translation>
     </message>
     <message>
-        <source>Port:</source>
-        <translation>端口：</translation>
+        <source>Enable SSL</source>
+        <translation>启用SSL</translation>
+    </message>
+    <message>
+        <source>SSL:</source>
+        <translation>SSL：</translation>
     </message>
 </context>
 <context>
@@ -1508,8 +1460,8 @@ Location of signing device: .....</source>
         <translation>选择多重签名</translation>
     </message>
     <message>
-        <source>Custom or restore existing Wallet</source>
-        <translation>自定义或恢复现有钱包</translation>
+        <source>Custom or import existing Wallet</source>
+        <translation>自定义或导入现有钱包</translation>
     </message>
     <message>
         <source>Customize the wallet to your needs</source>
@@ -1640,6 +1592,13 @@ Location of signing device: .....</source>
     </message>
 </context>
 <context>
+    <name>PoisoningWarningBar</name>
+    <message>
+        <source>Warning! This transaction involves deceptively similar addresses. It may be an address poisoning attack. Similar addresses are  &lt;br&gt;{addresses}.&lt;br&gt; Double-check all transaction details carefully!</source>
+        <translation>警告！此交易涉及外观相似的地址。这可能是一个地址投毒攻击。相似的地址是 &lt;br&gt;{addresses}.&lt;br&gt; 仔细核对所有交易详情！</translation>
+    </message>
+</context>
+<context>
     <name>QTProtoWallet</name>
     <message>
         <source>Setup wallet</source>
@@ -1673,6 +1632,10 @@ Location of signing device: .....</source>
         <translation>删除钱包  </translation>
     </message>
     <message>
+        <source>No file selected</source>
+        <translation>未选择文件  </translation>
+    </message>
+    <message>
         <source>Password incorrect</source>
         <translation>密码错误</translation>
     </message>
@@ -1689,12 +1652,12 @@ Location of signing device: .....</source>
         <translation>钱包已保存</translation>
     </message>
     <message>
-        <source>  {amount} in {shortid}</source>
-        <translation>  {amount} 在 {shortid}</translation>
-    </message>
-    <message>
         <source>Descriptor</source>
         <translation>描述</translation>
+    </message>
+    <message>
+        <source>  {amount} in {shortid}</source>
+        <translation>  {amount} 在 {shortid}</translation>
     </message>
     <message>
         <source>The transactions 
@@ -1725,8 +1688,36 @@ Location of signing device: .....</source>
         <translation>选择一个新名称，或一个已有名称以进行合并：</translation>
     </message>
     <message>
+        <source>Syncing with {server}</source>
+        <translation>与 {server} 同步  </translation>
+    </message>
+    <message>
+        <source>Connected to {server}</source>
+        <translation>已连接到 {server}  </translation>
+    </message>
+    <message>
+        <source>Disconnected from {server}</source>
+        <translation>已从 {server} 断开  </translation>
+    </message>
+    <message>
+        <source>Sync &amp;&amp; Chat</source>
+        <translation>同步 &amp;&amp; 聊天  </translation>
+    </message>
+    <message>
         <source>Click for new address</source>
         <translation>点击获取新地址</translation>
+    </message>
+    <message>
+        <source>{num_inputs} Inputs: {inputs}</source>
+        <translation>{num_inputs} 输入：{inputs}</translation>
+    </message>
+    <message>
+        <source>start updating lists</source>
+        <translation>开始更新列表  </translation>
+    </message>
+    <message>
+        <source>finished updating lists</source>
+        <translation>完成列表更新  </translation>
     </message>
     <message>
         <source>Export labels</source>
@@ -1741,10 +1732,6 @@ Location of signing device: .....</source>
         <translation>导入标签</translation>
     </message>
     <message>
-        <source>Sync &amp;&amp; Chat</source>
-        <translation>同步 &amp;&amp; 聊天  </translation>
-    </message>
-    <message>
         <source>All Files (*);;JSONL Files (*.jsonl);;JSON Files (*.json)</source>
         <translation>所有文件 (*);;JSONL 文件 (*.jsonl);;JSON 文件 (*.json)</translation>
     </message>
@@ -1757,12 +1744,12 @@ Location of signing device: .....</source>
         <translation>导入 Electrum 钱包标签</translation>
     </message>
     <message>
-        <source>All Files (*);;JSON Files (*.json)</source>
-        <translation>所有文件 (*);;JSON 文件 (*.json)</translation>
-    </message>
-    <message>
         <source>History</source>
         <translation>历史记录</translation>
+    </message>
+    <message>
+        <source>All Files (*);;JSON Files (*.json)</source>
+        <translation>所有文件 (*);;JSON 文件 (*.json)</translation>
     </message>
     <message>
         <source>Receive</source>
@@ -1811,9 +1798,9 @@ Location of signing device: .....</source>
                     So before you send a substantial amount of Bitcoin into the wallet, it is &lt;b&gt;crucial&lt;/b&gt; to spend from the wallet and test all signers.     
                     &lt;br&gt;
                     &lt;br&gt;
-                    &lt;b&gt;Do NOT send in large funds into the wallet before you didn&apos;t complete all send tests!&lt;/b&gt;   
+                    &lt;b&gt;Do NOT send large funds into the wallet, yet. Please complete all send tests first!&lt;/b&gt;   
                     </source>
-        <translation>收到一笔&lt;b&gt;小额&lt;/b&gt;（少于{test_amount}）到此钱包的1个地址。&lt;br&gt;&lt;br&gt;&lt;b&gt;为什么？&lt;/b&gt;&lt;br&gt;为了确定您是否控制资金，您需要测试从钱包支出。&lt;br&gt;所以在将大量比特币发送到钱包之前，&lt;b&gt;至关重要&lt;/b&gt;的是从钱包支出并测试所有签名者。&lt;br&gt;&lt;br&gt;&lt;b&gt;在完成所有发送测试之前，不要向钱包发送大量资金！&lt;/b&gt;</translation>
+        <translation>接收一小笔金额（少于 {test_amount}）到这个钱包的一个地址。 &lt;br&gt;&lt;br&gt; &lt;b&gt;为什么？&lt;/b&gt; &lt;br&gt; 要知道您是否控制着资金，您必须从钱包中测试支出。 &lt;br&gt; 因此，在您将大量比特币发送到钱包之前，从钱包中花费并测试所有签名者是&lt;b&gt;至关重要&lt;/b&gt;的。 &lt;br&gt; &lt;br&gt; &lt;b&gt;请勿先将大额资金发送到钱包，请先完成所有发送测试！&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Next step</source>
@@ -1872,6 +1859,10 @@ Location of signing device: .....</source>
         <translation>地址</translation>
     </message>
     <message>
+        <source>No rows recognized</source>
+        <translation>未识别到行  </translation>
+    </message>
+    <message>
         <source>{address} is not a valid address!</source>
         <translation>{address} 不是一个有效的地址！  </translation>
     </message>
@@ -1920,6 +1911,10 @@ Location of signing device: .....</source>
         <translation>所有文件 (*);;钱包文件 (*.csv)  </translation>
     </message>
     <message>
+        <source>No file selected</source>
+        <translation>未选择文件  </translation>
+    </message>
+    <message>
         <source>Open CSV</source>
         <translation>打开 CSV  </translation>
     </message>
@@ -1930,10 +1925,6 @@ Location of signing device: .....</source>
     <message>
         <source>Please use the CSV template and include the header row.</source>
         <translation>请使用 CSV 模板，并包含标题行。  </translation>
-    </message>
-    <message>
-        <source>No rows recognized</source>
-        <translation>未识别到行  </translation>
     </message>
 </context>
 <context>
@@ -1998,6 +1989,10 @@ Location of signing device: .....</source>
         <source>All Files (*);;Text Files (*.svg)</source>
         <translation>所有文件 (*);;文本文件 (*.svg)  </translation>
     </message>
+    <message>
+        <source>No file selected</source>
+        <translation>未选择文件  </translation>
+    </message>
 </context>
 <context>
     <name>ScreenshotsExportXpub</name>
@@ -2059,17 +2054,6 @@ If you make a mistake here, your money is lost!</source>
     </message>
 </context>
 <context>
-    <name>SendPinDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>对话  </translation>
-    </message>
-    <message>
-        <source>?</source>
-        <translation>？  </translation>
-    </message>
-</context>
-<context>
     <name>SendTest</name>
     <message>
         <source>You made {n} outgoing transactions already. Would you like to skip this spend test?</source>
@@ -2085,60 +2069,26 @@ If you make a mistake here, your money is lost!</source>
     </message>
 </context>
 <context>
-    <name>SetPassphraseDialog</name>
+    <name>SignMessage</name>
     <message>
-        <source>Dialog</source>
-        <translation>对话  </translation>
-    </message>
-</context>
-<context>
-    <name>SignMessageDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>对话  </translation>
+        <source>Enter message to be signed at {bip32_path}</source>
+        <translation>在 {bip32_path} 输入要签名的消息  </translation>
     </message>
     <message>
-        <source>Signature</source>
-        <translation>签名  </translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation>消息  </translation>
-    </message>
-    <message>
-        <source>Sign Message</source>
+        <source>Sign message</source>
         <translation>签名消息  </translation>
     </message>
     <message>
-        <source>Derivation Path</source>
-        <translation>推导路径  </translation>
-    </message>
-</context>
-<context>
-    <name>SignPSBTDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>对话  </translation>
+        <source>Sign</source>
+        <translation>签名  </translation>
     </message>
     <message>
-        <source>PSBT To Sign</source>
-        <translation>要签名的PSBT  </translation>
+        <source>Signed Message</source>
+        <translation>已签名消息  </translation>
     </message>
     <message>
-        <source>Import PSBT</source>
-        <translation>导入PSBT  </translation>
-    </message>
-    <message>
-        <source>PSBT Result</source>
-        <translation>PSBT结果  </translation>
-    </message>
-    <message>
-        <source>Export PSBT</source>
-        <translation>导出PSBT  </translation>
-    </message>
-    <message>
-        <source>Sign PSBT</source>
-        <translation>签署PSBT  </translation>
+        <source>Message too short.</source>
+        <translation>消息太短。  </translation>
     </message>
 </context>
 <context>
@@ -2185,18 +2135,6 @@ If you make a mistake here, your money is lost!</source>
         <source>Scan QR code</source>
         <translation>扫描二维码</translation>
     </message>
-    <message>
-        <source>The txid of the signed psbt doesnt match the original txid</source>
-        <translation>已签名的psbt的交易标识符与原始交易标识符不匹配</translation>
-    </message>
-    <message>
-        <source>No additional signatures were added</source>
-        <translation>没有添加额外的签名  </translation>
-    </message>
-    <message>
-        <source>bitcoin_tx libary error. The txid should not be changed during finalizing</source>
-        <translation>bitcoin_tx库错误。在完成过程中不应更改txid</translation>
-    </message>
 </context>
 <context>
     <name>SignatureImporterUSB</name>
@@ -2216,8 +2154,8 @@ If you make a mistake here, your money is lost!</source>
         <translation>已签名的psbt的交易标识符与原始交易标识符不匹配。正在中止</translation>
     </message>
     <message>
-        <source>Sign with mnemonic seed</source>
-        <translation>使用助记词种子签名  </translation>
+        <source>Sign with seed</source>
+        <translation>使用种子签名  </translation>
     </message>
 </context>
 <context>
@@ -2276,8 +2214,8 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
         <translation>正在打开{author}的{name}</translation>
     </message>
     <message>
-        <source>Received message &apos;{description}&apos; from {author}</source>
-        <translation>从{author}收到消息&apos;{description}&apos;</translation>
+        <source>{author}: {description}</source>
+        <translation>{author}：{description}</translation>
     </message>
 </context>
 <context>
@@ -2285,6 +2223,14 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
     <message>
         <source>USB Signer Tools</source>
         <translation>USB签名工具  </translation>
+    </message>
+    <message>
+        <source>Address index</source>
+        <translation>地址索引  </translation>
+    </message>
+    <message>
+        <source>Sign Message</source>
+        <translation>签名消息  </translation>
     </message>
     <message>
         <source>Paste your descriptor to be signed</source>
@@ -2301,6 +2247,14 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
     <message>
         <source>Show Seed</source>
         <translation>显示种子  </translation>
+    </message>
+    <message>
+        <source>Unlock Devices</source>
+        <translation>解锁设备  </translation>
+    </message>
+    <message>
+        <source>Unlock</source>
+        <translation>解锁  </translation>
     </message>
     <message>
         <source>Get xpubs</source>
@@ -2326,28 +2280,12 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
         <source>Paste your text to be signed</source>
         <translation>粘贴要签名的文本  </translation>
     </message>
-    <message>
-        <source>Address index</source>
-        <translation>地址索引  </translation>
-    </message>
-    <message>
-        <source>Sign Message</source>
-        <translation>签名消息  </translation>
-    </message>
 </context>
 <context>
-    <name>TrustedDevice</name>
+    <name>TrustedDeviceItem</name>
     <message>
-        <source>Connected to {id}</source>
-        <translation>已连接至{id}  </translation>
-    </message>
-    <message>
-        <source>Syncing Address labels</source>
-        <translation>同步地址标签  </translation>
-    </message>
-    <message>
-        <source>Can share Transactions</source>
-        <translation>可以分享交易  </translation>
+        <source>Untrust device</source>
+        <translation>不信任设备  </translation>
     </message>
 </context>
 <context>
@@ -2360,16 +2298,8 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
 <context>
     <name>TxSigningSteps</name>
     <message>
-        <source>Export transaction to any hardware signer</source>
-        <translation>将交易导出到任何硬件签名器</translation>
-    </message>
-    <message>
-        <source>Sign with a different hardware signer</source>
-        <translation>使用不同的硬件签名器签名</translation>
-    </message>
-    <message>
-        <source>Import signature</source>
-        <translation>导入签名</translation>
+        <source>Create and collect {n}. signature</source>
+        <translation>创建并收集第 {n} 个签名  </translation>
     </message>
     <message>
         <source>Transaction signed with the private key belonging to {label}</source>
@@ -2407,14 +2337,6 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
         <translation>设置自定义中继列表  </translation>
     </message>
     <message>
-        <source>Trusted</source>
-        <translation>信任  </translation>
-    </message>
-    <message>
-        <source>UnTrusted</source>
-        <translation>未受信任  </translation>
-    </message>
-    <message>
         <source>My Device: {id}</source>
         <translation>我的设备：{id}  </translation>
     </message>
@@ -2424,10 +2346,6 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
     <message>
         <source>Select a category that fits the recipient best</source>
         <translation>选择最适合接收者的类别</translation>
-    </message>
-    <message>
-        <source>{num_inputs} Inputs: {inputs}</source>
-        <translation>{num_inputs} 输入：{inputs}</translation>
     </message>
     <message>
         <source>Adding outpoints {outpoints}</source>
@@ -2505,6 +2423,10 @@ below {rate}</source>
     <message>
         <source>Invalid Signatures</source>
         <translation>签名无效</translation>
+    </message>
+    <message>
+        <source>Failed to broadcast {txid}. Consider broadcasting via {url}</source>
+        <translation>广播{txid}失败。请考虑通过{url}广播。</translation>
     </message>
     <message>
         <source>Import file</source>
@@ -2631,14 +2553,14 @@ below {rate}</source>
     </message>
 </context>
 <context>
-    <name>UnTrustedDevice</name>
+    <name>UntrustedDeviceItem</name>
     <message>
-        <source>Trust {id}</source>
-        <translation>信任{id}  </translation>
+        <source>Trust</source>
+        <translation>信任  </translation>
     </message>
     <message>
-        <source>Accept trust request from {other}</source>
-        <translation>接受{other}的信任请求  </translation>
+        <source>Trust this device</source>
+        <translation>信任此设备  </translation>
     </message>
 </context>
 <context>
@@ -2718,6 +2640,10 @@ below {rate}</source>
     <message>
         <source>The wallet {filename} exists already.</source>
         <translation>钱包 {filename} 已经存在。  </translation>
+    </message>
+    <message>
+        <source>Please choose a wallet name</source>
+        <translation>请选择一个钱包名称  </translation>
     </message>
 </context>
 <context>
@@ -2885,6 +2811,38 @@ below {rate}</source>
         <translation>找不到{name}的HWI地址类型  </translation>
     </message>
     <message>
+        <source>USB errors can appear due to missing udev files. Do you want to install udev files now?</source>
+        <translation>由于缺失udev文件，可能会出现USB错误。您现在想安装udev文件吗？  </translation>
+    </message>
+    <message>
+        <source>Install udev files</source>
+        <translation>安装udev文件  </translation>
+    </message>
+    <message>
+        <source>Please restart your computer for the changes to take effect.</source>
+        <translation>请重启计算机以使更改生效。  </translation>
+    </message>
+    <message>
+        <source>Restart computer</source>
+        <translation>重启计算机  </translation>
+    </message>
+    <message>
+        <source>Executing the script</source>
+        <translation>执行脚本  </translation>
+    </message>
+    <message>
+        <source>No suitable terminal emulator found.</source>
+        <translation>未找到合适的终端仿真器。  </translation>
+    </message>
+    <message>
+        <source>derivation_path {value} must start with a /</source>
+        <translation>推导路径{value}必须以/开始  </translation>
+    </message>
+    <message>
+        <source>{value} is not a valid fingerprint</source>
+        <translation>{value}不是有效的指纹  </translation>
+    </message>
+    <message>
         <source>The network part {network_str} of the key origin {key_origin} must be hardened with a h</source>
         <translation>密钥起源{key_origin}的网络部分{network_str}必须用h强化  </translation>
     </message>
@@ -2907,62 +2865,6 @@ below {rate}</source>
     <message>
         <source>Error</source>
         <translation>错误</translation>
-    </message>
-    <message>
-        <source>USB errors can appear due to missing udev files. Do you want to install udev files now?</source>
-        <translation>由于缺失udev文件，可能会出现USB错误。您现在想安装udev文件吗？  </translation>
-    </message>
-    <message>
-        <source>Install udev files</source>
-        <translation>安装udev文件  </translation>
-    </message>
-    <message>
-        <source>Please restart your computer for the changes to take effect.</source>
-        <translation>请重启计算机以使更改生效。  </translation>
-    </message>
-    <message>
-        <source>Restart computer</source>
-        <translation>重启计算机  </translation>
-    </message>
-    <message>
-        <source>derivation_path {value} must start with a /</source>
-        <translation>推导路径{value}必须以/开始  </translation>
-    </message>
-    <message>
-        <source>Executing the script</source>
-        <translation>执行脚本  </translation>
-    </message>
-    <message>
-        <source>No suitable terminal emulator found.</source>
-        <translation>未找到合适的终端仿真器。  </translation>
-    </message>
-    <message>
-        <source>h cannot appear twice in a index</source>
-        <translation>索引中不能出现两次h  </translation>
-    </message>
-    <message>
-        <source>{value} must start with m/</source>
-        <translation>{value}必须以m/开始  </translation>
-    </message>
-    <message>
-        <source>{value} cannot contain //</source>
-        <translation>{value}不能包含//  </translation>
-    </message>
-    <message>
-        <source>{value} cannot contain /h</source>
-        <translation>{value}不能包含/h  </translation>
-    </message>
-    <message>
-        <source>{value} cannot contain hh</source>
-        <translation>{value}不能包含hh  </translation>
-    </message>
-    <message>
-        <source>{value} cannot end with /</source>
-        <translation>{value}不能以/结束  </translation>
-    </message>
-    <message>
-        <source>{value} is not a valid fingerprint</source>
-        <translation>{value}不是有效的指纹  </translation>
     </message>
 </context>
 <context>
@@ -2997,6 +2899,10 @@ below {rate}</source>
     <message>
         <source>Read QR code from camera</source>
         <translation>从相机读取二维码</translation>
+    </message>
+    <message>
+        <source>Connect to USB signer</source>
+        <translation>连接到USB签名器</translation>
     </message>
     <message>
         <source>Recovery</source>
@@ -3171,15 +3077,6 @@ below {rate}</source>
     </message>
 </context>
 <context>
-    <name>lib_load</name>
-    <message>
-        <source>You are missing the {link}
-Please install it.</source>
-        <translation>您缺少 {link} 
-请安装它。</translation>
-    </message>
-</context>
-<context>
     <name>menu</name>
     <message>
         <source>Import Labels</source>
@@ -3220,6 +3117,10 @@ Please install it.</source>
         <translation>这是一种私密且快速的连接到比特币网络的方式。</translation>
     </message>
     <message>
+        <source>Run your bitcoind with &quot;bitcoind -chain=test&quot;</source>
+        <translation>使用 &quot;bitcoind -chain=test&quot; 运行您的bitcoind</translation>
+    </message>
+    <message>
         <source>Run your bitcoind with &quot;bitcoind -chain=signet&quot;  This however is a different signet than mutinynet.com.</source>
         <translation>使用 &quot;bitcoind -chain=signet&quot; 运行您的bitcoind，但这和mutinynet.com的signet不同。</translation>
     </message>
@@ -3229,20 +3130,24 @@ It is best to use your own server, such as {link}.</source>
         <translation>服务器可以将您的IP地址与钱包地址关联。最好使用您自己的服务器，如 {link}。</translation>
     </message>
     <message>
-        <source>You can setup {link} with an electrum server on {server} and a block explorer on {explorer}</source>
-        <translation>您可以在 {server} 上设置 {link}，并在 {explorer} 上设置一个区块浏览器</translation>
+        <source>You can setup {electrum} with an electrum server on {server} and a block explorer on {explorer}</source>
+        <translation>你可以在 {server} 上设置 {electrum} 与一个区块浏览器在 {explorer}  </translation>
     </message>
     <message>
-        <source>A good option is {link} and a block explorer on {explorer}.</source>
-        <translation>一个好选择是 {link} 和一个在 {explorer} 上的区块浏览器。</translation>
+        <source>A good option is  {electrum_testnet4} and as block explorer {explorer_testnet4}</source>
+        <translation>一个好的选择是 {electrum_testnet4} 和作为区块浏览器的 {explorer_testnet4}  </translation>
+    </message>
+    <message>
+        <source>Signet choose {electrum} and a block explorer on {mempool_url}.</source>
+        <translation>Signet 选择 {electrum} 和一个区块浏览器在 {mempool_url}。  </translation>
     </message>
     <message>
         <source>You can setup {setup} with an esplora server on {server} and a block explorer on {explorer}</source>
         <translation>您可以在 {server} 上设置 {setup}，并在 {explorer} 上设置一个esplora服务器</translation>
     </message>
     <message>
-        <source>A good option is {link} and a block explorer on {explorer}. There is a {faucet}.</source>
-        <translation>一个好选择是 {link} 和一个在 {explorer} 上的区块浏览器。这里有一个 {faucet}。</translation>
+        <source>A (somtimes working) server is {link} and a block explorer on {explorer}. There is a {faucet}.</source>
+        <translation>一个（有时有效的）服务器是 {link} 和一个区块浏览器在 {explorer}。这里有一个 {faucet}。  </translation>
     </message>
     <message>
         <source>You can connect your own Bitcoin node, such as {link}.</source>
@@ -3252,20 +3157,27 @@ It is best to use your own server, such as {link}.</source>
         <source>Run your bitcoind with &quot;bitcoind -chain=regtest&quot;</source>
         <translation>使用 &quot;bitcoind -chain=regtest&quot; 运行您的bitcoind</translation>
     </message>
+</context>
+<context>
+    <name>network_config</name>
     <message>
-        <source>Run your bitcoind with &quot;bitcoind -chain=test&quot;</source>
-        <translation>使用 &quot;bitcoind -chain=test&quot; 运行您的bitcoind</translation>
+        <source>{server_name} via the proxy {proxy}</source>
+        <translation>通过代理 {proxy} 的 {server_name}  </translation>
+    </message>
+    <message>
+        <source>{server_name}</source>
+        <translation>{server_name}  </translation>
     </message>
 </context>
 <context>
     <name>open_file</name>
     <message>
-        <source>All Files (*);;PSBT (*.psbt);;Transation (*.tx)</source>
-        <translation>所有文件 (*);;PSBT (*.psbt);;交易 (*.tx)</translation>
-    </message>
-    <message>
         <source>Open Transaction/PSBT</source>
         <translation>打开交易/PSBT</translation>
+    </message>
+    <message>
+        <source>All Files (*);;PSBT (*.psbt);;Transation (*.tx)</source>
+        <translation>所有文件 (*);;PSBT (*.psbt);;交易 (*.tx)</translation>
     </message>
 </context>
 <context>
@@ -3277,6 +3189,10 @@ It is best to use your own server, such as {link}.</source>
     <message>
         <source>{keystore_label}: Fingerprint: {keystore_fingerprint}, Key origin: {keystore_key_origin}, {keystore_xpub}</source>
         <translation>{keystore_label}：指纹：{keystore_fingerprint}，密钥起源：{keystore_key_origin}，{keystore_xpub}</translation>
+    </message>
+    <message>
+        <source>File not found!</source>
+        <translation>文件未找到！  </translation>
     </message>
     <message>
         <source>{i}. Seed backup of a {threshold} of {m} Multi-Sig Wallet: &quot;{id}&quot;</source>
@@ -3311,16 +3227,16 @@ It is best to use your own server, such as {link}.</source>
         <translation>重新扫描此钱包时，请至少扫描到地址索引 {max_tip}，以发现所有资金地址。  </translation>
     </message>
     <message>
-        <source>Label syncronization backup key: {label_sync_nsec}</source>
-        <translation>标签同步备份密钥：{label_sync_nsec}  </translation>
-    </message>
-    <message>
-        <source>1. Glue or tape the &apos;Recovery sheet&apos; ({number} words) over the table below&lt;br/&gt;
+        <source>1. Attach the &apos;Recovery sheet&apos; ({number} words) to this paper or duplicate the 12/24 words onto this paper.&lt;br/&gt;
                 2. Fold this  paper at the line below &lt;br/&gt;
                 3. Put this paper in a secure location, where only you have access&lt;br/&gt;
                 4. You can put the hardware signer either a) together with the paper seed backup, or b)   in another secure  location (if available)   
                 </source>
-        <translation>1. 将&apos;恢复表&apos;（{number}词）粘贴或胶带在下面的表格上&lt;br/&gt;2. 在下面的线处折叠这张纸&lt;br/&gt;3. 将这张纸放在只有您能访问的安全位置&lt;br/&gt;4. 您可以将硬件签名器放在与纸质助记词种子备份一起的地方，或者b) 在另一个安全位置（如果有的话）</translation>
+        <translation>1. 将“恢复表”（{number}个词）附在这张纸上，或将12/24个词复制到这张纸上。&lt;br/&gt; 2. 在下面的线处折叠这张纸&lt;br/&gt; 3. 将这张纸放在一个只有您能进入的安全地点&lt;br/&gt; 4. 您可以将硬件签名者放在 a) 与纸质种子备份一起，或 b) 在另一个安全地点（如果有的话）</translation>
+    </message>
+    <message>
+        <source>Label syncronization backup key: {label_sync_nsec}</source>
+        <translation>标签同步备份密钥：{label_sync_nsec}  </translation>
     </message>
     <message>
         <source>Balance Statement of {id}</source>
@@ -3331,12 +3247,12 @@ It is best to use your own server, such as {link}.</source>
         <translation>&quot;{id}&quot; 的余额报表  </translation>
     </message>
     <message>
-        <source>1. Glue or tape the &apos;Recovery sheet&apos; ({number} words) over the table below&lt;br/&gt;
+        <source>1. Attach the &apos;Recovery sheet&apos; ({number} words) to this paper or duplicate the 12/24 words onto this paper.&lt;br/&gt;
                 2. Fold this  paper at the line below &lt;br/&gt;
                 3. Put each paper in a different secure location, where only you have access&lt;br/&gt;
                 4. You can put the hardware signers either a) together with the corresponding paper seed backup, or b)   each  in yet another secure  location (if available)   
                 </source>
-        <translation>1. 用胶水或胶带将“恢复表”（{number}个单词）粘贴在下表上&lt;br/&gt;2. 沿下面的线折叠此纸&lt;br/&gt;3. 将每张纸放在不同的安全地点，只有您能访问&lt;br/&gt;4. 您可以将硬件签名器a)与对应的纸质助记词种子备份放在一起，或b)各自放在另一个安全地点（如果有）</translation>
+        <translation>1. 将“恢复表”（{number}个词）附在这张纸上，或将12/24个词复制到这张纸上。&lt;br/&gt; 2. 在下面的线处折叠这张纸&lt;br/&gt; 3. 将每张纸放在一个不同的安全地点，只有您能进入&lt;br/&gt; 4. 您可以将硬件签名者放在 a) 与相应的纸质种子备份一起，或 b) 在另一个安全地点（如果有的话）</translation>
     </message>
     <message>
         <source>Secret seed words for a hardware signer: Never type into a computer. Never make a picture.</source>

@@ -38,12 +38,6 @@ from math import ceil
 from typing import Any, Dict, List, Tuple
 
 import bdkpython as bdk
-
-from .dynamic_lib_load import setup_libsecp256k1
-
-setup_libsecp256k1()
-
-
 from bitcoin_usb.address_types import SimplePubKeyProvider
 
 from bitcoin_safe.util import hex_to_script, remove_duplicates_keep_order
@@ -166,7 +160,7 @@ def estimate_tx_weight(
 
 
 class FeeInfo:
-    def __init__(self, fee_amount: int, vsize: int, is_estimated=False) -> None:
+    def __init__(self, fee_amount: int, vsize: int, is_estimated: bool) -> None:
         """_summary_
 
         Args:
@@ -180,6 +174,11 @@ class FeeInfo:
 
     def fee_rate(self) -> float:
         return self.fee_amount / self.vsize
+
+    @classmethod
+    def from_fee_rate(cls, fee_amount: int, fee_rate: float, is_estimated: bool) -> "FeeInfo|None":
+        vsize = int(fee_amount / fee_rate)
+        return FeeInfo(fee_amount=fee_amount, vsize=vsize, is_estimated=is_estimated)
 
     @classmethod
     def from_txdetails(cls, tx_details: bdk.TransactionDetails) -> "FeeInfo|None":
@@ -277,7 +276,7 @@ class SimpleInput:
     tap_key_sig: Optional[str] = None
     tap_script_sigs: Dict[str, str] = field(default_factory=dict)
     tap_scripts: List[Tuple[str, str, str]] = field(default_factory=list)
-    tap_key_origins: List[Tuple[str, List[str]]] = field(default_factory=list)
+    tap_key_origins: List[Tuple[str, Tuple[str, List[str]]]] = field(default_factory=list)
     tap_internal_key: Optional[str] = None
     tap_merkle_root: Optional[str] = None
 
@@ -308,6 +307,12 @@ class SimpleInput:
         bip32_derivation = input_data.get("bip32_derivation", [])
         for pubkey_info in bip32_derivation:
             pubkey, (fingerprint, derivation_path) = pubkey_info
+            self.pubkeys.append(
+                PubKeyInfo(pubkey=pubkey, fingerprint=fingerprint, derivation_path=derivation_path)
+            )
+
+        for tap_key_origin in self.tap_key_origins:
+            pubkey, (unknown, (fingerprint, derivation_path)) = tap_key_origin
             self.pubkeys.append(
                 PubKeyInfo(pubkey=pubkey, fingerprint=fingerprint, derivation_path=derivation_path)
             )

@@ -26,27 +26,18 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
-import logging
-from typing import Callable, List, Tuple
-
-from PyQt6.QtCore import QObject
-
-from ...signals import SignalFunction
-
-logger = logging.getLogger(__name__)
+import enum
+from dataclasses import dataclass
 
 
-class SignalCarryingObject(QObject):
-    def __init__(self, parent=None, **kwargs) -> None:
-        super().__init__(parent, **kwargs)
-        self._connected_signals: List[Tuple[SignalFunction, Callable]] = []
+class SubtextType(enum.Enum):
+    hide = enum.auto()
+    click_new_address = enum.auto()
+    balance = enum.auto()
 
-    def connect_signal(self, signal, f, **kwargs) -> None:
-        signal.connect(f, **kwargs)
-        self._connected_signals.append((signal, f))
 
-    def disconnect_signals(self) -> None:
-        while self._connected_signals:
-            signal, f = self._connected_signals.pop()
-            signal.disconnect(f)
+@dataclass
+class CategoryInfo:
+    category: str
+    text_click_new_address: str = ""
+    text_balance: str = ""

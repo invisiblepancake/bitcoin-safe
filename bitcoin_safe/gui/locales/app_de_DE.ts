@@ -2,6 +2,21 @@
 <!DOCTYPE TS>
 <TS>
 <context>
+    <name>AbstractSignatureImporter</name>
+    <message>
+        <source>The txid of the signed psbt doesnt match the original txid</source>
+        <translation>Die txid des signierten PSBT stimmt nicht mit der ursprünglichen txid überein  </translation>
+    </message>
+    <message>
+        <source>No additional signatures were added</source>
+        <translation>Keine zusätzlichen Signaturen hinzugefügt  </translation>
+    </message>
+    <message>
+        <source>bitcoin_tx libary error. The txid should not be changed during finalizing</source>
+        <translation>bitcoin_tx-Bibliotheksfehler. Die txid sollte beim Finalisieren nicht geändert werden  </translation>
+    </message>
+</context>
+<context>
     <name>AddressAnalyzer</name>
     <message>
         <source>Missing Address</source>
@@ -18,10 +33,6 @@
 </context>
 <context>
     <name>AddressDetailsAdvanced</name>
-    <message>
-        <source>Script Pubkey</source>
-        <translation>Script Pubkey  </translation>
-    </message>
     <message>
         <source>Address descriptor</source>
         <translation>Adressbeschreibung  </translation>
@@ -82,6 +93,10 @@
     <message>
         <source>Copy as csv</source>
         <translation>Als CSV kopieren  </translation>
+    </message>
+    <message>
+        <source>Set category</source>
+        <translation>Kategorie festlegen</translation>
     </message>
     <message>
         <source>Tx</source>
@@ -202,6 +217,21 @@
     </message>
 </context>
 <context>
+    <name>BaseDeviceItem</name>
+    <message>
+        <source>Rename</source>
+        <translation>Umbenennen  </translation>
+    </message>
+    <message>
+        <source>Enter a name of device with {npub}</source>
+        <translation>Geben Sie einen Namen für das Gerät mit {npub} ein  </translation>
+    </message>
+    <message>
+        <source>Device name</source>
+        <translation>Gerätename  </translation>
+    </message>
+</context>
+<context>
     <name>BaseHardwareSignerInteractionWidget</name>
     <message>
         <source>Help</source>
@@ -222,17 +252,16 @@
         <source>To complete the connection, accept my {id} request on the other device {other}.</source>
         <translation>Um die Verbindung abzuschließen, akzeptieren Sie meine {id}-Anfrage auf dem anderen Gerät {other}.  </translation>
     </message>
+    <message>
+        <source>Enter a name of device with {npub}</source>
+        <translation>Geben Sie einen Namen für das Gerät mit {npub} ein  </translation>
+    </message>
 </context>
 <context>
-    <name>BitBox02PairingDialog</name>
+    <name>BitcoinDmChatGui</name>
     <message>
-        <source>Dialog</source>
-        <translation>Dialog  </translation>
-    </message>
-    <message>
-        <source>Please verify the pairing code matches what is
-shown on your BitBox02.</source>
-        <translation>Bitte überprüfen Sie, ob der Pairing-Code mit dem auf Ihrer BitBox02 angezeigten übereinstimmt.  </translation>
+        <source>Me</source>
+        <translation>Ich</translation>
     </message>
 </context>
 <context>
@@ -259,13 +288,13 @@ shown on your BitBox02.</source>
 <context>
     <name>BuyHardware</name>
     <message>
-        <source>Buy {number} hardware signers.                            
+        <source>Buy {number} hardware signers                         
                         &lt;ul&gt;
-                            &lt;li&gt;Most secure is to buy from different reputable vendors&lt;/li&gt; 
-                            &lt;li&gt;Great choices are:&lt;/li&gt; 
+                            {different_hint} 
+                            &lt;li&gt;Bitcoin Safe supports all major hardware signers: &lt;a href=&quot;{url}&quot;&gt;See full list&lt;/a&gt;&lt;/li&gt;                             
                         &lt;/ul&gt;
                            </source>
-        <translation>&lt;ul&gt; &lt;li&gt;Am sichersten ist es, von verschiedenen renommierten Anbietern zu kaufen&lt;/li&gt; &lt;li&gt;Gute Wahl sind:&lt;/li&gt; &lt;/ul&gt;</translation>
+        <translation>Kaufen Sie {number} Hardware-Unterzeichner                                                  &lt;ul&gt;                             {different_hint}                              &lt;li&gt;Bitcoin Safe unterstützt alle wichtigen Hardware-Unterzeichner: &lt;a href=&quot;{url}&quot;&gt;Vollständige Liste anzeigen&lt;/a&gt;&lt;/li&gt;                                                      &lt;/ul&gt;                            </translation>
     </message>
     <message>
         <source>Buy a {name}</source>
@@ -280,16 +309,15 @@ shown on your BitBox02.</source>
         <translation>Kaufen Sie ein Coldcard Q  </translation>
     </message>
     <message>
-        <source>Buy a Blockstream Jade
-10% off</source>
-        <translation>Kaufen Sie ein Blockstream Jade mit 10% Rabatt  </translation>
+        <source>Buy a Blockstream Jade</source>
+        <translation>Kaufen Sie einen Blockstream Jade  </translation>
     </message>
 </context>
 <context>
     <name>CategoryEditor</name>
     <message>
         <source>KYC Exchange</source>
-        <translation>KYC-Austausch  </translation>
+        <translation>KYC Börse</translation>
     </message>
     <message>
         <source>Private</source>
@@ -329,10 +357,6 @@ shown on your BitBox02.</source>
         <source>All Files (*);;PSBT (*.psbt);;Transation (*.tx)</source>
         <translation>Alle Dateien (*);;PSBT (*.psbt);;Transaktion (*.tx)  </translation>
     </message>
-    <message>
-        <source>Me: {text}</source>
-        <translation>Ich: {text}  </translation>
-    </message>
 </context>
 <context>
     <name>CloseButton</name>
@@ -346,29 +370,6 @@ shown on your BitBox02.</source>
     <message>
         <source>Block {n}</source>
         <translation>Block {n}  </translation>
-    </message>
-</context>
-<context>
-    <name>CopyToolButton</name>
-    <message>
-        <source>Not available</source>
-        <translation>Nicht verfügbar  </translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>In die Zwischenablage kopieren  </translation>
-    </message>
-    <message>
-        <source>Copy {name}</source>
-        <translation>{name} kopieren  </translation>
-    </message>
-    <message>
-        <source>Copy TxId</source>
-        <translation>TxId kopieren  </translation>
-    </message>
-    <message>
-        <source>Copy JSON</source>
-        <translation>JSON kopieren  </translation>
     </message>
 </context>
 <context>
@@ -427,6 +428,10 @@ Please back up this descriptor to be able to recover the funds!</source>
         <translation>Dieser &quot;Deskriptor&quot; enthält alle Informationen, um das Wallet neu aufzubauen. Bitte sichern Sie diesen Deskriptor, um die Mittel wiederherstellen zu können!  </translation>
     </message>
     <message>
+        <source>Descriptor unchanged</source>
+        <translation>Deskriptor unverändert  </translation>
+    </message>
+    <message>
         <source>New descriptor entered</source>
         <translation>Neuer Deskriptor eingegeben  </translation>
     </message>
@@ -439,34 +444,14 @@ Please back up this descriptor to be able to recover the funds!</source>
     </message>
 </context>
 <context>
-    <name>DisplayAddressDialog</name>
+    <name>DeviceManager</name>
     <message>
-        <source>Dialog</source>
-        <translation>Dialog  </translation>
+        <source>Trusted</source>
+        <translation>Vertrauenswürdig  </translation>
     </message>
     <message>
-        <source>P2SH-P2WPKH</source>
-        <translation>P2SH-P2WPKH  </translation>
-    </message>
-    <message>
-        <source>P2WPKH</source>
-        <translation>P2WPKH  </translation>
-    </message>
-    <message>
-        <source>P2PKH</source>
-        <translation>P2PKH  </translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation>Adresse  </translation>
-    </message>
-    <message>
-        <source>Go</source>
-        <translation>Los  </translation>
-    </message>
-    <message>
-        <source>Derivation Path</source>
-        <translation>Ableitungspfad  </translation>
+        <source>Untrusted</source>
+        <translation>Nicht vertrauenswürdig  </translation>
     </message>
 </context>
 <context>
@@ -603,12 +588,28 @@ the sending value {sent}</source>
 <context>
     <name>FileToolButton</name>
     <message>
-        <source>Export file</source>
-        <translation>Datei exportieren  </translation>
+        <source>Export</source>
+        <translation>Exportieren  </translation>
+    </message>
+    <message>
+        <source>Copy {name}</source>
+        <translation>{name} kopieren  </translation>
+    </message>
+    <message>
+        <source>Copy TxId</source>
+        <translation>TxId kopieren  </translation>
+    </message>
+    <message>
+        <source>Copy JSON</source>
+        <translation>JSON kopieren  </translation>
     </message>
     <message>
         <source>Export to file</source>
         <translation>In Datei exportieren  </translation>
+    </message>
+    <message>
+        <source>Not available</source>
+        <translation>Nicht verfügbar  </translation>
     </message>
 </context>
 <context>
@@ -633,8 +634,8 @@ the sending value {sent}</source>
         <translation>Transaktion erstellen  </translation>
     </message>
     <message>
-        <source>Prefill Transaction again</source>
-        <translation>Transaktion erneut vorfüllen  </translation>
+        <source>Retry</source>
+        <translation>Erneut versuchen  </translation>
     </message>
     <message>
         <source>Yes, I see the transaction in the history</source>
@@ -666,72 +667,6 @@ the sending value {sent}</source>
     <message>
         <source>Success! Please complete this step with all hardware signers and then click Next.</source>
         <translation>Erfolg! Bitte vervollständigen Sie diesen Schritt mit allen Hardware-Signern und klicken Sie dann auf Weiter.  </translation>
-    </message>
-</context>
-<context>
-    <name>GetKeypoolOptionsDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Dialog  </translation>
-    </message>
-    <message>
-        <source>Path</source>
-        <translation>Pfad  </translation>
-    </message>
-    <message>
-        <source>m/0&apos;/0&apos;/*</source>
-        <translation>m/0&apos;/0&apos;/*  </translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation>Start  </translation>
-    </message>
-    <message>
-        <source>End</source>
-        <translation>Ende  </translation>
-    </message>
-    <message>
-        <source>Internal</source>
-        <translation>Intern  </translation>
-    </message>
-    <message>
-        <source>keypool</source>
-        <translation>keypool  </translation>
-    </message>
-    <message>
-        <source>P2SH-P2WPKH</source>
-        <translation>P2SH-P2WPKH  </translation>
-    </message>
-    <message>
-        <source>P2WPKH</source>
-        <translation>P2WPKH  </translation>
-    </message>
-    <message>
-        <source>P2PKH</source>
-        <translation>P2PKH  </translation>
-    </message>
-    <message>
-        <source>Account</source>
-        <translation>Konto  </translation>
-    </message>
-</context>
-<context>
-    <name>GetXpubDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Dialog  </translation>
-    </message>
-    <message>
-        <source>Derivation Path</source>
-        <translation>Ableitungspfad  </translation>
-    </message>
-    <message>
-        <source>Get xpub</source>
-        <translation>Holen Sie xpub  </translation>
-    </message>
-    <message>
-        <source>xpub</source>
-        <translation>xpub  </translation>
     </message>
 </context>
 <context>
@@ -793,6 +728,41 @@ the sending value {sent}</source>
     </message>
 </context>
 <context>
+    <name>HorizontalImportExportClipboard</name>
+    <message>
+        <source>Share</source>
+        <translation>Teilen  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportFile</name>
+    <message>
+        <source>File</source>
+        <translation>Datei  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportQR</name>
+    <message>
+        <source>QR</source>
+        <translation>QR  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportUSB</name>
+    <message>
+        <source>USB</source>
+        <translation>USB  </translation>
+    </message>
+</context>
+<context>
+    <name>HorizontalImportExportWallet</name>
+    <message>
+        <source>Seed</source>
+        <translation>Seed  </translation>
+    </message>
+</context>
+<context>
     <name>ImportXpubs</name>
     <message>
         <source>2. Import wallet information into Bitcoin Safe</source>
@@ -826,6 +796,14 @@ the sending value {sent}</source>
         <translation>Fehlender Schlüsselursprung  </translation>
     </message>
     <message>
+        <source>The provided information is for {key_origin_network}. Please provide xPub for network {network}</source>
+        <translation>Die bereitgestellten Informationen sind für {key_origin_network}. Bitte geben Sie xPub für Netzwerk {network} an  </translation>
+    </message>
+    <message>
+        <source>The provided account {provided_account} differs from the default account {default_account}.</source>
+        <translation>Das bereitgestellte Konto {provided_account} unterscheidet sich vom Standardkonto {default_account}.  </translation>
+    </message>
+    <message>
         <source>Unexpected key origin</source>
         <translation>Unerwarteter Schlüsselursprung  </translation>
     </message>
@@ -835,10 +813,6 @@ the sending value {sent}</source>
     <message>
         <source>Import fingerprint and xpub</source>
         <translation>Fingerabdruck und xpub importieren  </translation>
-    </message>
-    <message>
-        <source>Please paste descriptors into the descriptor field in the top right.</source>
-        <translation>Bitte fügen Sie Deskriptoren in das Deskriptorenfeld oben rechts ein.  </translation>
     </message>
     <message>
         <source>{data_type} cannot be used here.</source>
@@ -877,17 +851,21 @@ the sending value {sent}</source>
         <translation>Seed  </translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>OK  </translation>
-    </message>
-    <message>
         <source>Name of signing device: ......
 Location of signing device: .....</source>
         <translation>Name des Signiergeräts: ...... Standort des Signiergeräts: .....  </translation>
     </message>
     <message>
+        <source>OK</source>
+        <translation>OK  </translation>
+    </message>
+    <message>
         <source>Please ensure that there are no other programs accessing the Hardware signer</source>
         <translation>Bitte stellen Sie sicher, dass keine anderen Programme auf den Hardware-Signer zugreifen  </translation>
+    </message>
+    <message>
+        <source>Please enter a valid key origin.</source>
+        <translation>Bitte geben Sie einen gültigen Schlüsselursprung ein.  </translation>
     </message>
     <message>
         <source>{xpub} is not a valid public xpub</source>
@@ -906,24 +884,25 @@ Location of signing device: .....</source>
         <translation>Bitte fügen Sie die exportierte Datei ein (wie sparrow-export.json)  </translation>
     </message>
     <message>
-        <source>Standart for the selected address type {type} is {expected_key_origin}.  Please correct if you are not sure.</source>
-        <translation>Standard für den ausgewählten Adresstyp {type} ist {expected_key_origin}. Bitte korrigieren Sie, wenn Sie sich nicht sicher sind.  </translation>
+        <source>Standard for the selected address type {type} is {expected_key_origin}.  Please correct if you are not sure.</source>
+        <translation>Standard für den gewählten Adresstyp {type} ist {expected_key_origin}. Bitte korrigieren, wenn Sie sich nicht sicher sind.  </translation>
     </message>
     <message>
         <source>The xPub origin {key_origin} and the xPub belong together. Please choose the correct xPub origin pair.</source>
         <translation>Der xPub-Ursprung {key_origin} und der xPub gehören zusammen. Bitte wählen Sie das richtige xPub-Ursprungspaar.  </translation>
     </message>
     <message>
-        <source>The provided information is for {key_origin_network}. Please provide xPub for network {network}</source>
-        <translation>Die bereitgestellten Informationen sind für {key_origin_network}. Bitte geben Sie xPub für Netzwerk {network} an  </translation>
-    </message>
-    <message>
-        <source>The xPub Origin {key_origin} is not the expected {expected_key_origin} for {address_type}</source>
-        <translation>Der xPub-Ursprung {key_origin} ist nicht der erwartete {expected_key_origin} für {address_type}  </translation>
+        <source>{msg}
+Do you want to proceed anyway?</source>
+        <translation>{msg} Möchten Sie trotzdem fortfahren?  </translation>
     </message>
     <message>
         <source>No signer data for the expected key_origin {expected_key_origin} found.</source>
         <translation>Keine Signer-Daten für den erwarteten Schlüsselursprung {expected_key_origin} gefunden.  </translation>
+    </message>
+    <message>
+        <source>Please paste descriptors into the descriptor field in the top right.</source>
+        <translation>Bitte fügen Sie Deskriptoren in das Deskriptorenfeld oben rechts ein.  </translation>
     </message>
 </context>
 <context>
@@ -1147,24 +1126,32 @@ Location of signing device: .....</source>
         <translation>Alle Dateien (*);;PSBT (*.psbt);;Transaktion (*.tx)  </translation>
     </message>
     <message>
-        <source>Selected file: {file_path}</source>
-        <translation>Ausgewählte Datei: {file_path}  </translation>
+        <source>No file selected</source>
+        <translation>Keine Datei ausgewählt  </translation>
     </message>
     <message>
         <source>&amp;New Wallet</source>
         <translation>Neues Wallet  </translation>
     </message>
     <message>
-        <source>No wallet open. Please open the sender wallet to edit this thransaction.</source>
-        <translation>Kein Wallet geöffnet. Bitte öffnen Sie das Sender-Wallet, um diese Transaktion zu bearbeiten.  </translation>
+        <source>Selected file: {file_path}</source>
+        <translation>Ausgewählte Datei: {file_path}  </translation>
     </message>
     <message>
-        <source> Please open the sender wallet to edit this thransaction.</source>
-        <translation>Bitte öffnen Sie das Sender-Wallet, um diese Transaktion zu bearbeiten.  </translation>
+        <source>No wallet open. Please open the sender wallet to edit this transaction.</source>
+        <translation>Kein Wallet geöffnet. Bitte öffnen Sie das Wallet des Absenders, um diese Transaktion zu bearbeiten.  </translation>
+    </message>
+    <message>
+        <source> Please open the sender wallet to edit this transaction.</source>
+        <translation>Bitte öffnen Sie das Wallet des Absenders, um diese Transaktion zu bearbeiten.  </translation>
     </message>
     <message>
         <source>Could not decode this string</source>
         <translation>Diese Zeichenfolge konnte nicht dekodiert werden  </translation>
+    </message>
+    <message>
+        <source>Signed Message</source>
+        <translation>Signierte Nachricht  </translation>
     </message>
     <message>
         <source>Open Transaction or PSBT</source>
@@ -1187,15 +1174,15 @@ Location of signing device: .....</source>
         <translation>Transaktion {txid}  </translation>
     </message>
     <message>
+        <source>&amp;Open Wallet</source>
+        <translation>Wallet öffnen  </translation>
+    </message>
+    <message>
         <source>PSBT {txid}</source>
         <translation>PSBT {txid}  </translation>
     </message>
     <message>
         <source>Open Wallet</source>
-        <translation>Wallet öffnen  </translation>
-    </message>
-    <message>
-        <source>&amp;Open Wallet</source>
         <translation>Wallet öffnen  </translation>
     </message>
     <message>
@@ -1231,16 +1218,16 @@ Location of signing device: .....</source>
         <translation>neu  </translation>
     </message>
     <message>
+        <source>Open &amp;Recent</source>
+        <translation>Kürzlich öffnen  </translation>
+    </message>
+    <message>
         <source>A wallet with id {name} is already open.  </source>
         <translation>Ein Wallet mit der ID {name} ist bereits geöffnet.  </translation>
     </message>
     <message>
         <source>Please complete the wallet setup.</source>
         <translation>Bitte vervollständigen Sie die Einrichtung des Wallets.  </translation>
-    </message>
-    <message>
-        <source>Open &amp;Recent</source>
-        <translation>Kürzlich öffnen  </translation>
     </message>
     <message>
         <source>Close wallet {id}?</source>
@@ -1267,72 +1254,12 @@ Location of signing device: .....</source>
         <translation>Tab {name} schließen  </translation>
     </message>
     <message>
-        <source>MainWindow</source>
-        <translation>Hauptfenster  </translation>
-    </message>
-    <message>
-        <source>Connected devices</source>
-        <translation>Verbundene Geräte  </translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <translation>Aktualisieren  </translation>
-    </message>
-    <message>
-        <source>Set Passphrase</source>
-        <translation>Passphrase festlegen  </translation>
-    </message>
-    <message>
         <source>&amp;Save Current Wallet</source>
         <translation>Aktuelles Wallet speichern  </translation>
     </message>
     <message>
-        <source>Get an xpub</source>
-        <translation>Einen xpub erhalten  </translation>
-    </message>
-    <message>
-        <source>Sign Message</source>
-        <translation>Nachricht signieren  </translation>
-    </message>
-    <message>
-        <source>Sign PSBT</source>
-        <translation>PSBT signieren  </translation>
-    </message>
-    <message>
-        <source>Change the options used for getkeypool</source>
-        <translation>Optionen für getkeypool ändern  </translation>
-    </message>
-    <message>
-        <source>Change getkeypool options</source>
-        <translation>Optionen für getkeypool ändern  </translation>
-    </message>
-    <message>
-        <source>Send Pin</source>
-        <translation>Pin senden  </translation>
-    </message>
-    <message>
-        <source>Toggle Passphrase</source>
-        <translation>Passphrase umschalten  </translation>
-    </message>
-    <message>
-        <source>Display Address</source>
-        <translation>Adresse anzeigen  </translation>
-    </message>
-    <message>
-        <source>Actions</source>
-        <translation>Aktionen  </translation>
-    </message>
-    <message>
-        <source>Keypool</source>
-        <translation>Keypool  </translation>
-    </message>
-    <message>
         <source>&amp;Search</source>
         <translation>Suchen  </translation>
-    </message>
-    <message>
-        <source>Descriptors</source>
-        <translation>Deskriptoren  </translation>
     </message>
     <message>
         <source>&amp;Change</source>
@@ -1362,13 +1289,6 @@ Location of signing device: .....</source>
     </message>
 </context>
 <context>
-    <name>MultiLineListView</name>
-    <message>
-        <source>Delete all messages</source>
-        <translation>Alle Nachrichten löschen  </translation>
-    </message>
-</context>
-<context>
     <name>MyTreeView</name>
     <message>
         <source>Copy as csv</source>
@@ -1386,12 +1306,20 @@ Location of signing device: .....</source>
         <source>All Files (*);;Text Files (*.csv)</source>
         <translation>Alle Dateien (*);;Textdateien (*.csv)  </translation>
     </message>
+    <message>
+        <source>No file selected</source>
+        <translation>Keine Datei ausgewählt  </translation>
+    </message>
 </context>
 <context>
     <name>NetworkSettingsUI</name>
     <message>
         <source>Advanced</source>
         <translation>Erweitert  </translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Port:  </translation>
     </message>
     <message>
         <source>Mode:</source>
@@ -1414,6 +1342,14 @@ Location of signing device: .....</source>
         <translation>Mempool Instance-URL  </translation>
     </message>
     <message>
+        <source>The proxy does not apply to the Sync&amp;Chat feature!</source>
+        <translation>Der Proxy gilt nicht für die Sync&amp;Chat-Funktion!  </translation>
+    </message>
+    <message>
+        <source>Proxy:</source>
+        <translation>Proxy:  </translation>
+    </message>
+    <message>
         <source>Apply &amp;&amp; Shutdown</source>
         <translation>Anwenden &amp;&amp; Herunterfahren  </translation>
     </message>
@@ -1424,15 +1360,31 @@ Location of signing device: .....</source>
         <translation>Antworten: {name}: {status} Mempool-Instanz: {server}  </translation>
     </message>
     <message>
+        <source>Automatic</source>
+        <translation>Automatisch  </translation>
+    </message>
+    <message>
+        <source>Please remove the &apos;{scheme}&apos; from the electrum url</source>
+        <translation>Bitte entfernen Sie &apos;{scheme}&apos; aus der electrum URL  </translation>
+    </message>
+    <message>
+        <source>Are you sure &apos;{scheme}&apos; is correct in the esplora url?</source>
+        <translation>Sind Sie sicher, dass &apos;{scheme}&apos; in der esplora URL korrekt ist?  </translation>
+    </message>
+    <message>
+        <source>The format for tor addresses should be &apos;{scheme}&apos;</source>
+        <translation>Das Format für tor Adressen sollte &apos;{scheme}&apos; sein  </translation>
+    </message>
+    <message>
+        <source>Please try &apos;{scheme}&apos; at the beginning of the mempool url</source>
+        <translation>Bitte versuchen Sie &apos;{scheme}&apos; am Anfang der mempool URL  </translation>
+    </message>
+    <message>
         <source>Error in server connection.
 {responses}
 
  Do you want to proceed anyway?</source>
         <translation>Fehler in der Serververbindung. {responses} Möchten Sie trotzdem fortfahren?  </translation>
-    </message>
-    <message>
-        <source>Automatic</source>
-        <translation>Automatisch  </translation>
     </message>
     <message>
         <source>Test Connection</source>
@@ -1447,20 +1399,20 @@ Location of signing device: .....</source>
         <translation>Blockchain-Datenquelle  </translation>
     </message>
     <message>
-        <source>Enable SSL</source>
-        <translation>SSL aktivieren  </translation>
-    </message>
-    <message>
         <source>URL:</source>
         <translation>URL:  </translation>
     </message>
     <message>
-        <source>SSL:</source>
-        <translation>SSL:  </translation>
+        <source>Press ⬇ arrow key for suggestions</source>
+        <translation>Drücken Sie die Pfeiltaste ⬇ für Vorschläge  </translation>
     </message>
     <message>
-        <source>Port:</source>
-        <translation>Port:  </translation>
+        <source>Enable SSL</source>
+        <translation>SSL aktivieren  </translation>
+    </message>
+    <message>
+        <source>SSL:</source>
+        <translation>SSL:  </translation>
     </message>
 </context>
 <context>
@@ -1502,8 +1454,8 @@ Location of signing device: .....</source>
         <translation>Multi-Signatur wählen  </translation>
     </message>
     <message>
-        <source>Custom or restore existing Wallet</source>
-        <translation>Benutzerdefiniertes oder bestehendes Wallet wiederherstellen  </translation>
+        <source>Custom or import existing Wallet</source>
+        <translation>Benutzerdefinierte oder vorhandene Wallet importieren</translation>
     </message>
     <message>
         <source>Customize the wallet to your needs</source>
@@ -1634,6 +1586,13 @@ Location of signing device: .....</source>
     </message>
 </context>
 <context>
+    <name>PoisoningWarningBar</name>
+    <message>
+        <source>Warning! This transaction involves deceptively similar addresses. It may be an address poisoning attack. Similar addresses are  &lt;br&gt;{addresses}.&lt;br&gt; Double-check all transaction details carefully!</source>
+        <translation>Warnung! Diese Transaktion beinhaltet täuschend ähnliche Adressen. Es könnte sich um einen Adressen-Poisoning-Angriff handeln. Ähnliche Adressen sind &lt;br&gt;{addresses}.&lt;br&gt; Überprüfen Sie alle Transaktionsdetails sorgfältig!</translation>
+    </message>
+</context>
+<context>
     <name>QTProtoWallet</name>
     <message>
         <source>Setup wallet</source>
@@ -1667,6 +1626,10 @@ Location of signing device: .....</source>
         <translation>Wallet löschen  </translation>
     </message>
     <message>
+        <source>No file selected</source>
+        <translation>Keine Datei ausgewählt  </translation>
+    </message>
+    <message>
         <source>Password incorrect</source>
         <translation>Passwort falsch  </translation>
     </message>
@@ -1683,12 +1646,12 @@ Location of signing device: .....</source>
         <translation>Wallet gespeichert  </translation>
     </message>
     <message>
-        <source>  {amount} in {shortid}</source>
-        <translation>{amount} in {shortid}  </translation>
-    </message>
-    <message>
         <source>Descriptor</source>
         <translation>Deskriptor  </translation>
+    </message>
+    <message>
+        <source>  {amount} in {shortid}</source>
+        <translation>{amount} in {shortid}  </translation>
     </message>
     <message>
         <source>The transactions 
@@ -1719,8 +1682,36 @@ Location of signing device: .....</source>
         <translation>Wählen Sie einen neuen Namen oder einen bestehenden Namen zum Zusammenführen:  </translation>
     </message>
     <message>
+        <source>Syncing with {server}</source>
+        <translation>Synchronisierung mit {server}  </translation>
+    </message>
+    <message>
+        <source>Connected to {server}</source>
+        <translation>Verbunden mit {server}  </translation>
+    </message>
+    <message>
+        <source>Disconnected from {server}</source>
+        <translation>Getrennt von {server}  </translation>
+    </message>
+    <message>
+        <source>Sync &amp;&amp; Chat</source>
+        <translation>Synchronisieren &amp;&amp; Chatten  </translation>
+    </message>
+    <message>
         <source>Click for new address</source>
         <translation>Für neue Adresse klicken  </translation>
+    </message>
+    <message>
+        <source>{num_inputs} Inputs: {inputs}</source>
+        <translation>{num_inputs} Inputs: {inputs}  </translation>
+    </message>
+    <message>
+        <source>start updating lists</source>
+        <translation>Start der Listenaktualisierung  </translation>
+    </message>
+    <message>
+        <source>finished updating lists</source>
+        <translation>Listenaktualisierung abgeschlossen  </translation>
     </message>
     <message>
         <source>Export labels</source>
@@ -1735,10 +1726,6 @@ Location of signing device: .....</source>
         <translation>Etiketten importieren  </translation>
     </message>
     <message>
-        <source>Sync &amp;&amp; Chat</source>
-        <translation>Synchronisieren &amp;&amp; Chatten  </translation>
-    </message>
-    <message>
         <source>All Files (*);;JSONL Files (*.jsonl);;JSON Files (*.json)</source>
         <translation>Alle Dateien (*);;JSONL-Dateien (*.jsonl);;JSON-Dateien (*.json)  </translation>
     </message>
@@ -1751,12 +1738,12 @@ Location of signing device: .....</source>
         <translation>Electrum Wallet-Etiketten importieren  </translation>
     </message>
     <message>
-        <source>All Files (*);;JSON Files (*.json)</source>
-        <translation>Alle Dateien (*);;JSON-Dateien (*.json)  </translation>
-    </message>
-    <message>
         <source>History</source>
         <translation>Historie  </translation>
+    </message>
+    <message>
+        <source>All Files (*);;JSON Files (*.json)</source>
+        <translation>Alle Dateien (*);;JSON-Dateien (*.json)  </translation>
     </message>
     <message>
         <source>Receive</source>
@@ -1805,9 +1792,9 @@ Location of signing device: .....</source>
                     So before you send a substantial amount of Bitcoin into the wallet, it is &lt;b&gt;crucial&lt;/b&gt; to spend from the wallet and test all signers.     
                     &lt;br&gt;
                     &lt;br&gt;
-                    &lt;b&gt;Do NOT send in large funds into the wallet before you didn&apos;t complete all send tests!&lt;/b&gt;   
+                    &lt;b&gt;Do NOT send large funds into the wallet, yet. Please complete all send tests first!&lt;/b&gt;   
                     </source>
-        <translation>Empfangen Sie einen &lt;b&gt;kleinen&lt;/b&gt; Betrag (weniger als {test_amount}) auf eine Adresse dieses Wallets.                      &lt;br&gt;&lt;br&gt;                      &lt;b&gt;Warum?&lt;/b&gt; &lt;br&gt;                      Um zu wissen, ob Sie die Mittel kontrollieren, müssen Sie das Ausgeben aus dem Wallet testen.                       &lt;br&gt;                      Bevor Sie also eine erhebliche Menge Bitcoin in das Wallet senden, ist es &lt;b&gt;entscheidend&lt;/b&gt;, aus dem Wallet auszugeben und alle Unterzeichner zu testen.                           &lt;br&gt;                      &lt;b&gt;Senden Sie KEINE großen Geldbeträge in das Wallet, bevor Sie nicht alle Sendetests abgeschlossen haben!&lt;/b&gt;       </translation>
+        <translation>Empfangen Sie einen &lt;b&gt;kleinen&lt;/b&gt; Betrag (weniger als {test_amount}) an eine Adresse dieses Wallets.                     &lt;br&gt;&lt;br&gt;                     &lt;b&gt;Warum?&lt;/b&gt; &lt;br&gt;                     Um zu wissen, ob Sie die Kontrolle über die Mittel haben, müssen Sie das Ausgeben aus dem Wallet testen.                      &lt;br&gt;                     Bevor Sie also eine erhebliche Menge Bitcoin in das Wallet senden, ist es &lt;b&gt;entscheidend&lt;/b&gt;, aus dem Wallet zu spenden und alle Unterzeichner zu testen.                          &lt;br&gt;                     &lt;br&gt;                     &lt;b&gt;Senden Sie noch keine großen Geldbeträge in das Wallet. Bitte schließen Sie zuerst alle Sendetests ab!&lt;/b&gt;  </translation>
     </message>
     <message>
         <source>Next step</source>
@@ -1866,6 +1853,10 @@ Location of signing device: .....</source>
         <translation>Adresse  </translation>
     </message>
     <message>
+        <source>No rows recognized</source>
+        <translation>Keine Zeilen erkannt  </translation>
+    </message>
+    <message>
         <source>{address} is not a valid address!</source>
         <translation>{address} ist keine gültige Adresse!  </translation>
     </message>
@@ -1914,6 +1905,10 @@ Location of signing device: .....</source>
         <translation>Alle Dateien (*);;Wallet-Dateien (*.csv)  </translation>
     </message>
     <message>
+        <source>No file selected</source>
+        <translation>Keine Datei ausgewählt  </translation>
+    </message>
+    <message>
         <source>Open CSV</source>
         <translation>CSV öffnen  </translation>
     </message>
@@ -1924,10 +1919,6 @@ Location of signing device: .....</source>
     <message>
         <source>Please use the CSV template and include the header row.</source>
         <translation>Bitte verwenden Sie die CSV-Vorlage und schließen Sie die Kopfzeile ein.  </translation>
-    </message>
-    <message>
-        <source>No rows recognized</source>
-        <translation>Keine Zeilen erkannt  </translation>
     </message>
 </context>
 <context>
@@ -1992,6 +1983,10 @@ Location of signing device: .....</source>
         <source>All Files (*);;Text Files (*.svg)</source>
         <translation>Alle Dateien (*);;Textdateien (*.svg)  </translation>
     </message>
+    <message>
+        <source>No file selected</source>
+        <translation>Keine Datei ausgewählt  </translation>
+    </message>
 </context>
 <context>
     <name>ScreenshotsExportXpub</name>
@@ -2053,17 +2048,6 @@ If you make a mistake here, your money is lost!</source>
     </message>
 </context>
 <context>
-    <name>SendPinDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Dialog  </translation>
-    </message>
-    <message>
-        <source>?</source>
-        <translation>?  </translation>
-    </message>
-</context>
-<context>
     <name>SendTest</name>
     <message>
         <source>You made {n} outgoing transactions already. Would you like to skip this spend test?</source>
@@ -2079,60 +2063,26 @@ If you make a mistake here, your money is lost!</source>
     </message>
 </context>
 <context>
-    <name>SetPassphraseDialog</name>
+    <name>SignMessage</name>
     <message>
-        <source>Dialog</source>
-        <translation>Dialog  </translation>
-    </message>
-</context>
-<context>
-    <name>SignMessageDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Dialog  </translation>
+        <source>Enter message to be signed at {bip32_path}</source>
+        <translation>Geben Sie die zu signierende Nachricht bei {bip32_path} ein  </translation>
     </message>
     <message>
-        <source>Signature</source>
-        <translation>Signatur  </translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation>Nachricht  </translation>
-    </message>
-    <message>
-        <source>Sign Message</source>
+        <source>Sign message</source>
         <translation>Nachricht signieren  </translation>
     </message>
     <message>
-        <source>Derivation Path</source>
-        <translation>Ableitungspfad  </translation>
-    </message>
-</context>
-<context>
-    <name>SignPSBTDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Dialog  </translation>
+        <source>Sign</source>
+        <translation>Signieren  </translation>
     </message>
     <message>
-        <source>PSBT To Sign</source>
-        <translation>PSBT zum Signieren  </translation>
+        <source>Signed Message</source>
+        <translation>Signierte Nachricht  </translation>
     </message>
     <message>
-        <source>Import PSBT</source>
-        <translation>PSBT importieren  </translation>
-    </message>
-    <message>
-        <source>PSBT Result</source>
-        <translation>PSBT-Ergebnis  </translation>
-    </message>
-    <message>
-        <source>Export PSBT</source>
-        <translation>PSBT exportieren  </translation>
-    </message>
-    <message>
-        <source>Sign PSBT</source>
-        <translation>PSBT signieren  </translation>
+        <source>Message too short.</source>
+        <translation>Nachricht zu kurz.  </translation>
     </message>
 </context>
 <context>
@@ -2179,18 +2129,6 @@ If you make a mistake here, your money is lost!</source>
         <source>Scan QR code</source>
         <translation>QR-Code scannen  </translation>
     </message>
-    <message>
-        <source>The txid of the signed psbt doesnt match the original txid</source>
-        <translation>Die txid des signierten PSBT stimmt nicht mit der ursprünglichen txid überein  </translation>
-    </message>
-    <message>
-        <source>No additional signatures were added</source>
-        <translation>Keine zusätzlichen Signaturen hinzugefügt  </translation>
-    </message>
-    <message>
-        <source>bitcoin_tx libary error. The txid should not be changed during finalizing</source>
-        <translation>bitcoin_tx-Bibliotheksfehler. Die txid sollte beim Finalisieren nicht geändert werden  </translation>
-    </message>
 </context>
 <context>
     <name>SignatureImporterUSB</name>
@@ -2210,8 +2148,8 @@ If you make a mistake here, your money is lost!</source>
         <translation>Die txid des signierten PSBT stimmt nicht mit der ursprünglichen txid überein. Abbruch  </translation>
     </message>
     <message>
-        <source>Sign with mnemonic seed</source>
-        <translation>Mit mnemonischem Seed signieren  </translation>
+        <source>Sign with seed</source>
+        <translation>Mit Samen signieren  </translation>
     </message>
 </context>
 <context>
@@ -2270,8 +2208,8 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
         <translation>Öffnung {name} von {author}  </translation>
     </message>
     <message>
-        <source>Received message &apos;{description}&apos; from {author}</source>
-        <translation>Empfangene Nachricht &apos;{description}&apos; von {author}  </translation>
+        <source>{author}: {description}</source>
+        <translation>{author} : {description}  </translation>
     </message>
 </context>
 <context>
@@ -2279,6 +2217,14 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
     <message>
         <source>USB Signer Tools</source>
         <translation>USB-Signer-Werkzeuge  </translation>
+    </message>
+    <message>
+        <source>Address index</source>
+        <translation>Adressindex  </translation>
+    </message>
+    <message>
+        <source>Sign Message</source>
+        <translation>Nachricht signieren  </translation>
     </message>
     <message>
         <source>Paste your descriptor to be signed</source>
@@ -2295,6 +2241,14 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
     <message>
         <source>Show Seed</source>
         <translation>Seed anzeigen  </translation>
+    </message>
+    <message>
+        <source>Unlock Devices</source>
+        <translation>Geräte entsperren  </translation>
+    </message>
+    <message>
+        <source>Unlock</source>
+        <translation>Entsperren  </translation>
     </message>
     <message>
         <source>Get xpubs</source>
@@ -2320,28 +2274,12 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
         <source>Paste your text to be signed</source>
         <translation>Fügen Sie Ihren zu signierenden Text ein  </translation>
     </message>
-    <message>
-        <source>Address index</source>
-        <translation>Adressindex  </translation>
-    </message>
-    <message>
-        <source>Sign Message</source>
-        <translation>Nachricht signieren  </translation>
-    </message>
 </context>
 <context>
-    <name>TrustedDevice</name>
+    <name>TrustedDeviceItem</name>
     <message>
-        <source>Connected to {id}</source>
-        <translation>Verbunden mit {id}  </translation>
-    </message>
-    <message>
-        <source>Syncing Address labels</source>
-        <translation>Adresslabels synchronisieren  </translation>
-    </message>
-    <message>
-        <source>Can share Transactions</source>
-        <translation>Kann Transaktionen teilen  </translation>
+        <source>Untrust device</source>
+        <translation>Gerät nicht vertrauen  </translation>
     </message>
 </context>
 <context>
@@ -2354,16 +2292,8 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
 <context>
     <name>TxSigningSteps</name>
     <message>
-        <source>Export transaction to any hardware signer</source>
-        <translation>Transaktion an jeden Hardware-Unterzeichner exportieren  </translation>
-    </message>
-    <message>
-        <source>Sign with a different hardware signer</source>
-        <translation>Mit einem anderen Hardware-Unterzeichner signieren  </translation>
-    </message>
-    <message>
-        <source>Import signature</source>
-        <translation>Signatur importieren  </translation>
+        <source>Create and collect {n}. signature</source>
+        <translation>Erstellen und sammeln Sie die {n}. Unterschrift  </translation>
     </message>
     <message>
         <source>Transaction signed with the private key belonging to {label}</source>
@@ -2401,14 +2331,6 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
         <translation>Benutzerdefinierte Relay-Liste festlegen  </translation>
     </message>
     <message>
-        <source>Trusted</source>
-        <translation>Vertrauenswürdig  </translation>
-    </message>
-    <message>
-        <source>UnTrusted</source>
-        <translation>Nicht vertrauenswürdig  </translation>
-    </message>
-    <message>
         <source>My Device: {id}</source>
         <translation>Mein Gerät: {id}  </translation>
     </message>
@@ -2418,10 +2340,6 @@ You can restore your labels at a later time with &apos;Import Sync Key&apos;.</s
     <message>
         <source>Select a category that fits the recipient best</source>
         <translation>Wählen Sie eine Kategorie, die am besten zum Empfänger passt  </translation>
-    </message>
-    <message>
-        <source>{num_inputs} Inputs: {inputs}</source>
-        <translation>{num_inputs} Inputs: {inputs}  </translation>
     </message>
     <message>
         <source>Adding outpoints {outpoints}</source>
@@ -2496,6 +2414,10 @@ below {rate}</source>
     <message>
         <source>Invalid Signatures</source>
         <translation>Ungültige Signaturen  </translation>
+    </message>
+    <message>
+        <source>Failed to broadcast {txid}. Consider broadcasting via {url}</source>
+        <translation>Übertragung von {txid} fehlgeschlagen. Erwägen Sie, die Übertragung über {url} vorzunehmen.</translation>
     </message>
     <message>
         <source>Import file</source>
@@ -2622,14 +2544,14 @@ below {rate}</source>
     </message>
 </context>
 <context>
-    <name>UnTrustedDevice</name>
+    <name>UntrustedDeviceItem</name>
     <message>
-        <source>Trust {id}</source>
-        <translation>Vertrauen {id}  </translation>
+        <source>Trust</source>
+        <translation>Vertrauen  </translation>
     </message>
     <message>
-        <source>Accept trust request from {other}</source>
-        <translation>Vertrauensanfrage von {other} akzeptieren  </translation>
+        <source>Trust this device</source>
+        <translation>Diesem Gerät vertrauen  </translation>
     </message>
 </context>
 <context>
@@ -2709,6 +2631,10 @@ below {rate}</source>
     <message>
         <source>The wallet {filename} exists already.</source>
         <translation>Das Wallet {filename} existiert bereits.  </translation>
+    </message>
+    <message>
+        <source>Please choose a wallet name</source>
+        <translation>Bitte wählen Sie einen Wallet-Namen  </translation>
     </message>
 </context>
 <context>
@@ -2876,6 +2802,38 @@ below {rate}</source>
         <translation>Für {name} konnte kein HWI AddressType gefunden werden.  </translation>
     </message>
     <message>
+        <source>USB errors can appear due to missing udev files. Do you want to install udev files now?</source>
+        <translation>USB-Fehler können aufgrund fehlender udev-Dateien auftreten. Möchten Sie jetzt udev-Dateien installieren?  </translation>
+    </message>
+    <message>
+        <source>Install udev files</source>
+        <translation>udev-Dateien installieren  </translation>
+    </message>
+    <message>
+        <source>Please restart your computer for the changes to take effect.</source>
+        <translation>Bitte starten Sie Ihren Computer neu, damit die Änderungen wirksam werden.  </translation>
+    </message>
+    <message>
+        <source>Restart computer</source>
+        <translation>Computer neu starten  </translation>
+    </message>
+    <message>
+        <source>Executing the script</source>
+        <translation>Skript ausführen  </translation>
+    </message>
+    <message>
+        <source>No suitable terminal emulator found.</source>
+        <translation>Kein geeigneter Terminal-Emulator gefunden.  </translation>
+    </message>
+    <message>
+        <source>derivation_path {value} must start with a /</source>
+        <translation>Ableitungspfad {value} muss mit einem / beginnen  </translation>
+    </message>
+    <message>
+        <source>{value} is not a valid fingerprint</source>
+        <translation>{value} ist kein gültiger Fingerabdruck  </translation>
+    </message>
+    <message>
         <source>The network part {network_str} of the key origin {key_origin} must be hardened with a h</source>
         <translation>Der Netzwerkteil {network_str} des Schlüsselursprungs {key_origin} muss mit einem h gehärtet werden  </translation>
     </message>
@@ -2898,62 +2856,6 @@ below {rate}</source>
     <message>
         <source>Error</source>
         <translation>Fehler  </translation>
-    </message>
-    <message>
-        <source>USB errors can appear due to missing udev files. Do you want to install udev files now?</source>
-        <translation>USB-Fehler können aufgrund fehlender udev-Dateien auftreten. Möchten Sie jetzt udev-Dateien installieren?  </translation>
-    </message>
-    <message>
-        <source>Install udev files</source>
-        <translation>udev-Dateien installieren  </translation>
-    </message>
-    <message>
-        <source>Please restart your computer for the changes to take effect.</source>
-        <translation>Bitte starten Sie Ihren Computer neu, damit die Änderungen wirksam werden.  </translation>
-    </message>
-    <message>
-        <source>Restart computer</source>
-        <translation>Computer neu starten  </translation>
-    </message>
-    <message>
-        <source>derivation_path {value} must start with a /</source>
-        <translation>Ableitungspfad {value} muss mit einem / beginnen  </translation>
-    </message>
-    <message>
-        <source>Executing the script</source>
-        <translation>Skript ausführen  </translation>
-    </message>
-    <message>
-        <source>No suitable terminal emulator found.</source>
-        <translation>Kein geeigneter Terminal-Emulator gefunden.  </translation>
-    </message>
-    <message>
-        <source>h cannot appear twice in a index</source>
-        <translation>h darf nicht zweimal in einem Index erscheinen  </translation>
-    </message>
-    <message>
-        <source>{value} must start with m/</source>
-        <translation>{value} muss mit m/ beginnen  </translation>
-    </message>
-    <message>
-        <source>{value} cannot contain //</source>
-        <translation>{value} darf nicht // enthalten  </translation>
-    </message>
-    <message>
-        <source>{value} cannot contain /h</source>
-        <translation>{value} darf nicht /h enthalten  </translation>
-    </message>
-    <message>
-        <source>{value} cannot contain hh</source>
-        <translation>{value} darf nicht hh enthalten  </translation>
-    </message>
-    <message>
-        <source>{value} cannot end with /</source>
-        <translation>{value} darf nicht mit / enden  </translation>
-    </message>
-    <message>
-        <source>{value} is not a valid fingerprint</source>
-        <translation>{value} ist kein gültiger Fingerabdruck  </translation>
     </message>
 </context>
 <context>
@@ -2988,6 +2890,10 @@ below {rate}</source>
     <message>
         <source>Read QR code from camera</source>
         <translation>QR-Code von der Kamera lesen  </translation>
+    </message>
+    <message>
+        <source>Connect to USB signer</source>
+        <translation>Mit dem USB-Signer verbinden</translation>
     </message>
     <message>
         <source>Recovery</source>
@@ -3162,14 +3068,6 @@ below {rate}</source>
     </message>
 </context>
 <context>
-    <name>lib_load</name>
-    <message>
-        <source>You are missing the {link}
-Please install it.</source>
-        <translation>Es fehlt Ihnen der {link}. Bitte installieren Sie ihn.  </translation>
-    </message>
-</context>
-<context>
     <name>menu</name>
     <message>
         <source>Import Labels</source>
@@ -3210,6 +3108,10 @@ Please install it.</source>
         <translation>Dies ist eine private und schnelle Möglichkeit, sich mit dem Bitcoin-Netzwerk zu verbinden.  </translation>
     </message>
     <message>
+        <source>Run your bitcoind with &quot;bitcoind -chain=test&quot;</source>
+        <translation>Führen Sie Ihren bitcoind mit &quot;bitcoind -chain=test&quot; aus  </translation>
+    </message>
+    <message>
         <source>Run your bitcoind with &quot;bitcoind -chain=signet&quot;  This however is a different signet than mutinynet.com.</source>
         <translation>Führen Sie Ihren bitcoind mit &quot;bitcoind -chain=signet&quot; aus. Dies ist jedoch ein anderes Signet als mutinynet.com.  </translation>
     </message>
@@ -3219,20 +3121,24 @@ It is best to use your own server, such as {link}.</source>
         <translation>Der Server kann Ihre IP-Adresse den Wallet-Adressen zuordnen. Es ist am besten, Ihren eigenen Server zu verwenden, wie {link}.  </translation>
     </message>
     <message>
-        <source>You can setup {link} with an electrum server on {server} and a block explorer on {explorer}</source>
-        <translation>Sie können {link} mit einem Electrum-Server auf {server} und einem Block-Explorer auf {explorer} einrichten  </translation>
+        <source>You can setup {electrum} with an electrum server on {server} and a block explorer on {explorer}</source>
+        <translation>Sie können {electrum} mit einem Electrum-Server auf {server} und einem Block-Explorer auf {explorer} einrichten  </translation>
     </message>
     <message>
-        <source>A good option is {link} and a block explorer on {explorer}.</source>
-        <translation>Eine gute Option ist {link} und ein Block-Explorer auf {explorer}.  </translation>
+        <source>A good option is  {electrum_testnet4} and as block explorer {explorer_testnet4}</source>
+        <translation>Eine gute Option ist {electrum_testnet4} und als Block-Explorer {explorer_testnet4}  </translation>
+    </message>
+    <message>
+        <source>Signet choose {electrum} and a block explorer on {mempool_url}.</source>
+        <translation>Signet wählen {electrum} und einen Block-Explorer auf {mempool_url}.  </translation>
     </message>
     <message>
         <source>You can setup {setup} with an esplora server on {server} and a block explorer on {explorer}</source>
         <translation>Sie können {setup} mit einem Esplora-Server auf {server} und einem Block-Explorer auf {explorer} einrichten  </translation>
     </message>
     <message>
-        <source>A good option is {link} and a block explorer on {explorer}. There is a {faucet}.</source>
-        <translation>Eine gute Option ist {link} und ein Block-Explorer auf {explorer}. Dort gibt es ein {faucet}.  </translation>
+        <source>A (somtimes working) server is {link} and a block explorer on {explorer}. There is a {faucet}.</source>
+        <translation>Ein (manchmal funktionierender) Server ist {link} und ein Block-Explorer auf {explorer}. Es gibt ein {faucet}.  </translation>
     </message>
     <message>
         <source>You can connect your own Bitcoin node, such as {link}.</source>
@@ -3242,20 +3148,27 @@ It is best to use your own server, such as {link}.</source>
         <source>Run your bitcoind with &quot;bitcoind -chain=regtest&quot;</source>
         <translation>Führen Sie Ihren bitcoind mit &quot;bitcoind -chain=regtest&quot; aus  </translation>
     </message>
+</context>
+<context>
+    <name>network_config</name>
     <message>
-        <source>Run your bitcoind with &quot;bitcoind -chain=test&quot;</source>
-        <translation>Führen Sie Ihren bitcoind mit &quot;bitcoind -chain=test&quot; aus  </translation>
+        <source>{server_name} via the proxy {proxy}</source>
+        <translation>{server_name} über den Proxy {proxy}  </translation>
+    </message>
+    <message>
+        <source>{server_name}</source>
+        <translation>{server_name}  </translation>
     </message>
 </context>
 <context>
     <name>open_file</name>
     <message>
-        <source>All Files (*);;PSBT (*.psbt);;Transation (*.tx)</source>
-        <translation>Alle Dateien (*);;PSBT (*.psbt);;Transaktion (*.tx)  </translation>
-    </message>
-    <message>
         <source>Open Transaction/PSBT</source>
         <translation>Transaktion/PSBT öffnen  </translation>
+    </message>
+    <message>
+        <source>All Files (*);;PSBT (*.psbt);;Transation (*.tx)</source>
+        <translation>Alle Dateien (*);;PSBT (*.psbt);;Transaktion (*.tx)  </translation>
     </message>
 </context>
 <context>
@@ -3267,6 +3180,10 @@ It is best to use your own server, such as {link}.</source>
     <message>
         <source>{keystore_label}: Fingerprint: {keystore_fingerprint}, Key origin: {keystore_key_origin}, {keystore_xpub}</source>
         <translation>{keystore_label}: Fingerabdruck: {keystore_fingerprint}, Schlüsselursprung: {keystore_key_origin}, {keystore_xpub}  </translation>
+    </message>
+    <message>
+        <source>File not found!</source>
+        <translation>Datei nicht gefunden!</translation>
     </message>
     <message>
         <source>{i}. Seed backup of a {threshold} of {m} Multi-Sig Wallet: &quot;{id}&quot;</source>
@@ -3301,16 +3218,16 @@ It is best to use your own server, such as {link}.</source>
         <translation>Beim erneuten Scannen dieses Wallets scannen Sie mindestens bis zum Adressindex {max_tip}, um alle finanzierten Adressen zu entdecken.  </translation>
     </message>
     <message>
-        <source>Label syncronization backup key: {label_sync_nsec}</source>
-        <translation>Label-Synchronisations-Backup-Schlüssel: {label_sync_nsec}  </translation>
-    </message>
-    <message>
-        <source>1. Glue or tape the &apos;Recovery sheet&apos; ({number} words) over the table below&lt;br/&gt;
+        <source>1. Attach the &apos;Recovery sheet&apos; ({number} words) to this paper or duplicate the 12/24 words onto this paper.&lt;br/&gt;
                 2. Fold this  paper at the line below &lt;br/&gt;
                 3. Put this paper in a secure location, where only you have access&lt;br/&gt;
                 4. You can put the hardware signer either a) together with the paper seed backup, or b)   in another secure  location (if available)   
                 </source>
-        <translation>1. Kleben oder kleben Sie das &apos;Recovery sheet&apos; ({number} Wörter) über die Tabelle unten&lt;br/&gt;                 2. Falten Sie dieses Papier an der Linie unten &lt;br/&gt;                 3. Legen Sie dieses Papier an einen sicheren Ort, wo nur Sie Zugang haben&lt;br/&gt;                 4. Sie können den Hardware-Signer entweder a) zusammen mit dem Papier-Seed-Backup oder b) an einem anderen sicheren Ort (falls verfügbar) aufbewahren  </translation>
+        <translation>1. Befestigen Sie das &apos;Wiederherstellungsblatt&apos; ({number} Wörter) an dieses Papier oder duplizieren Sie die 12/24 Wörter auf diesem Papier.&lt;br/&gt;                 2. Falten Sie dieses Papier an der Linie unten &lt;br/&gt;                 3. Legen Sie dieses Papier an einen sicheren Ort, wo nur Sie Zugang haben&lt;br/&gt;                 4. Sie können den Hardware-Unterzeichner entweder a) zusammen mit dem Papier-Seed-Backup oder b) an einem anderen sicheren Ort (falls verfügbar) platzieren  </translation>
+    </message>
+    <message>
+        <source>Label syncronization backup key: {label_sync_nsec}</source>
+        <translation>Label-Synchronisations-Backup-Schlüssel: {label_sync_nsec}  </translation>
     </message>
     <message>
         <source>Balance Statement of {id}</source>
@@ -3321,12 +3238,12 @@ It is best to use your own server, such as {link}.</source>
         <translation>Kontostandsauszug von &quot;{id}&quot;  </translation>
     </message>
     <message>
-        <source>1. Glue or tape the &apos;Recovery sheet&apos; ({number} words) over the table below&lt;br/&gt;
+        <source>1. Attach the &apos;Recovery sheet&apos; ({number} words) to this paper or duplicate the 12/24 words onto this paper.&lt;br/&gt;
                 2. Fold this  paper at the line below &lt;br/&gt;
                 3. Put each paper in a different secure location, where only you have access&lt;br/&gt;
                 4. You can put the hardware signers either a) together with the corresponding paper seed backup, or b)   each  in yet another secure  location (if available)   
                 </source>
-        <translation>1. Kleben oder kleben Sie das &apos;Recovery sheet&apos; ({number} Wörter) über die Tabelle unten&lt;br/&gt;                 2. Falten Sie jedes Papier an der Linie unten &lt;br/&gt;                 3. Legen Sie jedes Papier an einen anderen sicheren Ort, wo nur Sie Zugang haben&lt;br/&gt;                 4. Sie können die Hardware-Signer entweder a) zusammen mit dem entsprechenden Papier-Seed-Backup oder b) jeweils an einem weiteren sicheren Ort (falls verfügbar) aufbewahren  </translation>
+        <translation>1. Befestigen Sie das &apos;Wiederherstellungsblatt&apos; ({number} Wörter) an dieses Papier oder duplizieren Sie die 12/24 Wörter auf diesem Papier.&lt;br/&gt;                 2. Falten Sie dieses Papier an der Linie unten &lt;br/&gt;                 3. Legen Sie jedes Papier an einen anderen sicheren Ort, wo nur Sie Zugang haben&lt;br/&gt;                 4. Sie können die Hardware-Unterzeichner entweder a) zusammen mit dem entsprechenden Papier-Seed-Backup oder b) jeden an einem anderen sicheren Ort (falls verfügbar) platzieren</translation>
     </message>
     <message>
         <source>Secret seed words for a hardware signer: Never type into a computer. Never make a picture.</source>

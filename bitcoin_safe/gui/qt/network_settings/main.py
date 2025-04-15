@@ -27,46 +27,18 @@
 # SOFTWARE.
 
 
+import json
 import logging
-from typing import Optional, Tuple
+import socket
+import ssl
+from typing import Dict, Optional, Tuple
 
 import bdkpython as bdk
 import numpy as np
 import requests
-
-from bitcoin_safe.gui.qt.custom_edits import QCompleterLineEdit
-from bitcoin_safe.gui.qt.dialogs import question_dialog
-from bitcoin_safe.gui.qt.util import (
-    Message,
-    ensure_scheme,
-    get_host_and_port,
-    read_QIcon,
-    remove_scheme,
-    webopen,
-)
-from bitcoin_safe.network_config import (
-    NetworkConfig,
-    NetworkConfigs,
-    get_default_port,
-    get_description,
-    get_electrum_configs,
-    get_esplora_urls,
-    get_mempool_url,
-)
-from bitcoin_safe.pythonbdk_types import BlockchainType, CBFServerType
-from bitcoin_safe.signals import Signals
-from bitcoin_safe.typestubs import TypedPyQtSignal
-
-from ....signals import TypedPyQtSignalNo
-
-logger = logging.getLogger(__name__)
-
-import json
-import socket
-import ssl
-
+import socks  # Import the socks module from PySocks
 from PyQt6.QtCore import Qt, pyqtSignal
-from PyQt6.QtGui import QKeyEvent
+from PyQt6.QtGui import QColor, QKeyEvent
 from PyQt6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -82,62 +54,127 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
+from bitcoin_safe.gui.qt.custom_edits import QCompleterLineEdit
+from bitcoin_safe.gui.qt.dialogs import question_dialog
+from bitcoin_safe.gui.qt.notification_bar import NotificationBar
+from bitcoin_safe.gui.qt.util import (
+    Message,
+    adjust_bg_color_for_darkmode,
+    ensure_scheme,
+    get_host_and_port,
+    read_QIcon,
+    remove_scheme,
+    webopen,
+)
+from bitcoin_safe.network_config import (
+    NetworkConfig,
+    NetworkConfigs,
+    ProxyInfo,
+    get_default_cbf_hosts,
+    get_default_port,
+    get_default_rpc_hosts,
+    get_description,
+    get_electrum_configs,
+    get_esplora_urls,
+    get_mempool_url,
+)
+from bitcoin_safe.pythonbdk_types import BlockchainType, CBFServerType
+from bitcoin_safe.signals import Signals
+from bitcoin_safe.typestubs import TypedPyQtSignal
 
-def test_mempool_space_server(url: str) -> bool:
+from ....signals import TypedPyQtSignalNo
+
+logger = logging.getLogger(__name__)
+
+
+def test_mempool_space_server(url: str, proxies: Dict | None) -> bool:
     try:
-        response = requests.get(f"{url}/api/blocks/tip/height", timeout=2)
+        response = requests.get(f"{url}/api/blocks/tip/height", timeout=2, proxies=proxies)
         return response.status_code == 200
     except Exception as e:
         logger.warning(f"Mempool.space server connection test failed: {e}")
         return False
 
 
-def get_electrum_server_version(host: str, port: int, use_ssl: bool = True, timeout=2) -> Optional[str]:
+def get_electrum_server_version(
+    host: str, port: int, use_ssl: bool = True, timeout: int = 10, proxy_info: Optional[ProxyInfo] = None
+) -> Optional[str]:
+    sock = None
+    ssock = None
     try:
-        # Connect to the server
-        with socket.create_connection((host, port), timeout=timeout) as sock:
-            # Wrap the socket with SSL if required
-            ssock: Optional[socket.socket] = None
-            if use_ssl:
-                context = ssl.create_default_context()
-                context.minimum_version = ssl.TLSVersion.TLSv1_2
-                ssock = context.wrap_socket(sock, server_hostname=host)
-            else:
-                ssock = sock
+        if proxy_info:
+            # Set the default proxy with remote DNS resolution enabled.
+            socks.set_default_proxy(
+                proxy_info.get_socks_scheme(),
+                proxy_info.host,
+                proxy_info.port,
+                rdns=(proxy_info.scheme == "socks5h"),
+            )
+            # Instead of monkey-patching socket.socket and using create_connection,
+            # create a socks socket instance directly.
+            sock = socks.socksocket()
+            sock.settimeout(timeout)
+            sock.connect((host, port))
+        else:
+            sock = socket.create_connection((host, port), timeout=timeout)
 
-            # Prepare and send the JSON-RPC request
-            request = json.dumps({"id": 1, "method": "server.version", "params": ["1.4", "1.4"]}) + "\n"
-            ssock.sendall(request.encode())
+        # Wrap the socket with SSL if required.
+        if use_ssl:
+            context = ssl.create_default_context()
+            context.minimum_version = ssl.TLSVersion.TLSv1_2
+            ssock = context.wrap_socket(sock, server_hostname=host)
+        else:
+            ssock = sock
 
-            # Receive the response
-            response = ssock.recv(4096).decode()  # Assuming the response won't exceed 4096 bytes
-            response_json = json.loads(response.split("\n")[0])  # Handling potential extra newlines
+        if not ssock:
+            return None
 
-            # Close the SSL socket if used
-            if use_ssl:
-                ssock.close()
+        # Prepare and send the JSON-RPC request.
+        request = json.dumps({"id": 1, "method": "server.version", "params": ["1.4", "1.4"]}) + "\n"
+        ssock.sendall(request.encode())
 
-            # Check and print the server version
-            if "result" in response_json:
-                logger.debug(f"Server version: {response_json['result']}")
-                return response_json["result"]
-            else:
-                logger.debug(f"Failed to retrieve server version of {host , port , use_ssl}.")
-                return None
+        # Receive the response.
+        response = ssock.recv(4096).decode()  # Assuming the response won't exceed 4096 bytes.
+        response_json = json.loads(response.split("\n")[0])  # Handling potential extra newlines.
+
+        # Check and return the server version.
+        if "result" in response_json:
+            logger.debug(f"Server version: {response_json['result']}")
+            return response_json["result"]
+        else:
+            logger.debug(f"Failed to retrieve server version of {host, port, use_ssl}.")
+            return None
     except Exception as e:
         logger.debug(f"Connection or communication error: {e}")
         return None
+    finally:
+        # Ensure the SSL socket is closed if it was created.
+        if ssock is not None:
+            try:
+                ssock.close()
+            except Exception as close_err:
+                logger.debug(f"Error closing SSL socket: {close_err}")
+        # If ssock was never set, try closing the plain socket.
+        elif sock is not None:
+            try:
+                sock.close()
+            except Exception as close_err:
+                logger.debug(f"Error closing socket: {close_err}")
 
 
 def test_connection(network_config: NetworkConfig) -> Optional[str]:
     if network_config.server_type == BlockchainType.Electrum:
         try:
             host, port = get_host_and_port(network_config.electrum_url)
-
             if host is None or port is None:
                 logger.warning(f"No host or port given")
                 return None
-            return get_electrum_server_version(host=host, port=port, use_ssl=network_config.electrum_use_ssl)
+            return get_electrum_server_version(
+                host=host,
+                port=port,
+                use_ssl=network_config.electrum_use_ssl,
+                proxy_info=ProxyInfo.parse(network_config.proxy_url) if network_config.proxy_url else None,
+            )
         except Exception as e:
             logger.warning(f"Electrum connection test failed: {e}")
             return None
@@ -145,7 +182,15 @@ def test_connection(network_config: NetworkConfig) -> Optional[str]:
     elif network_config.server_type == BlockchainType.Esplora:
         try:
             # Assuming Esplora's REST API for testing connection
-            response = requests.get(f"{network_config.esplora_url}/blocks/tip/height", timeout=2)
+            response = requests.get(
+                f"{network_config.esplora_url}/blocks/tip/height",
+                timeout=5,
+                proxies=(
+                    ProxyInfo.parse(network_config.proxy_url).get_requests_proxy_dict()
+                    if network_config.proxy_url
+                    else None
+                ),
+            )
             if response.status_code == 200:
                 return response.json()
             else:
@@ -233,7 +278,12 @@ class NetworkSettingsUI(QDialog):
             self.cbf_server_typeComboBox_label, self.cbf_server_typeComboBox
         )
 
-        self.compactblockfilters_ip_address_edit = QCompleterLineEdit(network=network)
+        self.compactblockfilters_ip_address_edit = QCompleterLineEdit(
+            network=network,
+            suggestions={
+                network: list(get_default_cbf_hosts(network=network).values()) for network in bdk.Network
+            },
+        )
         self.compactblockfilters_ip_address_edit.setEnabled(False)
         self.compactblockfilters_ip_address_edit_label = QLabel()
         self.compactBlockFiltersLayout.addRow(
@@ -320,7 +370,12 @@ class NetworkSettingsUI(QDialog):
         self.rpcTabLayout = QFormLayout(self.rpcTab)
         self.rpcTabLayout.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow)
 
-        self.rpc_ip_address_edit = QCompleterLineEdit(network=network)
+        self.rpc_ip_address_edit = QCompleterLineEdit(
+            network=network,
+            suggestions={
+                network: list(get_default_rpc_hosts(network=network).values()) for network in bdk.Network
+            },
+        )
         self.rpc_port_edit = QCompleterLineEdit(
             network=network,
             suggestions={
@@ -348,11 +403,12 @@ class NetworkSettingsUI(QDialog):
 
         self.stackedWidget.addWidget(self.rpcTab)
 
+        # mempool
         self.groupbox_blockexplorer = QGroupBox()
         self.groupbox_blockexplorer_layout = QHBoxLayout(self.groupbox_blockexplorer)
         button_mempool = QPushButton(self)
         button_mempool.setIcon(read_QIcon("block-explorer.svg"))
-        button_mempool.clicked.connect(lambda: webopen(self.edit_mempool_url.text()))
+        button_mempool.clicked.connect(self.on_button_mempool_clicked)
         self.edit_mempool_url = QCompleterLineEdit(
             network=network,
             suggestions={network: list(get_mempool_url(network).values()) for network in bdk.Network},
@@ -360,6 +416,24 @@ class NetworkSettingsUI(QDialog):
         self.groupbox_blockexplorer_layout.addWidget(button_mempool)
         self.groupbox_blockexplorer_layout.addWidget(self.edit_mempool_url)
         self._layout.addWidget(self.groupbox_blockexplorer)
+
+        # proxy
+        self.groupbox_proxy = QGroupBox()
+        self.groupbox_proxy_layout = QHBoxLayout(self.groupbox_proxy)
+
+        self.proxy_url_edit = QCompleterLineEdit(
+            network=network,
+            suggestions={network: ["127.0.0.1:9050"] for network in bdk.Network},
+        )
+        self.proxy_url_edit.textChanged.connect(self.on_proxy_url_changed)
+        self.proxy_url_edit_label = QLabel()
+        self.groupbox_proxy_layout.addWidget(self.proxy_url_edit_label)
+        self.groupbox_proxy_layout.addWidget(self.proxy_url_edit)
+        self._layout.addWidget(self.groupbox_proxy)
+        self.proxy_warning_label = NotificationBar("")
+        self.proxy_warning_label.set_background_color(adjust_bg_color_for_darkmode(QColor("#FFDF00")))
+        self.proxy_warning_label.set_icon(read_QIcon("warning.png"))
+        self._layout.addWidget(self.proxy_warning_label)
 
         # Create buttons and layout
         self.button_box = QDialogButtonBox(
@@ -389,21 +463,43 @@ class NetworkSettingsUI(QDialog):
             self.signals.language_switch.connect(self.updateUi)
         self.updateUi()
 
+    def on_button_mempool_clicked(self):
+        return webopen(self.edit_mempool_url.text())
+
     def updateUi(self):
         self.setWindowTitle(self.tr("Network Settings"))
         self.groupbox_connection.setTitle(self.tr("Blockchain data source"))
-        self.electrum_use_ssl_checkbox.setText(self.tr("Enable SSL"))
+
         self.esplora_url_edit_label.setText(self.tr("URL:"))
+        self.esplora_url_edit.setPlaceholderText(self.tr("Press ⬇ arrow key for suggestions"))
+
+        self.electrum_use_ssl_checkbox.setText(self.tr("Enable SSL"))
         self.electrum_url_edit_url_label.setText(self.tr("URL:"))
+        self.electrum_url_edit.setPlaceholderText(self.tr("Press ⬇ arrow key for suggestions"))
         self.electrum_use_ssl_checkbox_label.setText(self.tr("SSL:"))
+
         self.compactblockfilters_port_edit_label.setText(self.tr("Port:"))
+        self.compactblockfilters_port_edit.setPlaceholderText(self.tr("Press ⬇ arrow key for suggestions"))
         self.cbf_server_typeComboBox_label.setText(self.tr("Mode:"))
         self.compactblockfilters_ip_address_edit_label.setText(self.tr("IP Address:"))
+        self.compactblockfilters_ip_address_edit.setPlaceholderText(
+            self.tr("Press ⬇ arrow key for suggestions")
+        )
+
         self.rpc_ip_address_edit_label.setText(self.tr("IP Address:"))
+        self.rpc_ip_address_edit.setPlaceholderText(self.tr("Press ⬇ arrow key for suggestions"))
         self.rpc_port_edit_label.setText(self.tr("Port:"))
+        self.rpc_port_edit.setPlaceholderText(self.tr("Press ⬇ arrow key for suggestions"))
         self.rpc_username_edit_label.setText(self.tr("Username:"))
         self.rpc_password_edit_label.setText(self.tr("Password:"))
+
         self.groupbox_blockexplorer.setTitle(self.tr("Mempool Instance URL"))
+        self.edit_mempool_url.setPlaceholderText(self.tr("Press ⬇ arrow key for suggestions"))
+
+        self.proxy_warning_label.textLabel.setText(
+            self.tr("The proxy does not apply to the Sync&Chat feature!")
+        )
+        self.proxy_url_edit_label.setText(self.tr("Proxy:"))
         if ok_button := self.button_box.button(QDialogButtonBox.StandardButton.Ok):
             ok_button.setText(self.tr("Apply && Shutdown"))
 
@@ -420,10 +516,21 @@ class NetworkSettingsUI(QDialog):
         logger.debug(f"set use_ssl = {use_ssl}")
         self.electrum_use_ssl = use_ssl
 
+    def on_proxy_url_changed(self):
+        is_proxy = bool(self.proxy_url_edit.text().strip())
+        self.proxy_warning_label.setHidden(not is_proxy)
+
     def _test_connection(self, network_config: NetworkConfig) -> Tuple[str | None, bool]:
         server_connection = test_connection(network_config=network_config)
 
-        mempool_server = test_mempool_space_server(url=network_config.mempool_url)
+        mempool_server = test_mempool_space_server(
+            url=network_config.mempool_url,
+            proxies=(
+                ProxyInfo.parse(network_config.proxy_url).get_requests_proxy_dict()
+                if network_config.proxy_url
+                else None
+            ),
+        )
         return server_connection, mempool_server
 
     def _format_test_responses(
@@ -432,11 +539,41 @@ class NetworkSettingsUI(QDialog):
         def format_status(response):
             return "Success" if response else "Failed"
 
-        return self.tr("Responses:\n    {name}: {status}\n    Mempool Instance: {server}").format(
+        response = self.tr("Responses:\n    {name}: {status}\n    Mempool Instance: {server}").format(
             name=network_config.server_type.name,
             status=format_status(server_connection),
             server=format_status(mempool_server),
         )
+
+        if not server_connection and network_config.server_type == BlockchainType.Electrum:
+            if network_config.electrum_url.startswith("https://"):
+                response += "\n\n" + self.tr("Please remove the '{scheme}' from the electrum url").format(
+                    scheme="https://"
+                )
+            if network_config.electrum_url.startswith("http://"):
+                response += "\n\n" + self.tr("Please remove the '{scheme}' from the electrum url").format(
+                    scheme="http://"
+                )
+
+        if not server_connection and network_config.server_type == BlockchainType.Esplora:
+            if network_config.esplora_url.startswith("https://"):
+                response += "\n\n" + self.tr("Are you sure '{scheme}' is correct in the esplora url?").format(
+                    scheme="https://"
+                )
+
+        if network_config.proxy_url:
+            if not server_connection:
+                response += "\n\n" + self.tr("The format for tor addresses should be '{scheme}'").format(
+                    scheme="xxxxxxx.onion:80"
+                )
+
+            if not mempool_server:
+                if network_config.mempool_url.startswith("https://"):
+                    response += "\n\n" + self.tr(
+                        "Please try '{scheme}' at the beginning of the mempool url"
+                    ).format(scheme="http://")
+
+        return response
 
     def test_connection(self):
         new_network_config = self.get_network_settings_from_ui()
@@ -470,6 +607,7 @@ class NetworkSettingsUI(QDialog):
         self.rpc_username_edit.set_network(network)
         self.rpc_password_edit.set_network(network)
         self.edit_mempool_url.set_network(network)
+        self.proxy_url_edit.set_network(network)
 
     def add_to_completer_memory(self):
         self.compactblockfilters_ip_address_edit.add_current_to_memory()
@@ -479,6 +617,7 @@ class NetworkSettingsUI(QDialog):
         self.rpc_username_edit.add_current_to_memory()
         self.rpc_password_edit.add_current_to_memory()
         self.edit_mempool_url.add_current_to_memory()
+        self.proxy_url_edit.add_current_to_memory()
 
     def on_apply_click(self):
         new_network_config = self.get_network_settings_from_ui()
@@ -565,18 +704,6 @@ class NetworkSettingsUI(QDialog):
             self.compactblockfilters_port_edit.setEnabled(False)
 
     # Properties for all user entries
-
-    @property
-    def mempool_url(self) -> str:
-        url = self.edit_mempool_url.text()
-        url = url if url.endswith("/") else f"{url}/"
-        url = url.replace("api/", "") if url.endswith("api/") else url
-        return ensure_scheme(url)
-
-    @mempool_url.setter
-    def mempool_url(self, value: str):
-        self.edit_mempool_url.setText(value)
-
     @property
     def network(self) -> bdk.Network:
         return self.network_combobox.currentData()
@@ -616,7 +743,8 @@ class NetworkSettingsUI(QDialog):
     def compactblockfilters_port(self) -> int:
         try:
             return int(self.compactblockfilters_port_edit.text())
-        except:
+        except Exception as e:
+            logger.debug(f"{self.__class__.__name__}: {e}")
             return self.network_configs.configs[self.network.name].compactblockfilters_port
 
     @compactblockfilters_port.setter
@@ -643,9 +771,7 @@ class NetworkSettingsUI(QDialog):
     @property
     def esplora_url(self) -> str:
         url = self.esplora_url_edit.text()
-        if "//" not in url:
-            url = "http://" + url
-        return url
+        return ensure_scheme(url)
 
     @esplora_url.setter
     def esplora_url(self, url: str):
@@ -663,7 +789,8 @@ class NetworkSettingsUI(QDialog):
     def rpc_port(self) -> int:
         try:
             return int(self.rpc_port_edit.text())
-        except:
+        except Exception as e:
+            logger.debug(f"{self.__class__.__name__}: {e}")
             return self.network_configs.configs[self.network.name].rpc_port
 
     @rpc_port.setter
@@ -685,3 +812,24 @@ class NetworkSettingsUI(QDialog):
     @rpc_password.setter
     def rpc_password(self, password: str):
         self.rpc_password_edit.setText(password if password else "")
+
+    @property
+    def mempool_url(self) -> str:
+        url = self.edit_mempool_url.text()
+        url = url if url.endswith("/") else f"{url}/"
+        url = url.replace("api/", "") if url.endswith("api/") else url
+        return ensure_scheme(url)
+
+    @mempool_url.setter
+    def mempool_url(self, value: str):
+        self.edit_mempool_url.setText(value)
+
+    @property
+    def proxy_url(self) -> str | None:
+        text = self.proxy_url_edit.text()
+        return text if text else None
+
+    @proxy_url.setter
+    def proxy_url(self, url: str | None):
+        self.proxy_url_edit.setText(url if url else "")
+        self.on_proxy_url_changed()

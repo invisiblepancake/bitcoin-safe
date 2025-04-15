@@ -28,6 +28,7 @@
 
 
 import logging
+from typing import Callable, List
 
 from bitcoin_qr_tools.data import SignerInfo
 from PyQt6.QtCore import pyqtSignal
@@ -39,14 +40,12 @@ from bitcoin_safe.gui.qt.dialogs import question_dialog
 from bitcoin_safe.signals import SignalsMin
 from bitcoin_safe.typestubs import TypedPyQtSignal
 
-logger = logging.getLogger(__name__)
-
-from typing import Callable, List
-
 from ...descriptors import AddressType
 from ...wallet import ProtoWallet
 from .keystore_ui import KeyStoreUI, icon_for_label
 from .util import Message, MessageType
+
+logger = logging.getLogger(__name__)
 
 
 class OrderTrackingTabBar(QTabBar):
@@ -82,12 +81,14 @@ class KeyStoreUIs(DataTabWidget[KeyStoreUI]):
         get_editable_protowallet: Callable[[], ProtoWallet],
         get_address_type: Callable[[], AddressType],
         signals_min: SignalsMin,
+        slow_hwi_listing=False,
     ) -> None:
-        super().__init__(KeyStoreUI)
+        super().__init__()
         self.tab_bar = OrderTrackingTabBar()
         self.setTabBar(self.tab_bar)
         self.setMovable(True)
         self.signals_min = signals_min
+        self.slow_hwi_listing = slow_hwi_listing
 
         self.get_editable_protowallet = get_editable_protowallet
         self.get_address_type = get_address_type
@@ -100,6 +101,7 @@ class KeyStoreUIs(DataTabWidget[KeyStoreUI]):
                 label=self.protowallet.signer_name(i),
                 signals_min=signals_min,
                 hardware_signer_label=self.protowallet.sticker_name(i),
+                slow_hwi_listing=self.slow_hwi_listing,
             )
             keystore_ui.signal_signer_infos.connect(self.set_all_using_signer_infos)
             self.addTab(
@@ -248,7 +250,8 @@ class KeyStoreUIs(DataTabWidget[KeyStoreUI]):
         try:
             self.set_protowallet_from_keystore_ui()
             self.set_keystore_ui_from_protowallet()
-        except:
+        except Exception as e:
+            logger.debug(f"{self.__class__.__name__}: {e}")
             logger.warning("ui_keystore_ui_change: Invalid input")
 
     def set_protowallet_from_keystore_ui(self) -> None:
@@ -281,6 +284,7 @@ class KeyStoreUIs(DataTabWidget[KeyStoreUI]):
                     label=self.protowallet.signer_name(i),
                     signals_min=self.signals_min,
                     hardware_signer_label=self.protowallet.sticker_name(i),
+                    slow_hwi_listing=self.slow_hwi_listing,
                 )
                 keystore_ui.signal_signer_infos.connect(self.set_all_using_signer_infos)
                 self.addTab(
@@ -306,6 +310,7 @@ class KeyStoreUIs(DataTabWidget[KeyStoreUI]):
             index = keystore_ui.tabs.indexOf(keystore_ui.tab)
             self.setTabText(index, keystore_ui.label)
             self.setTabIcon(index, icon_for_label(keystore_ui.label))
+            keystore_ui.format_all_fields()
 
     def set_keystore_ui_from_protowallet(self) -> None:
         logger.debug(f"set_keystore_ui_from_protowallet")

@@ -181,6 +181,7 @@ test-seed
 .bitcoin_safe.config
 *.wallet
 bitcoin_core
+fulcrum
 tools-my/
 
 
@@ -205,7 +206,7 @@ screenshots*/
 profile.html
 
 docs/org
-
+tests/output
 
 
 # build results
@@ -221,3 +222,7 @@ bitcoin_safe
 version
 tools/libusb/
 *.dll
+
+
+
+bitcoin_safe/gui/locales/chatgpt.txt

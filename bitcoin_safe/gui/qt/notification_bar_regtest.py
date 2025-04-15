@@ -29,6 +29,9 @@
 
 import logging
 
+import bdkpython as bdk
+from PyQt6.QtGui import QColor, QIcon
+
 from bitcoin_safe.gui.qt.notification_bar import NotificationBar
 from bitcoin_safe.gui.qt.util import icon_path
 from bitcoin_safe.signals import SignalsMin
@@ -36,10 +39,6 @@ from bitcoin_safe.signals import SignalsMin
 from .util import adjust_bg_color_for_darkmode
 
 logger = logging.getLogger(__name__)
-
-
-import bdkpython as bdk
-from PyQt6.QtGui import QColor, QIcon
 
 
 class NotificationBarRegtest(NotificationBar):
